@@ -564,7 +564,9 @@
 
   .wf-brand-col {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 
   .wf-brand-title {
@@ -575,6 +577,55 @@
     background: linear-gradient(to right, var(--gold-light), var(--gold-primary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  .wf-brand-desc {
+    font-size: 13.5px;
+    color: #e2e8f0;
+    line-height: 1.55;
+    max-width: 380px;
+  }
+
+  .wf-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 2px;
+    max-width: 390px;
+  }
+
+  .wf-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .wf-contact-icon {
+    color: var(--gold-primary);
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    width: 18px;
+    text-align: center;
+  }
+
+  .wf-contact-item strong {
+    color: #f8fafc;
+    font-weight: 600;
+  }
+
+  .wf-map-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+  }
+
+  .wf-map-link:hover {
+    color: var(--gold-light);
+    text-decoration: underline;
   }
 
   .wf-links-col h4 {
@@ -606,6 +657,22 @@
     transform: translateX(3px);
   }
 
+  .wf-copyright {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(212, 175, 55, 0.18);
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.4px;
+  }
+
+  .wf-copyright strong {
+    color: var(--gold-light);
+    font-weight: 700;
+  }
+
   @media (max-width: 768px) {
     .white-footer {
       grid-template-columns: 1fr;
@@ -613,7 +680,15 @@
       text-align: center;
     }
     .wf-brand-col {
-      justify-content: center;
+      align-items: center;
+    }
+    .wf-contact-item {
+      text-align: left;
+    }
+    .wf-copyright {
+      margin-top: 6px;
+      padding-top: 16px;
+      font-size: 11.5px;
     }
   }
 
@@ -2186,6 +2261,31 @@
     font-size: 14px;
     font-weight: 800;
   }
+/* Kotak Peringatan Stok Otomatis */
+.stock-alert-box {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    display: none;
+}
+.stock-alert-box.show {
+    display: block;
+}
+.cart-sync-loading {
+    font-size: 12px;
+    color: #555;
+    background: #f1f5f9;
+    text-align: center;
+    padding: 6px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    display: none;
+}
 </style>
 </head>
 <body>
@@ -2317,7 +2417,19 @@
     <!-- FOOTER PUTIH (SESUAI HALAMAN 3 PDF) -->
     <footer class="white-footer">
       <div class="wf-brand-col">
-        <span class="wf-brand-title">Cupang kasep Official</span>
+        <span class="wf-brand-title notranslate">Cupang kasep Official</span>
+
+        <div class="wf-contact-list">
+          <div class="wf-contact-item">
+            <span class="wf-contact-icon">🏪</span>
+            <span>
+              <strong>Toko:</strong> 
+              <a href="https://maps.app.goo.gl/upkybmoZqeBiMSt18" target="_blank" rel="noopener noreferrer" class="wf-map-link notranslate" onclick="playClickSound()">
+                Jalan Simpangsari, Kelurahan Sukamiskin, Arcamanik, Kota Bandung, Jawa Barat, 40293
+              </a>
+            </span>
+          </div>
+        </div>
       </div>
 
       <div class="wf-links-col">
@@ -2329,11 +2441,15 @@
       </div>
 
       <div class="wf-links-col">
-        <ul class="wf-link-list">
+        <ul class="wf-link-list"> 
           <li><a href="#" onclick="bukaSosmedFooter('ig'); return false;">Instagram</a></li>
           <li><a href="#" onclick="bukaSosmedFooter('tiktok'); return false;">TikTok</a></li>
           <li><a href="#" onclick="bukaSosmedFooter('fb'); return false;">Facebook</a></li>
         </ul>
+      </div>
+
+      <div class="wf-copyright">
+        © 2026 <strong class="notranslate">Cupang Kasep Official</strong>. All Rights Reserved.
       </div>
     </footer>
 
@@ -2353,9 +2469,9 @@
 
     <div class="catalog-controls">
       <div class="catalog-category-pills">
-        <button type="button" class="cat-pill active" onclick="pilihKategoriKatalog('Semua', this)">✨ Semua Koleksi</button>
-        <button type="button" class="cat-pill" onclick="pilihKategoriKatalog('Ikan Cupang', this)">🐠 Ikan Cupang</button>
-        <button type="button" class="cat-pill" onclick="pilihKategoriKatalog('Produk', this)">🧴 Produk</button>
+        <button type="button" class="cat-pill active" onclick="pilihKategoriKatalog('Semua', this)">Semua Koleksi</button>
+        <button type="button" class="cat-pill" onclick="pilihKategoriKatalog('Ikan Cupang', this)">Ikan Cupang</button>
+        <button type="button" class="cat-pill" onclick="pilihKategoriKatalog('Produk', this)">Produk</button>
       </div>
 
       <div class="catalog-filter-bar">
@@ -2652,45 +2768,20 @@
       <button type="button" class="close-admin-btn" onclick="tutupModalKeranjang()">✕ Tutup</button>
     </div>
 
-    <div class="cart-items-list" id="cartItemsContainer"></div>
-
-    <div class="cart-footer-summary">
-      <div class="cart-total-row">
-        <span style="color: var(--text-muted);" id="cartTotalLabel">Total Estimasi:</span>
-        <span style="color: var(--gold-primary); font-size: 16px;" class="notranslate" id="cartTotalPrice">Rp 0</span>
-      </div>
-      <div style="display: flex; gap: 8px;">
-        <button type="button" class="btn-secondary" style="flex: 0.45;" onclick="kosongkanKeranjang()" id="btnClearCart">🗑️ Kosongkan</button>
-        <button type="button" class="search-btn" style="flex: 1;" onclick="checkoutKeranjangWA()" id="btnCheckoutWA">📲 Beli via WhatsApp</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- TOMBOL KERANJANG MELAYANG POJOK KANAN BAWAH -->
-<button type="button" class="floating-cart-btn notranslate" id="floatingCartBtn" onclick="bukaModalKeranjang()">
-  <span style="font-size: 16px;">🛒</span>
-  <span style="font-size: 12.5px; font-weight: 800;" id="floatingCartLabel">Keranjang</span>
-  <span class="floating-cart-count" id="floatingCartCount">0</span>
-</button>
-
-<!-- MODAL POPUP KERANJANG BELANJA -->
-<div class="result-modal" id="cartModal" onclick="tutupModalKeranjang()">
-  <div class="cart-modal-box" onclick="event.stopPropagation()">
-    <div class="cart-header">
-      <span class="cart-title" id="cartModalTitle">🛒 KERANJANG BELANJA</span>
-      <button type="button" class="close-admin-btn" onclick="tutupModalKeranjang()">✕ Tutup</button>
-    </div>
+    <!-- Notifikasi Pengecekan Stok Otomatis -->
+    <div id="cartSyncLoading" class="cart-sync-loading">🔄 Memeriksa stok terbaru ke server...</div>
+    <div id="cartStockAlert" class="stock-alert-box"></div>
 
     <div class="cart-items-list" id="cartItemsContainer"></div>
 
     <div class="cart-footer-summary">
       <div class="cart-total-row">
-        <span style="color: var(--text-muted);" id="cartTotalLabel">Total Estimasi:</span>
+        <span style="color: var(--text-muted);" id="cartTotalLabel">Total Harga:</span>
         <span style="color: var(--gold-primary); font-size: 16px;" class="notranslate" id="cartTotalPrice">Rp 0</span>
       </div>
       <div style="display: flex; gap: 8px;">
         <button type="button" class="btn-secondary" style="flex: 0.45;" onclick="kosongkanKeranjang()" id="btnClearCart">🗑️ Kosongkan</button>
-        <button type="button" class="search-btn" style="flex: 1;" onclick="checkoutKeranjangWA()" id="btnCheckoutWA">📲 Beli via WhatsApp</button>
+        <button type="button" class="search-btn" style="flex: 1;" onclick="checkoutKeranjangWA()" id="btnCheckoutWA">Beli via WhatsApp</button>
       </div>
     </div>
   </div>
@@ -2835,10 +2926,134 @@
     tampilkanToast("🗑️ Keranjang dikosongkan");
   }
 
-  function bukaModalKeranjang() {
+  async function bukaModalKeranjang() {
     playClickSound();
     renderIsiModalKeranjang();
     document.getElementById("cartModal").classList.add("open");
+
+    // Otomatis cek stok terbaru ke Google Sheets setiap kali keranjang dibuka
+    const cart = getCartItems();
+    if (cart.length > 0) {
+      await validasiStokKeranjangOtomatis();
+    }
+  }
+
+  // Fungsi ambil data terbaru Google Sheets secara senyap (tanpa mereset tampilan layar)
+  async function segarkanDataKatalogSenyap() {
+    try {
+      const rows = await ambilDariGoogleVizJSONP(CONFIG.SHEET_ID, CONFIG.CATALOG_SHEET_NAME);
+      if (rows && rows.length > 0) {
+        prosesBarisKatalog(rows);
+        return true;
+      }
+    } catch (e) {}
+
+    if (apakahUrlSheetAktif()) {
+      try {
+        const res = await fetch(`${CONFIG.APPS_SCRIPT_URL}?action=catalog`);
+        const json = await res.json();
+        if (json && json.status === "ok" && Array.isArray(json.items)) {
+          prosesBarisKatalog(json.items);
+          return true;
+        }
+      } catch (e) {}
+    }
+    return false;
+  }
+
+  // Fungsi Pengecekan Stok & Harga Real-Time Keranjang ke Google Sheets
+  async function validasiStokKeranjangOtomatis() {
+    let cart = getCartItems();
+    if (cart.length === 0) return false;
+
+    const loadingEl = document.getElementById("cartSyncLoading");
+    const alertEl = document.getElementById("cartStockAlert");
+
+    if (loadingEl) loadingEl.style.display = "block";
+    if (alertEl) {
+      alertEl.classList.remove("show");
+      alertEl.innerHTML = "";
+    }
+
+    let adaPerubahan = false;
+    let pesanPeringatan = [];
+
+    try {
+      await segarkanDataKatalogSenyap();
+
+      let keranjangValid = [];
+
+      cart.forEach(itemKeranjang => {
+        const dataTerbaru = masterCatalogItems.find(
+          i => i.kode.toUpperCase() === String(itemKeranjang.kode).toUpperCase()
+        );
+
+        // 1. Jika item dihapus atau dinonaktifkan dari Google Sheets
+        if (!dataTerbaru) {
+          pesanPeringatan.push(`Maaf, <b>[${itemKeranjang.kode}] ${itemKeranjang.nama}</b> sudah tidak tersedia.`);
+          adaPerubahan = true;
+          return;
+        }
+
+        const statusNorm = String(dataTerbaru.status || "").toLowerCase();
+        const stokSekarang = Number(dataTerbaru.stok) || 0;
+        const isHabis = stokSekarang <= 0 || statusNorm === "habis" || statusNorm === "terjual" || statusNorm === "sold";
+        const isIkan = dataTerbaru.kategori.toLowerCase().includes("ikan");
+        const maxStokBaru = isIkan ? 1 : Math.max(1, stokSekarang);
+
+        // 2. Jika ikan mendadak terjual atau stok produk habis (0)
+        if (isHabis) {
+          if (isIkan) {
+            pesanPeringatan.push(`Maaf, ikan <b>[${dataTerbaru.kode}] ${dataTerbaru.nama}</b> di keranjang Anda baru saja terjual!`);
+          } else {
+            pesanPeringatan.push(`Maaf, stok produk <b>[${dataTerbaru.kode}] ${dataTerbaru.nama}</b> baru saja habis!`);
+          }
+          adaPerubahan = true;
+        }
+        // 3. Jika stok masih ada, tapi jumlah di keranjang melebihi sisa stok di Sheet
+        else if (itemKeranjang.qty > maxStokBaru) {
+          itemKeranjang.qty = maxStokBaru;
+          itemKeranjang.stokMax = maxStokBaru;
+          itemKeranjang.harga = dataTerbaru.harga;
+          keranjangValid.push(itemKeranjang);
+          pesanPeringatan.push(`Stok <b>[${dataTerbaru.kode}] ${dataTerbaru.nama}</b> tersisa ${maxStokBaru} (jumlah di keranjang disesuaikan).`);
+          adaPerubahan = true;
+        }
+        // 4. Jika harga di Google Sheets berubah, ikut perbarui harga di keranjang
+        else {
+          if (Number(itemKeranjang.harga) !== Number(dataTerbaru.harga)) {
+            itemKeranjang.harga = dataTerbaru.harga;
+            pesanPeringatan.push(`Harga <b>[${dataTerbaru.kode}] ${dataTerbaru.nama}</b> telah diperbarui sesuai katalog terbaru.`);
+            adaPerubahan = true;
+          }
+          itemKeranjang.stokMax = maxStokBaru;
+          keranjangValid.push(itemKeranjang);
+        }
+      });
+
+      if (adaPerubahan) {
+        saveCartItems(keranjangValid);
+        renderIsiModalKeranjang();
+
+        // Jika pembeli sedang membuka detail produk yang baru saja terjual, ikut perbarui tampilannya
+        const detailViewEl = document.getElementById("catalogDetailView");
+        if (detailViewEl && detailViewEl.style.display === "block" && currentOpenDetailCode) {
+          bukaDetailProduk(currentOpenDetailCode, false);
+        }
+
+        if (alertEl && pesanPeringatan.length > 0) {
+          alertEl.innerHTML = `⚠️ <b>Pembaruan Stok Otomatis:</b><br>• ` + pesanPeringatan.join("<br>• ");
+          alertEl.classList.add("show");
+        }
+        tampilkanToast("⚠️ Stok keranjang telah diperbarui!");
+      }
+    } catch (err) {
+      console.warn("Gagal mengecek stok otomatis:", err);
+    } finally {
+      if (loadingEl) loadingEl.style.display = "none";
+    }
+
+    return adaPerubahan;
   }
 
   function tutupModalKeranjang() {
@@ -2887,13 +3102,36 @@
     totalEl.innerText = formatRupiah(totalHarga);
   }
 
-  function checkoutKeranjangWA() {
+  async function checkoutKeranjangWA() {
     playClickSound();
-    const cart = getCartItems();
+    let cart = getCartItems();
     if (cart.length === 0) {
       tampilkanToast("⚠️ Keranjang masih kosong!");
       return;
     }
+
+    // Cek sekali lagi ke Google Sheets tepat saat tombol Beli via WhatsApp ditekan
+    const btnWA = document.getElementById("btnCheckoutWA");
+    const teksAsliBtn = btnWA ? btnWA.innerText : "Beli via WhatsApp";
+    if (btnWA) {
+      btnWA.disabled = true;
+      btnWA.innerText = "⏳ Mengecek Stok...";
+    }
+
+    const adaPerubahanMendadak = await validasiStokKeranjangOtomatis();
+
+    if (btnWA) {
+      btnWA.disabled = false;
+      btnWA.innerText = teksAsliBtn;
+    }
+
+    // Jika ternyata ada ikan yang baru saja terjual, batalkan buka WA agar pembeli membaca kotak peringatan dulu
+    if (adaPerubahanMendadak) {
+      return;
+    }
+
+    cart = getCartItems();
+    if (cart.length === 0) return;
 
     let totalHarga = 0;
     const rincianBaris = cart.map((c, i) => {
@@ -2919,7 +3157,7 @@
       pesan =
         `Halo Admin CUPANG KASEP, saya ingin memesan produk dari keranjang belanja berikut:\n\n` +
         `${rincianBaris}\n\n` +
-        `💰 Total Estimasi: ${formatRupiah(totalHarga)}\n` +
+        `💰 Total Harga: ${formatRupiah(totalHarga)}\n` +
         `Mohon info ketersediaan stok dan ongkos kirimnya. Terima kasih!`;
     }
 
@@ -3144,9 +3382,23 @@
       document.body.setAttribute("data-region", "international");
     }
 
+    // Perbarui teks tombol keranjang melayang & isi keranjang sesuai mata uang bahasa
+    perbaruiTombolKeranjangMelayang();
+    if (document.getElementById("cartModal") && document.getElementById("cartModal").classList.contains("open")) {
+      renderIsiModalKeranjang();
+    }
+
     if (catalogLoadedOnce) {
       perbaruiDropdownJenis();
-      terapkanFilterKatalog();
+      const detailViewEl = document.getElementById("catalogDetailView");
+      const sedangDiDetail = detailViewEl && detailViewEl.style.display === "block";
+
+      if (sedangDiDetail && currentOpenDetailCode) {
+        // Render ulang detail produk di tempat agar harga & label IDR/USD/CNY langsung berubah
+        bukaDetailProduk(currentOpenDetailCode, false);
+      } else {
+        terapkanFilterKatalog();
+      }
     }
     if (activeVoucherCode) {
       perbaruiTampilanVoucher();
@@ -3199,9 +3451,49 @@
   /* =========================================================
      2. LOGIKA PENGAMBILAN & FILTER KATALOG GOOGLE SHEETS
      ========================================================= */
+  // Nilai kurs cadangan jika koneksi internet pengunjung lambat, akan otomatis di-update real-time oleh API
+  let EXCHANGE_RATES = {
+    USD: 0.000063, // Estimasi awal 1 IDR ke USD
+    CNY: 0.00045   // Estimasi awal 1 IDR ke CNY
+  };
+
+  let currentOpenDetailCode = null; // Menyimpan kode produk yang sedang dibuka di Detail View
+
+  async function muatKursRealTime() {
+    try {
+      const res = await fetch("https://open.er-api.com/v6/latest/IDR");
+      const data = await res.json();
+      if (data && data.rates) {
+        if (data.rates.USD) EXCHANGE_RATES.USD = data.rates.USD;
+        if (data.rates.CNY) EXCHANGE_RATES.CNY = data.rates.CNY;
+      }
+    } catch (e) {
+      console.warn("Menggunakan kurs cadangan:", e);
+    }
+  }
+
+  function dapatkanKodeMataUang() {
+    if (USER_LANG === "en") return "USD";
+    if (USER_LANG === "zh") return "CNY";
+    return "IDR";
+  }
+
   function formatRupiah(angka) {
     const num = Number(String(angka).replace(/[^0-9.-]+/g, ""));
-    if (isNaN(num) || num <= 0) return "Hubungi Admin";
+    if (isNaN(num) || num <= 0) {
+      if (USER_LANG === "en") return "Contact Admin";
+      if (USER_LANG === "zh") return "联系客服";
+      return "Hubungi Admin";
+    }
+
+    if (USER_LANG === "en") {
+      const usdVal = num * EXCHANGE_RATES.USD;
+      return "$" + usdVal.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    } else if (USER_LANG === "zh") {
+      const cnyVal = num * EXCHANGE_RATES.CNY;
+      return "¥" + cnyVal.toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
     return "Rp " + num.toLocaleString("id-ID");
   }
 
@@ -3549,10 +3841,13 @@
       const kodeSafe = item.kode.replace(/'/g, "\\'");
       const jumlahViews = Number(item.views) || 0;
       const isHot = !isHabis && jumlahViews >= HOT_VIEWS_THRESHOLD;
+      const isIkan = item.kategori.toLowerCase().includes("ikan");
 
       const tombolAksiKanan = isHabis
-        ? `<a href="${waLinkRestock}" target="_blank" rel="noopener noreferrer" class="btn-card-cart restock-mode">🛒 Restock</a>`
-        : `<button type="button" class="btn-card-cart" onclick="tambahKeKeranjang('${kodeSafe}')">🛒 + Keranjang</button>`;
+        ? (isIkan
+            ? `<button type="button" class="btn-card-cart restock-mode" disabled style="cursor: not-allowed; opacity: 0.65;">🚫 Terjual</button>`
+            : `<a href="${waLinkRestock}" target="_blank" rel="noopener noreferrer" class="btn-card-cart restock-mode">💬 Tanya Restock</a>`)
+        : `<button type="button" class="btn-card-cart" onclick="tambahKeKeranjang('${kodeSafe}')">🛒 Beli</button>`;
 
       return `
         <div class="product-card ${isHabis ? 'out-of-stock' : ''}">
@@ -3675,6 +3970,8 @@
     const item = masterCatalogItems.find(i => i.kode.toUpperCase() === String(kodeProduk).toUpperCase());
     if (!item) return;
 
+    currentOpenDetailCode = item.kode;
+
     // Catat +1 View (Anti-Spam) & kirim ke Google Sheets
     catatViewProduk(item);
 
@@ -3704,13 +4001,15 @@
     `).join("");
 
     const ctaButtonsHtml = isHabis
-      ? `<a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-detail-addcart">💬 Tanyakan Restock via WA</a>`
+      ? (isIkan
+          ? `<button type="button" class="btn-detail-addcart" disabled style="background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger-red); color: #fca5a5; cursor: not-allowed; opacity: 0.7;">🚫 Terjual (Sold Out)</button>`
+          : `<a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-detail-addcart" style="background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger-red); color: #fca5a5;">💬 Tanya Restock via WA</a>`)
       : `
         <button type="button" class="btn-detail-addcart" style="border:none; cursor:pointer;" onclick="tambahKeKeranjang('${kodeSafe}')">
-          🛒 + Keranjang
+          🛒 Beli
         </button>
         <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-detail-back" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
-          📲 Beli Langsung
+          Beli Langsung
         </a>
       `;
 
@@ -3731,7 +4030,7 @@
             <span class="badge-pill-tag outline notranslate">${item.jenis}</span>
             <span class="badge-pill-tag outline notranslate">👁️ ${jumlahViews}x dilihat</span>
             <span class="badge-stock-pill ${isHabis ? 'out-stock' : 'in-stock'}">
-              ● ${isHabis ? 'Out of Stock' : 'In Stock (' + item.stok + ')'}
+              ● ${isHabis ? 'Stok Habis' : 'Tersedia (' + item.stok + ')'}
             </span>
           </div>
 
@@ -3739,7 +4038,7 @@
 
           <div class="detail-price-wrap notranslate">
             <span class="detail-price">${formatRupiah(item.harga)}</span>
-            <span class="detail-currency">IDR</span>
+            <span class="detail-currency">${dapatkanKodeMataUang()}</span>
           </div>
 
           <div class="detail-stars">★★★★★</div>
@@ -4902,6 +5201,20 @@
       setTimeout(() => {
         bukaDetailProduk(targetKode, false);
       }, 50);
+      return;
+    }
+
+    // 3. Pertahankan posisi halaman jika Google Translate me-refresh halaman
+    if (hash === "#katalog") {
+      tampilkanIsiKatalog();
+    } else if (hash === "#verifikasi") {
+      bukaHalamanVerifikasi();
+    } else if (hash === "#undian") {
+      bukaHalamanUndian();
+    } else if (hash === "#gallery") {
+      navigasiMenuAtas("gallery", false);
+    } else if (hash === "#about") {
+      navigasiMenuAtas("about", false);
     }
   }
 
@@ -4923,6 +5236,7 @@
   window.addEventListener("DOMContentLoaded", function() {
     document.cookie = "googtrans=/id/id; path=/";
     document.cookie = "googtrans=/id/id; path=/; domain=" + location.hostname;
+    muatKursRealTime();
     perbaruiIkonSuara();
     pilihBahasa("id", false);
     cekDirectLinkUrl();

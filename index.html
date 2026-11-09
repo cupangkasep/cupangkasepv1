@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cupang Kasep Official — Koleksi Cupang VIP & Sertifikat</title>
+<title>Cupang Kasep Official</title>
 <meta name="description" content="Gerbang resmi Cupang Kasep Official. Jelajahi katalog ikan cupang kontes/kolektor, verifikasi sertifikat keaslian VIP, dan undian berhadiah.">
 <meta property="og:title" content="Cupang Kasep Official — Koleksi Cupang VIP & Sertifikat">
 <meta property="og:description" content="Jelajahi katalog ikan cupang berkualitas, cek keaslian sertifikat VIP, dan menangkan undian berhadiah.">
@@ -407,37 +407,42 @@
 
   .pdf-card-art {
     width: 100%;
-    aspect-ratio: 1 / 0.95;
+    height: 270px;
+    flex-shrink: 0;
+    overflow: hidden;
     background: radial-gradient(circle at 50% 35%, #232d42 0%, #10141d 80%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 28px;
+    padding: 12px;
     position: relative;
   }
 
   .pdf-card-art img {
-    width: 68%;
-    height: 68%;
+    width: 92%;
+    height: 92%;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.6));
+    filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.7));
     transition: transform 0.3s ease;
   }
 
   .pdf-card:hover .pdf-card-art img {
-    transform: scale(1.06);
+    transform: scale(1.05);
   }
 
   .pdf-card-footer {
     background: #10141d;
-    padding: 22px 16px 26px;
+    height: 96px;
+    padding: 12px 16px;
     text-align: center;
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .pdf-card-title {
@@ -2513,7 +2518,7 @@
         <!-- 1. Katalog Produk -->
         <div class="pdf-card" onclick="bukaHalamanKatalog()">
           <div class="pdf-card-art">
-            <img src="https://images.unsplash.com/vector-1794025383485-0a1ee1bc2ffc?q=80&w=734&auto=format&fit=crop" alt="Product Catalog">
+            <img src="https://images.unsplash.com/vector-1794241878796-c82c88e2db67?q=80&w=951&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Product Catalog">
           </div>
           <div class="pdf-card-footer">
             <div class="pdf-card-title">KATALOG PRODUK</div>
@@ -2523,17 +2528,17 @@
         <!-- 2. Lelang VIP -->
         <div class="pdf-card" onclick="bukaHalamanLelang()">
           <div class="pdf-card-art">
-            <img src="https://images.unsplash.com/vector-1794219426876-711aa3274a8a?q=80&w=734&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="VIP Auction">
+            <img src="https://images.unsplash.com/vector-1794243449796-b366f713c0f5?q=80&w=883&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="VIP Auction">
           </div>
           <div class="pdf-card-footer">
-            <div class="pdf-card-title">LELANG VIP</div>
+            <div class="pdf-card-title">LELANG CK</div>
           </div>
         </div>
 
         <!-- 3. Sertifikat Keaslian -->
         <div class="pdf-card" onclick="bukaHalamanVerifikasi()">
           <div class="pdf-card-art">
-            <img src="https://images.unsplash.com/vector-1793885597002-1e18b52f0b36?q=80&w=880&auto=format&fit=crop" alt="Authenticity Certificate">
+            <img src="https://images.unsplash.com/vector-1794243074097-c6651f059474?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Authenticity Certificate">
           </div>
           <div class="pdf-card-footer">
             <div class="pdf-card-title">SERTIFIKAT<br>KEASLIAN</div>
@@ -2543,7 +2548,7 @@
         <!-- 4. Undian Hadiah -->
         <div class="pdf-card" onclick="bukaHalamanUndian()">
           <div class="pdf-card-art">
-            <img src="https://images.unsplash.com/vector-1793883880838-ab4eab32b1e4?q=80&w=916&auto=format&fit=crop" alt="Prize Draw">
+            <img src="https://images.unsplash.com/vector-1794243320138-a5b546c21182?q=80&w=830&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Prize Draw">
           </div>
           <div class="pdf-card-footer">
             <div class="pdf-card-title" style="text-transform: none; font-size: 21px;">Undian Hadiah</div>
@@ -3469,7 +3474,7 @@
       heroDesc: "Gerbang resmi menuju <strong>Cupang Kasep</strong>. Jelajahi katalog ikan & produk secara langsung, verifikasi sertifikat, dan hadiah VIP.",
       heroBtn: "Mulai Hobi Anda",
       cardCatalog: "KATALOG PRODUK",
-      cardAuction: "LELANG VIP",
+      cardAuction: "LELANG CK",
       cardCert: "SERTIFIKAT<br>KEASLIAN",
       cardPrize: "Undian Hadiah",
       aboutTitle: "Tentang Kami",
@@ -4160,7 +4165,7 @@
           </div>
           <div class="product-content">
             <div class="card-badges-row">
-              <span class="badge-pill-tag primary">${isLelang ? '🔨 LELANG VIP' : item.kategori}</span>
+              <span class="badge-pill-tag primary">${isLelang ? '🔨 LELANG' : item.kategori}</span>
               <span class="badge-pill-tag outline notranslate">${item.jenis}</span>
             </div>
             <h3 class="product-title notranslate">${item.nama} (${item.kode})</h3>
@@ -4902,7 +4907,7 @@
     if (modeLelang) {
       currentCategoryFilter = "Lelang";
       if (subEl) subEl.innerText = "CUPANG KASEP LIVE AUCTION";
-      if (titleEl) titleEl.innerText = "LELANG VIP RESMI";
+      if (titleEl) titleEl.innerText = "LELANG RESMI";
       if (tagEl) tagEl.innerText = "Penawaran Real-Time Koleksi Ikan Cupang Spesimen Kontes & Kolektor";
       if (pillsEl) pillsEl.style.display = "none";
       aktifkanHalaman("catalogPage", "#lelang");
@@ -5778,7 +5783,7 @@
 
     // Buat tombol klaim WA jika sudah selesai & ada pemenang
     const tokenMenang = buatSignature(item.kode, String(currentHighest));
-    const pesanKlaimPemenang = `Halo Admin CUPANG KASEP, saya ingin menang Lelang VIP:\n\n` +
+    const pesanKlaimPemenang = `Halo Admin CUPANG KASEP, saya menang lelang:\n\n` +
       `🐟 Kode Ikan: [${item.kode}] ${item.nama}\n` +
       `🏆 Nominal Menang: ${formatRupiah(currentHighest)}\n` +
       `👤 Penawar: ${item.highestBidder}\n` +
@@ -5929,7 +5934,7 @@
 
   function tampilkanModalBlokirBNR(noWa) {
     const linkEl = document.getElementById("btnAppealWaBlock");
-    const pesan = `Halo Admin CUPANG KASEP, nomor WhatsApp saya (${noWa}) terdeteksi diblokir pada sistem Lelang VIP karena terdeksi pernag melakukan BNR. Mohon informasinya untuk pengajuan pembukaan blokir. Terima kasih.`;
+    const pesan = `Halo Admin CUPANG KASEP, nomor WhatsApp saya (${noWa}) terdeteksi diblokir pada sistem lelang karena terdeksi pernag melakukan BNR. Mohon informasinya untuk pengajuan pembukaan blokir. Terima kasih.`;
     if (linkEl) linkEl.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(pesan)}`;
     document.getElementById("auctionBlockedModal").classList.add("open");
   }

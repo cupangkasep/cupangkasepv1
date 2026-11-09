@@ -136,26 +136,36 @@
     font-size: 13.5px;
     font-weight: 500;
     letter-spacing: 0.5px;
-    transition: color 0.2s;
+    transition: all 0.3s ease;
     cursor: pointer;
-    padding-top: 8px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    z-index: 1;
   }
 
-  .nav-item:hover, .nav-item.active {
+  .nav-item:hover {
     color: #ffffff;
-    font-weight: 700;
   }
 
-  /* Bintang kuning di atas menu aktif sesuai PDF */
+  .nav-item.active {
+    color: #fffbeb;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(249, 232, 162, 0.85);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.28) 0%, rgba(212, 175, 55, 0.06) 70%, transparent 100%);
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.35), inset 0 0 10px rgba(212, 175, 55, 0.2);
+  }
+
+  /* Efek sorot cahaya lembut (backlight) di belakang teks menu saat aktif */
   .nav-item.active::before {
-    content: "✴";
+    content: "";
     position: absolute;
-    top: -14px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fde047;
-    font-size: 16px;
-    text-shadow: 0 0 10px rgba(253, 224, 71, 0.8);
+    inset: -4px -8px;
+    background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.45) 0%, rgba(212, 175, 55, 0.15) 40%, transparent 75%);
+    filter: blur(8px);
+    z-index: -1;
+    border-radius: 24px;
+    pointer-events: none;
+    animation: fadeIn 0.3s ease;
   }
 
   @media (max-width: 768px) {
@@ -200,17 +210,17 @@
       order: 3;
       width: 100%;
       justify-content: center;
-      gap: 26px;
-      padding-top: 14px;
+      gap: 14px;
+      padding-top: 10px;
       border-top: 1px solid rgba(212, 175, 55, 0.15);
     }
     .nav-item {
       font-size: 12.5px;
-      padding-top: 3px;
+      padding: 4px 11px;
     }
     .nav-item.active::before {
-      top: -10px;
-      font-size: 12px;
+      inset: -2px -5px;
+      filter: blur(6px);
     }
   }
 
@@ -306,7 +316,7 @@
 
   .hero-betta-img {
     width: 100%;
-    max-width: 440px;
+    max-width: 1000px;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 15px 35px rgba(56, 189, 248, 0.22));
@@ -369,8 +379,8 @@
 
   .pdf-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Interaktif menyesuaikan HP, Tablet, & PC */
-    gap: 32px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* Muat 4 kartu sejajar rapi di PC & responsif di HP */
+    gap: 24px;
     width: 100%;
     max-width: 1280px;
     margin: 0 auto;
@@ -477,7 +487,7 @@
 
   .about-betta-img {
     width: 100%;
-    max-width: 400px;
+    max-width: 1000px;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 15px 35px rgba(250, 204, 21, 0.2));
@@ -2286,6 +2296,160 @@
     margin-bottom: 10px;
     display: none;
 }
+
+/* ==========================================
+   7. GAYA FITUR LELANG VIP & OTP WA
+   ========================================== */
+.auction-timer-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(16, 185, 129, 0.92);
+    border: 1px solid #34d399;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 6px;
+    z-index: 4;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.35);
+}
+.auction-timer-badge.active-live {
+    background: rgba(16, 185, 129, 0.92);
+    border-color: #34d399;
+    color: #ffffff;
+}
+.auction-timer-badge.upcoming {
+    background: rgba(217, 119, 6, 0.95);
+    border-color: #fde047;
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(217, 119, 6, 0.4);
+}
+.auction-timer-badge.ended {
+    background: rgba(220, 38, 38, 0.95);
+    border-color: #fca5a5;
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(220, 38, 38, 0.4);
+}
+.auction-timer-badge.urgent {
+    background: rgba(16, 185, 129, 0.95);
+    border-color: #fde047;
+    color: #ffffff;
+    animation: fadeIn 0.6s infinite alternate;
+}
+.bid-input-locked {
+    pointer-events: none;
+    user-select: none;
+    background: #0d111a !important;
+    color: var(--gold-light) !important;
+    border-color: rgba(212, 175, 55, 0.5) !important;
+    cursor: not-allowed;
+    font-weight: 800 !important;
+}
+.auction-panel-box {
+    background: linear-gradient(145deg, #151b28, #0b0e15);
+    border: 1.5px solid var(--gold-primary);
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.auction-grid-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    text-align: center;
+}
+.auction-stat-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    padding: 8px 6px;
+    border-radius: 8px;
+}
+.auction-stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    display: block;
+}
+.auction-stat-val {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #fff;
+}
+.auction-current-box {
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid var(--gold-primary);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.auction-bid-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.btn-bid-action {
+    flex: 1;
+    min-width: 140px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+    color: #05070a;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+}
+.btn-bin-action {
+    flex: 1;
+    min-width: 140px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #4ade80;
+    background: rgba(16, 185, 129, 0.18);
+    color: #4ade80;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+}
+.bid-history-box {
+    background: #07090e;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 10px;
+    max-height: 170px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.bid-history-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    padding: 6px 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    border-left: 3px solid var(--gold-primary);
+}
+.auction-user-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11.5px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #a7f3d0;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
 </style>
 </head>
 <body>
@@ -2338,15 +2502,35 @@
       </div>
 
       <div class="hero-img-col">
-        <img src="https://images.unsplash.com/vector-1794025383485-0a1ee1bc2ffc?q=80&w=734&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="3D Geometric Betta Fish" class="hero-betta-img">
+        <img src="https://images.unsplash.com/vector-1794240275267-5ed951e7c525?q=80&w=913&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="3D Geometric Betta Fish" class="hero-betta-img">
       </div>
     </section>
 
-    <!-- SECTION 2: MENU KARTU FITUR -->
+    <!-- SECTION 2: MENU KARTU FITUR (4 KARTU BERURUTAN) -->
     <section class="features-section" id="sectionGallery">
       <div class="pdf-cards-grid">
 
-        <!-- Kartu 1: Authenticity Certificate -->
+        <!-- 1. Katalog Produk -->
+        <div class="pdf-card" onclick="bukaHalamanKatalog()">
+          <div class="pdf-card-art">
+            <img src="https://images.unsplash.com/vector-1794025383485-0a1ee1bc2ffc?q=80&w=734&auto=format&fit=crop" alt="Product Catalog">
+          </div>
+          <div class="pdf-card-footer">
+            <div class="pdf-card-title">KATALOG PRODUK</div>
+          </div>
+        </div>
+
+        <!-- 2. Lelang VIP -->
+        <div class="pdf-card" onclick="bukaHalamanLelang()">
+          <div class="pdf-card-art">
+            <img src="https://images.unsplash.com/vector-1794219426876-711aa3274a8a?q=80&w=734&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="VIP Auction">
+          </div>
+          <div class="pdf-card-footer">
+            <div class="pdf-card-title">LELANG VIP</div>
+          </div>
+        </div>
+
+        <!-- 3. Sertifikat Keaslian -->
         <div class="pdf-card" onclick="bukaHalamanVerifikasi()">
           <div class="pdf-card-art">
             <img src="https://images.unsplash.com/vector-1793885597002-1e18b52f0b36?q=80&w=880&auto=format&fit=crop" alt="Authenticity Certificate">
@@ -2356,17 +2540,7 @@
           </div>
         </div>
 
-        <!-- Kartu 2: Shop / Product Catalog -->
-        <div class="pdf-card" onclick="bukaHalamanKatalog()">
-          <div class="pdf-card-art">
-            <img src="https://images.unsplash.com/vector-1793882916715-421af75659f6?q=80&w=880&auto=format&fit=crop" alt="Product Catalog">
-          </div>
-          <div class="pdf-card-footer">
-            <div class="pdf-card-title">KATALOG PRODUK</div>
-          </div>
-        </div>
-
-        <!-- Kartu 3: Gacha / Prize Draw -->
+        <!-- 4. Undian Hadiah -->
         <div class="pdf-card" onclick="bukaHalamanUndian()">
           <div class="pdf-card-art">
             <img src="https://images.unsplash.com/vector-1793883880838-ab4eab32b1e4?q=80&w=916&auto=format&fit=crop" alt="Prize Draw">
@@ -2383,7 +2557,7 @@
     <section class="about-section" id="sectionAbout">
       <div class="about-grid">
         <div class="about-img-col">
-          <img src="https://images.unsplash.com/vector-1794026349193-9a2c98820e11?q=80&w=734&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Betta Fish About Us" class="about-betta-img">
+          <img src="https://images.unsplash.com/vector-1794240848442-8af8c093706f?q=80&w=1075&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Betta Fish About Us" class="about-betta-img">
         </div>
 
         <div class="about-content-col">
@@ -2462,13 +2636,13 @@
   <div id="catalogPage">
     <div class="vip-header">
       <button type="button" class="back-btn" id="catalogBackBtn" onclick="kembaliKeLanding()">← Kembali</button>
-      <div class="brand-subtitle">OFFICIAL STORE CUPANG KASEP</div>
-      <h1 class="vip-title">KATALOG PRODUK</h1>
-      <p class="vip-tagline">Koleksi Ikan Cupang Berkualitas & Kebutuhan Perawatan Terbaik</p>
+      <div class="brand-subtitle" id="catalogHeaderSubtitle">OFFICIAL STORE CUPANG KASEP</div>
+      <h1 class="vip-title" id="catalogHeaderTitle">KATALOG PRODUK</h1>
+      <p class="vip-tagline" id="catalogHeaderTagline">Koleksi Ikan Cupang Berkualitas & Kebutuhan Perawatan Terbaik</p>
     </div>
 
     <div class="catalog-controls">
-      <div class="catalog-category-pills">
+      <div class="catalog-category-pills" id="catalogCategoryPills">
         <button type="button" class="cat-pill active" onclick="pilihKategoriKatalog('Semua', this)">Semua Koleksi</button>
         <button type="button" class="cat-pill" onclick="pilihKategoriKatalog('Ikan Cupang', this)">Ikan Cupang</button>
         <button type="button" class="cat-pill" onclick="pilihKategoriKatalog('Produk', this)">Produk</button>
@@ -2787,18 +2961,78 @@
   </div>
 </div>
 
+<!-- MODAL POPUP VERIFIKASI OTP WHATSAPP LELANG (1X SEUMUR HIDUP) -->
+<div class="result-modal" id="auctionOtpModal" onclick="tutupModalOtpLelang()">
+  <div class="result-box" style="max-width: 370px; text-align: left;" onclick="event.stopPropagation()">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <span class="cart-title" style="font-size:15px;">🔐 VERIFIKASI PESERTA LELANG</span>
+      <button type="button" class="close-admin-btn" onclick="tutupModalOtpLelang()">✕</button>
+    </div>
+
+    <div id="otpStep1Box">
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px; line-height:1.5;">
+        Verifikasi dengan masukkan <strong>Nama & Nomor WhatsApp</strong> aktif Anda:
+      </p>
+      <label class="search-label">👤 Nama Lengkap / Panggilan:</label>
+      <input type="text" id="bidderNameInput" class="search-input" style="width:100%; margin-bottom:10px; text-transform:none;" placeholder="Contoh: Budi Santoso">
+
+      <label class="search-label">📱 Nomor WhatsApp Aktif:</label>
+      <input type="tel" id="bidderWaInput" class="search-input" style="width:100%; margin-bottom:14px; text-transform:none;" placeholder="Contoh: 628123456789">
+
+      <button type="button" class="search-btn" id="btnRequestOtp" style="width:100%;" onclick="mintaKodeOtpWa()">
+        📲 Lanjutkan / Kirim OTP WA
+      </button>
+    </div>
+
+    <div id="otpStep2Box" style="display:none;">
+      <p style="font-size:12px; color:#a7f3d0; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); padding:8px 10px; border-radius:8px; margin-bottom:12px;">
+        ✅ Kode OTP 4 digit telah dikirim via WhatsApp ke nomor <strong id="otpTargetPhoneText">-</strong>.
+      </p>
+      <label class="search-label">🔢 Masukkan 4 Digit Kode OTP:</label>
+      <input type="text" id="bidderOtpCodeInput" maxlength="6" class="search-input" style="width:100%; text-align:center; font-size:18px; letter-spacing:6px; margin-bottom:14px;" placeholder="••••">
+
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="btn-secondary" onclick="kembaliKeStep1Otp()">← Ganti No</button>
+        <button type="button" class="search-btn" id="btnVerifyOtp" style="flex:1;" onclick="verifikasiKodeOtpWa()">✔ Verifikasi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL POPUP PERINGATAN BLOKIR BNR (BID & RUN) -->
+<div class="result-modal" id="auctionBlockedModal">
+  <div class="result-box" style="max-width: 360px; border-color: var(--danger-red);">
+    <div class="result-icon">🚫</div>
+    <div class="result-title" style="color: #fca5a5;">AKSES LELANG DIBLOKIR</div>
+    <p class="result-sub" id="blockedModalDesc" style="color: #f8fafc; font-size: 12.5px; line-height: 1.6; margin: 10px 0 16px;">
+      Nomor WhatsApp Anda telah diblokir oleh Admin karena pelanggaran aturan lelang (Bid & Run / Pembatalan Sepihak).
+    </p>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <a id="btnAppealWaBlock" href="#" target="_blank" rel="noopener noreferrer" class="btn-claim-wa" style="display:flex; margin-top:0;">
+        💬 Hubungi Admin untuk Buka Blokir
+      </a>
+      <button type="button" class="btn-secondary" onclick="document.getElementById('auctionBlockedModal').classList.remove('open')">Tutup</button>
+    </div>
+  </div>
+</div>
+
 <script>
   /* =========================================================
-     1. KONFIGURASI UTAMA
+     1. KONFIGURASI UTAMA (TERMASUK TOKEN FONNTE & LELANG)
      ========================================================= */
   const CONFIG = {
+    // 👇 ISI TOKEN API FONNTE ANDA DI DALAM TANDA KUTIP DI BAWAH INI:
+    FONNTE_TOKEN: "ISI_TOKEN_FONNTE_ANDA_DISINI",
+
     SHEET_ID: "15WF5-lpN_G7QU_7UFDx51cU3sC8c1FzCZLftF8CLu6s",
-    CATALOG_SHEET_NAME: "Katalog",
+    CATALOG_SHEET_NAME: "KATALOG",
+    AUCTION_SHEET_NAME: "Lelang",
     WHATSAPP_NUMBER: "6282121478149",
-    APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyj9IPv8DtTdS3CsYVkp74KcnTnIjETLPYr-nAuIF7LW8AT6PuhLakmNeMAYw7gwug/exec",
+    APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbx5MwX7VbX5LMPLGGmxPwzrKBldAlJfNIbSQkIjwI2lbBDg6G7W2o_g0ru-QexctHk/exec",
     PLACEHOLDER_IMAGE: "https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png",
     START_ON_CATALOG_PAGE: false,
-    CATALOG_PASSWORD: "ckvip"
+    CATALOG_PASSWORD: "ckvip",
+    ANTI_SNIPE_MINUTES: 5 // Perpanjangan waktu otomatis +5 menit jika ada bid di menit-menit terakhir
   };
 
   const GOOGLE_SCRIPT_URL = CONFIG.APPS_SCRIPT_URL;
@@ -2854,8 +3088,10 @@
       labelEl.innerText = USER_LANG === "en" ? "Cart" : (USER_LANG === "zh" ? "购物车" : "Keranjang");
     }
 
+    // Hanya muncul jika berada di halaman Katalog Produk (bukan Lelang & bukan halaman lain)
     const isCatalogVisible = document.getElementById("catalogPage").style.display === "block";
-    floatBtn.style.display = (isCatalogVisible || totalQty > 0) ? "flex" : "none";
+    const isNotAuction = currentCategoryFilter !== "Lelang";
+    floatBtn.style.display = (isCatalogVisible && isNotAuction) ? "flex" : "none";
   }
 
   function tambahKeKeranjang(kodeProduk) {
@@ -2938,12 +3174,32 @@
     }
   }
 
+  // Fungsi bantu mengambil & menggabungkan data dari sheet KATALOG (Reguler) dan sheet Lelang (VIP)
+  async function ambilGabunganKatalogDanLelang() {
+    const [katalogRows, lelangRows] = await Promise.all([
+      ambilDariGoogleVizJSONP(CONFIG.SHEET_ID, CONFIG.CATALOG_SHEET_NAME).catch(() => []),
+      ambilDariGoogleVizJSONP(CONFIG.SHEET_ID, CONFIG.AUCTION_SHEET_NAME).catch(() => [])
+    ]);
+
+    const katalogBersih = (katalogRows || []).map(item => ({
+      ...item,
+      kategori: (item.kategori && item.kategori.toLowerCase() === "lelang") ? "Ikan Cupang" : (item.kategori || "Ikan Cupang")
+    }));
+
+    const lelangBersih = (lelangRows || []).map(item => ({
+      ...item,
+      kategori: "Lelang"
+    }));
+
+    return [...katalogBersih, ...lelangBersih];
+  }
+
   // Fungsi ambil data terbaru Google Sheets secara senyap (tanpa mereset tampilan layar)
   async function segarkanDataKatalogSenyap() {
     try {
-      const rows = await ambilDariGoogleVizJSONP(CONFIG.SHEET_ID, CONFIG.CATALOG_SHEET_NAME);
-      if (rows && rows.length > 0) {
-        prosesBarisKatalog(rows);
+      const gabungan = await ambilGabunganKatalogDanLelang();
+      if (gabungan && gabungan.length > 0) {
+        prosesBarisKatalog(gabungan);
         return true;
       }
     } catch (e) {}
@@ -3182,8 +3438,10 @@
     item.views = (Number(item.views) || 0) + 1;
 
     if (apakahUrlSheetAktif()) {
+      const targetSheet = item.kategori.toLowerCase() === "lelang" ? CONFIG.AUCTION_SHEET_NAME : CONFIG.CATALOG_SHEET_NAME;
       kirimKeGoogleSheets({
         action: "view",
+        sheet: targetSheet,
         kode: kodeUpper
       });
     }
@@ -3210,8 +3468,9 @@
       heroTitle: "Temukan Koleksi<br>Langka<br>Ikan Cupang",
       heroDesc: "Gerbang resmi menuju <strong>Cupang Kasep</strong>. Jelajahi katalog ikan & produk secara langsung, verifikasi sertifikat, dan hadiah VIP.",
       heroBtn: "Mulai Hobi Anda",
-      cardCert: "SERTIFIKAT<br>KEASLIAN",
       cardCatalog: "KATALOG PRODUK",
+      cardAuction: "LELANG VIP",
+      cardCert: "SERTIFIKAT<br>KEASLIAN",
       cardPrize: "Undian Hadiah",
       aboutTitle: "Tentang Kami",
       aboutSub: "Destinasi Utama Koleksi Ikan Cupang Anda. Merayakan kualitas, keindahan, dan dedikasi sejak 2025.",
@@ -3229,8 +3488,9 @@
       heroTitle: "Discover Rare<br>Collections<br>of betta fish",
       heroDesc: "Your official gateway to <strong>Cupang Kasep</strong>. Explore our live betta & product catalog, certificate verification, and VIP rewards.",
       heroBtn: "Start Ur Hobby",
-      cardCert: "AUTHENTICITY<br>CERTIFICATE",
       cardCatalog: "PRODUCT CATALOG",
+      cardAuction: "VIP AUCTION",
+      cardCert: "AUTHENTICITY<br>CERTIFICATE",
       cardPrize: "Prize draw",
       aboutTitle: "About Us",
       aboutSub: "Your Premier Destination for Collection Betta Fish. Celebrating quality, beauty, and passion since 2025.",
@@ -3248,8 +3508,9 @@
       heroTitle: "探索稀有<br>精品斗鱼<br>专属收藏",
       heroDesc: "欢迎来到 <strong>Cupang Kasep</strong> 官方门户。探索我们的实时斗鱼与产品目录、血统证书验证以及 VIP 专属抽奖福利。",
       heroBtn: "开启您的爱好",
-      cardCert: "官方血统<br>防伪证书",
       cardCatalog: "产品与斗鱼目录",
+      cardAuction: "VIP 专属拍卖",
+      cardCert: "官方血统<br>防伪证书",
       cardPrize: "VIP 幸运抽奖",
       aboutTitle: "关于我们",
       aboutSub: "您收藏级斗鱼的首选之地。自 2025 年以来，始终专注于品质、美学与热爱。",
@@ -3335,12 +3596,13 @@
     if (heroDesc) heroDesc.innerHTML = t.heroDesc;
     if (heroBtn) heroBtn.innerText = t.heroBtn;
 
-    // 4. Update judul 3 Kartu Fitur
+    // 4. Update judul 4 Kartu Fitur sesuai urutan baru (1. Katalog, 2. Lelang, 3. Sertifikat, 4. Undian)
     const cardTitles = document.querySelectorAll(".pdf-card-title");
-    if (cardTitles.length >= 3) {
-      cardTitles[0].innerHTML = t.cardCert;
-      cardTitles[1].innerHTML = t.cardCatalog;
-      cardTitles[2].innerHTML = t.cardPrize;
+    if (cardTitles.length >= 4) {
+      cardTitles[0].innerHTML = t.cardCatalog;
+      cardTitles[1].innerHTML = t.cardAuction;
+      cardTitles[2].innerHTML = t.cardCert;
+      cardTitles[3].innerHTML = t.cardPrize;
     }
 
     // 5. Update teks About Us
@@ -3578,9 +3840,9 @@
     gridWrapperEl.style.display = "none";
 
     try {
-      const rows = await ambilDariGoogleVizJSONP(CONFIG.SHEET_ID, CONFIG.CATALOG_SHEET_NAME);
-      if (rows && rows.length > 0) {
-        prosesBarisKatalog(rows);
+      const gabungan = await ambilGabunganKatalogDanLelang();
+      if (gabungan && gabungan.length > 0) {
+        prosesBarisKatalog(gabungan);
         catalogLoadedOnce = true;
         return;
       }
@@ -3661,6 +3923,16 @@
           const idxShipping = cols.indexOf("shipping") !== -1 ? cols.indexOf("shipping") : 14;
           const idxViews = cols.indexOf("views") !== -1 ? cols.indexOf("views") : (cols.indexOf("dilihat") !== -1 ? cols.indexOf("dilihat") : 15);
 
+          // Kolom Opsional Khusus Lelang (OB, KB, BIN, Waktu Mulai, Waktu Tutup, Bid Tertinggi, Penawar, Riwayat)
+          const idxOB = cols.indexOf("ob");
+          const idxKB = cols.indexOf("kb");
+          const idxBIN = cols.indexOf("bin");
+          const idxStartTime = cols.indexOf("waktu mulai") !== -1 ? cols.indexOf("waktu mulai") : cols.indexOf("starttime");
+          const idxEndTime = cols.indexOf("waktu tutup") !== -1 ? cols.indexOf("waktu tutup") : cols.indexOf("endtime");
+          const idxHighBid = cols.indexOf("bid tertinggi") !== -1 ? cols.indexOf("bid tertinggi") : cols.indexOf("currentbid");
+          const idxHighBidder = cols.indexOf("penawar tertinggi") !== -1 ? cols.indexOf("penawar tertinggi") : cols.indexOf("highbidder");
+          const idxBidHistory = cols.indexOf("riwayat bid") !== -1 ? cols.indexOf("riwayat bid") : cols.indexOf("bidhistory");
+
           const kode = getVal(idxKode);
           const nama = getVal(idxNama);
           if (!kode || kode.toLowerCase() === "kode" || !nama || nama.toLowerCase() === "nama") return;
@@ -3685,7 +3957,15 @@
             size: getVal(idxSize),
             origin: getVal(idxOrigin),
             shipping: getVal(idxShipping),
-            views: viewsRaw
+            views: viewsRaw,
+            ob: idxOB !== -1 ? (Number(String(getVal(idxOB)).replace(/[^0-9]/g, "")) || hargaBersih) : hargaBersih,
+            kb: idxKB !== -1 ? (Number(String(getVal(idxKB)).replace(/[^0-9]/g, "")) || 20000) : 20000,
+            bin: idxBIN !== -1 ? (Number(String(getVal(idxBIN)).replace(/[^0-9]/g, "")) || 0) : 0,
+            startTime: idxStartTime !== -1 ? getVal(idxStartTime) : "",
+            endTime: idxEndTime !== -1 ? getVal(idxEndTime) : "",
+            currentBid: idxHighBid !== -1 ? (Number(String(getVal(idxHighBid)).replace(/[^0-9]/g, "")) || 0) : 0,
+            highestBidder: idxHighBidder !== -1 ? getVal(idxHighBidder) : "-",
+            bidHistoryRaw: idxBidHistory !== -1 ? getVal(idxBidHistory) : "[]"
           });
         });
 
@@ -3730,7 +4010,15 @@
         size: String(raw.size || "").trim(),
         origin: String(raw.origin || "").trim(),
         shipping: String(raw.shipping || "").trim(),
-        views: Number(raw.views) || 0
+        views: Number(raw.views) || 0,
+        ob: Number(raw.ob) || Number(raw.harga) || 0,
+        kb: Number(raw.kb) || 20000,
+        bin: Number(raw.bin) || 0,
+        startTime: String(raw.startTime || "").trim(),
+        endTime: String(raw.endTime || "").trim(),
+        currentBid: Number(raw.currentBid) || 0,
+        highestBidder: String(raw.highestBidder || "-").trim(),
+        bidHistoryRaw: String(raw.bidHistoryRaw || "[]").trim()
       });
     });
 
@@ -3783,8 +4071,10 @@
     const sortBy = document.getElementById("catalogSortSelect").value;
 
     let hasil = masterCatalogItems.filter(item => {
-      const cocokKategori = currentCategoryFilter === "Semua" ||
-        item.kategori.toLowerCase() === currentCategoryFilter.toLowerCase();
+      const katNorm = item.kategori.toLowerCase();
+      const cocokKategori = currentCategoryFilter === "Lelang"
+        ? katNorm === "lelang"
+        : (katNorm !== "lelang" && (currentCategoryFilter === "Semua" || katNorm === currentCategoryFilter.toLowerCase()));
 
       const cocokJenis = selectedJenis === "Semua" ||
         item.jenis.toLowerCase() === selectedJenis.toLowerCase();
@@ -3843,27 +4133,41 @@
       const isHot = !isHabis && jumlahViews >= HOT_VIEWS_THRESHOLD;
       const isIkan = item.kategori.toLowerCase().includes("ikan");
 
-      const tombolAksiKanan = isHabis
-        ? (isIkan
-            ? `<button type="button" class="btn-card-cart restock-mode" disabled style="cursor: not-allowed; opacity: 0.65;">🚫 Terjual</button>`
-            : `<a href="${waLinkRestock}" target="_blank" rel="noopener noreferrer" class="btn-card-cart restock-mode">💬 Tanya Restock</a>`)
-        : `<button type="button" class="btn-card-cart" onclick="tambahKeKeranjang('${kodeSafe}')">🛒 Beli</button>`;
+      const isLelang = item.kategori.toLowerCase() === "lelang";
+      const belumMulaiLelang = isLelang && apakahLelangBelumMulai(item.startTime);
+      const sudahSelesaiLelang = isLelang && (isHabis || apakahWaktuLelangHabis(item.endTime));
+      const infoTimerAwal = isLelang ? formatHitungMundurLelang(item.endTime, item.startTime) : null;
+      const hargaTampil = isLelang ? (item.currentBid > 0 ? item.currentBid : item.ob) : item.harga;
+
+      const tombolAksiKanan = isLelang
+        ? `<button type="button" class="btn-card-cart ${sudahSelesaiLelang ? 'restock-mode' : ''}" data-auction-card-btn="${item.kode}" onclick="bukaDetailProduk('${kodeSafe}')">
+             ${sudahSelesaiLelang ? '🏁 Hasil Lelang' : (belumMulaiLelang ? '⏳ Detail Jadwal' : '🔨 Ikut Bid')}
+           </button>`
+        : (isHabis
+            ? (isIkan
+                ? `<button type="button" class="btn-card-cart restock-mode" disabled style="cursor: not-allowed; opacity: 0.65;">🚫 Terjual</button>`
+                : `<a href="${waLinkRestock}" target="_blank" rel="noopener noreferrer" class="btn-card-cart restock-mode">💬 Tanya Restock</a>`)
+            : `<button type="button" class="btn-card-cart" onclick="tambahKeKeranjang('${kodeSafe}')">🛒 Beli</button>`);
 
       return `
-        <div class="product-card ${isHabis ? 'out-of-stock' : ''}">
+        <div class="product-card ${(isHabis || sudahSelesaiLelang) ? 'out-of-stock' : ''}">
           <div class="product-thumb-wrapper" onclick="bukaDetailProduk('${kodeSafe}')">
             <img src="${mediaSampul.thumbUrl}" alt="${item.nama}" class="product-thumb" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${CONFIG.PLACEHOLDER_IMAGE}';">
             <span class="views-badge-overlay notranslate">👁️ ${jumlahViews}x</span>
             ${isHot ? '<span class="hot-badge-overlay notranslate">🔥 HOT</span>' : ''}
             ${punyaVideo ? '<span class="video-badge-overlay">▶ VIDEO</span>' : ''}
+            ${isLelang ? `<span class="auction-timer-badge notranslate ${sudahSelesaiLelang ? 'ended' : (belumMulaiLelang ? 'upcoming' : 'active-live')}" data-auction-timer="${item.kode}" data-starttime="${item.startTime}" data-endtime="${item.endTime}" data-force-ended="${sudahSelesaiLelang}" data-phase="${sudahSelesaiLelang ? 'ended' : (belumMulaiLelang ? 'upcoming' : 'active')}">${sudahSelesaiLelang ? '🔴 LELANG TUTUP' : infoTimerAwal.text}</span>` : ''}
           </div>
           <div class="product-content">
             <div class="card-badges-row">
-              <span class="badge-pill-tag primary">${item.kategori}</span>
+              <span class="badge-pill-tag primary">${isLelang ? '🔨 LELANG VIP' : item.kategori}</span>
               <span class="badge-pill-tag outline notranslate">${item.jenis}</span>
             </div>
             <h3 class="product-title notranslate">${item.nama} (${item.kode})</h3>
-            <div class="product-price notranslate">${formatRupiah(item.harga)}</div>
+            <div class="product-price notranslate">
+              ${isLelang ? `<span style="font-size:10px; color:var(--text-muted); font-weight:600;">${item.currentBid > 0 ? 'Bid Saat Ini:' : 'Open Bid:'}</span><br>` : ''}
+              ${formatRupiah(hargaTampil)}
+            </div>
             <div class="card-actions-row">
               ${tombolAksiKanan}
             </div>
@@ -4000,18 +4304,21 @@
       </div>
     `).join("");
 
-    const ctaButtonsHtml = isHabis
-      ? (isIkan
-          ? `<button type="button" class="btn-detail-addcart" disabled style="background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger-red); color: #fca5a5; cursor: not-allowed; opacity: 0.7;">🚫 Terjual (Sold Out)</button>`
-          : `<a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-detail-addcart" style="background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger-red); color: #fca5a5;">💬 Tanya Restock via WA</a>`)
-      : `
-        <button type="button" class="btn-detail-addcart" style="border:none; cursor:pointer;" onclick="tambahKeKeranjang('${kodeSafe}')">
-          🛒 Beli
-        </button>
-        <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-detail-back" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
-          Beli Langsung
-        </a>
-      `;
+    const isLelang = item.kategori.toLowerCase() === "lelang";
+    const ctaButtonsHtml = isLelang
+      ? renderPanelDetailLelangHtml(item)
+      : (isHabis
+          ? (isIkan
+              ? `<button type="button" class="btn-detail-addcart" disabled style="background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger-red); color: #fca5a5; cursor: not-allowed; opacity: 0.7;">🚫 Terjual (Sold Out)</button>`
+              : `<a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-detail-addcart" style="background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger-red); color: #fca5a5;">💬 Tanya Restock via WA</a>`)
+          : `
+            <button type="button" class="btn-detail-addcart" style="border:none; cursor:pointer;" onclick="tambahKeKeranjang('${kodeSafe}')">
+              🛒 Beli
+            </button>
+            <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-detail-back" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
+              Beli Langsung
+            </a>
+          `);
 
     contentEl.innerHTML = `
       <div class="detail-layout-grid">
@@ -4079,7 +4386,7 @@
           </div>
 
           <p class="detail-note">
-            ${isIkan ? 'Setiap ikan cupang memiliki corak unik — dijual per ekor sesuai foto/video.' : 'Produk perawatan resmi berkualitas tinggi dari Cupang Kasep.'}
+            ${isIkan ? 'Setiap ikan cupang memiliki corak unik — dijual per ekor sesuai foto/video.' : 'Ikan rawatan resmi berkualitas tinggi dari Cupang Kasep.'}
           </p>
 
           <div class="detail-cta-row" style="flex-wrap: wrap;">
@@ -4544,7 +4851,13 @@
   function bukaHalamanKatalog() {
     playClickSound();
     isCatalogUnlocked = true;
-    tampilkanIsiKatalog();
+    tampilkanIsiKatalog(false);
+  }
+
+  function bukaHalamanLelang() {
+    playClickSound();
+    isCatalogUnlocked = true;
+    tampilkanIsiKatalog(true);
   }
 
   function verifikasiPasswordKatalog() {
@@ -4554,7 +4867,7 @@
       isCatalogUnlocked = true;
       document.getElementById("catalogPasswordModal").classList.remove("open");
       tampilkanToast("🔓 Selamat Datang Admin!");
-      tampilkanIsiKatalog();
+      tampilkanIsiKatalog(false);
     } else {
       alert("❌ Password salah! Silakan hubungi Admin Cupang Kasep untuk mendapatkan akses.");
     }
@@ -4573,15 +4886,45 @@
         document.getElementById(id).style.display = (id === idHalaman) ? "block" : "none";
       }
     });
+    perbaruiTombolKeranjangMelayang();
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (hashUrl && window.location.hash !== hashUrl) {
       history.pushState({ page: idHalaman }, "", hashUrl);
     }
   }
 
-  function tampilkanIsiKatalog() {
-    aktifkanHalaman("catalogPage", "#katalog");
-    if (!catalogLoadedOnce) muatDataKatalog(false);
+  function tampilkanIsiKatalog(modeLelang = false) {
+    const titleEl = document.getElementById("catalogHeaderTitle");
+    const subEl = document.getElementById("catalogHeaderSubtitle");
+    const tagEl = document.getElementById("catalogHeaderTagline");
+    const pillsEl = document.getElementById("catalogCategoryPills");
+
+    if (modeLelang) {
+      currentCategoryFilter = "Lelang";
+      if (subEl) subEl.innerText = "CUPANG KASEP LIVE AUCTION";
+      if (titleEl) titleEl.innerText = "LELANG VIP RESMI";
+      if (tagEl) tagEl.innerText = "Penawaran Real-Time Koleksi Ikan Cupang Spesimen Kontes & Kolektor";
+      if (pillsEl) pillsEl.style.display = "none";
+      aktifkanHalaman("catalogPage", "#lelang");
+    } else {
+      currentCategoryFilter = "Semua";
+      if (subEl) subEl.innerText = "OFFICIAL STORE CUPANG KASEP";
+      if (titleEl) titleEl.innerText = "KATALOG PRODUK";
+      if (tagEl) tagEl.innerText = "Koleksi Ikan Cupang Berkualitas & Kebutuhan Perawatan Terbaik";
+      if (pillsEl) {
+        pillsEl.style.display = "flex";
+        const allBtns = pillsEl.querySelectorAll(".cat-pill");
+        allBtns.forEach((b, idx) => b.classList.toggle("active", idx === 0));
+      }
+      aktifkanHalaman("catalogPage", "#katalog");
+    }
+
+    if (!catalogLoadedOnce) {
+      muatDataKatalog(false);
+    } else {
+      perbaruiDropdownJenis();
+      terapkanFilterKatalog();
+    }
   }
 
   function bukaHalamanVerifikasi() {
@@ -4612,10 +4955,14 @@
       aktifkanHalaman("catalogPage", "");
       bukaDetailProduk(kodeProd, false);
     } else if (hash === "#katalog") {
+      currentCategoryFilter = "Semua";
       aktifkanHalaman("catalogPage", "");
       if (document.getElementById("catalogDetailView").style.display === "block") {
         tutupDetailProduk(false);
       }
+    } else if (hash === "#lelang") {
+      currentCategoryFilter = "Lelang";
+      aktifkanHalaman("catalogPage", "");
     } else if (hash === "#verifikasi") {
       aktifkanHalaman("verificationPage", "");
     } else if (hash === "#undian") {
@@ -5231,6 +5578,576 @@
       includedLanguages: 'id,en,zh-CN',
       autoDisplay: false
     }, 'google_translate_element');
+  }
+
+  /* =========================================================
+     5. MESIN UTAMA LELANG VIP, OTP FONNTE 1X SELAMANYA, & BLOKIR BNR
+     ========================================================= */
+  const STORAGE_KEY_BIDDER = "ck_verified_bidder_v1";
+  let pendingBidAction = null; // Menyimpan aksi bid yang tertunda saat diminta verifikasi OTP
+
+  function getVerifiedBidder() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_BIDDER)) || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveVerifiedBidder(data) {
+    try {
+      localStorage.setItem(STORAGE_KEY_BIDDER, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function normalisasiNomorWA(no) {
+    let clean = String(no || "").replace(/[^0-9]/g, "");
+    if (clean.startsWith("08")) clean = "62" + clean.slice(1);
+    else if (clean.startsWith("8")) clean = "62" + clean;
+    return clean;
+  }
+
+  function sensorNomorWA(no) {
+    const clean = normalisasiNomorWA(no);
+    if (clean.length < 8) return clean;
+    return clean.slice(0, 5) + "****" + clean.slice(-3);
+  }
+
+  function parseWaktuLelang(str) {
+    if (!str) return 0;
+    const parsed = Date.parse(str);
+    if (!isNaN(parsed)) return parsed;
+    // Dukungan format DD/MM/YYYY HH:mm
+    const m = String(str).match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})(?:\s+(\d{1,2}):(\d{1,2}))?/);
+    if (m) {
+      return new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1]), Number(m[4] || 23), Number(m[5] || 59), 0).getTime();
+    }
+    return 0;
+  }
+
+  function apakahLelangBelumMulai(startTimeStr) {
+    const startTarget = parseWaktuLelang(startTimeStr);
+    if (!startTarget) return false;
+    return Date.now() < startTarget;
+  }
+
+  function apakahWaktuLelangHabis(endTimeStr) {
+    const target = parseWaktuLelang(endTimeStr);
+    if (!target) return false;
+    return Date.now() >= target;
+  }
+
+  function formatJadwalTeksLelang(str) {
+    const ms = parseWaktuLelang(str);
+    if (!ms) return str || "-";
+    const d = new Date(ms);
+    const tgl = d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
+    const jam = d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", hour12: false }).replace(/\./g, ":");
+    return `${tgl} • Pukul ${jam}`;
+  }
+
+  function formatHitungMundurLelang(endTimeStr, startTimeStr = "") {
+    const now = Date.now();
+    const startTarget = parseWaktuLelang(startTimeStr);
+    const endTarget = parseWaktuLelang(endTimeStr);
+    const pad = n => String(n).padStart(2, "0");
+
+    // FASE 1: LELANG BELUM DIMULAI (Menunggu Jam Mulai)
+    if (startTarget && now < startTarget) {
+      const selisihMulai = startTarget - now;
+      const hari = Math.floor(selisihMulai / (1000 * 60 * 60 * 24));
+      const jam = Math.floor((selisihMulai % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const menit = Math.floor((selisihMulai % (1000 * 60 * 60)) / (1000 * 60));
+      const detik = Math.floor((selisihMulai % (1000 * 60)) / 1000);
+
+      const rincianMulai = hari > 0
+        ? `${hari}h ${pad(jam)}j ${pad(menit)}m ${pad(detik)}d`
+        : `${pad(jam)}j : ${pad(menit)}m : ${pad(detik)}d`;
+
+      return {
+        text: `⏳ • ${rincianMulai}`,
+        upcoming: true,
+        ended: false,
+        urgent: false,
+        phase: "upcoming"
+      };
+    }
+
+    // FASE 2 & 3: SUDAH MASUK JAM MULAI -> LANGSUNG COUNTDOWN KE WAKTU SELESAI
+    if (!endTarget) {
+      return { text: "🟢 Aktif", upcoming: false, ended: false, urgent: false, phase: "active" };
+    }
+    const selisih = endTarget - now;
+    if (selisih <= 0) {
+      return { text: "🔴 LELANG TUTUP", upcoming: false, ended: true, urgent: false, phase: "ended" };
+    }
+
+    const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
+    const jam = Math.floor((selisih % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const menit = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
+    const detik = Math.floor((selisih % (1000 * 60)) / 1000);
+
+    const rincianWaktu = hari > 0
+      ? `${hari}h ${pad(jam)}j ${pad(menit)}m ${pad(detik)}d`
+      : `${pad(jam)}j : ${pad(menit)}m : ${pad(detik)}d`;
+
+    return {
+      text: `🟢 Sisa Waktu • ${rincianWaktu}`,
+      upcoming: false,
+      ended: false,
+      urgent: selisih <= 10 * 60 * 1000,
+      phase: "active"
+    };
+  }
+
+  // Loop update timer lelang setiap 1 detik (otomatis buka tombol bid begitu jam mulai tiba!)
+  setInterval(() => {
+    document.querySelectorAll("[data-auction-timer]").forEach(el => {
+      const kode = el.getAttribute("data-auction-timer");
+      const startStr = el.getAttribute("data-starttime") || "";
+      const endStr = el.getAttribute("data-endtime") || "";
+      const isForceEnded = el.getAttribute("data-force-ended") === "true";
+      const prevPhase = el.getAttribute("data-phase") || "";
+
+      const info = isForceEnded
+        ? { text: "🔴 LELANG TUTUP", upcoming: false, ended: true, urgent: false, phase: "ended" }
+        : formatHitungMundurLelang(endStr, startStr);
+
+      el.innerText = info.text;
+      el.classList.toggle("upcoming", info.upcoming);
+      el.classList.toggle("ended", info.ended);
+      el.classList.toggle("active-live", !info.ended && !info.upcoming);
+      el.classList.toggle("urgent", !info.ended && !info.upcoming && info.urgent);
+
+      // Jika fase baru saja berubah (misal dari 'upcoming' -> 'active' tepat saat jam mulai tiba)
+      if (prevPhase && prevPhase !== info.phase) {
+        el.setAttribute("data-phase", info.phase);
+
+        // Update teks tombol pada kartu katalog secara live
+        const cardBtn = document.querySelector(`[data-auction-card-btn="${kode}"]`);
+        if (cardBtn) {
+          cardBtn.innerText = info.ended ? "🏁 Hasil Lelang" : (info.upcoming ? "⏳ Detail Jadwal" : "🔨 Ikut Bid");
+          cardBtn.classList.toggle("restock-mode", info.ended);
+        }
+
+        // Jika pengguna sedang membuka halaman detail produk lelang ini, langsung buka/kunci tombol Bid otomatis!
+        const detailViewEl = document.getElementById("catalogDetailView");
+        if (detailViewEl && detailViewEl.style.display === "block" && currentOpenDetailCode === kode) {
+          bukaDetailProduk(kode, false);
+        }
+      }
+    });
+  }, 1000);
+
+  function renderPanelDetailLelangHtml(item) {
+    const isSoldOut = item.stok <= 0 || item.status.toLowerCase() === "habis" || item.status.toLowerCase() === "terjual";
+    const infoTimer = formatHitungMundurLelang(item.endTime, item.startTime);
+    const isUpcoming = !isSoldOut && infoTimer.upcoming;
+    const isEnded = isSoldOut || infoTimer.ended;
+
+    const currentHighest = item.currentBid > 0 ? item.currentBid : 0;
+    const minNextBid = currentHighest > 0 ? (currentHighest + item.kb) : item.ob;
+    const bidderSession = getVerifiedBidder();
+    const kodeSafe = item.kode.replace(/'/g, "\\'");
+
+    let riwayatArr = [];
+    try {
+      riwayatArr = JSON.parse(item.bidHistoryRaw || "[]");
+    } catch (e) {
+      riwayatArr = [];
+    }
+
+    const riwayatHtml = riwayatArr.length === 0
+      ? `<div style="font-size:11.5px; color:var(--text-muted); text-align:center; padding:8px;">Belum ada penawaran. Jadilah penawar pertama (OB)!</div>`
+      : riwayatArr.slice().reverse().map((r, idx) => `
+          <div class="bid-history-row notranslate">
+            <span>${idx === 0 ? '👑' : '•'} <b>${r.nama}</b> (${r.waMasked || sensorNomorWA(r.wa)})</span>
+            <span style="color:var(--gold-light); font-weight:800;">${formatRupiah(r.nominal)} ${r.tipe === 'BIN' ? '⚡BIN' : ''}</span>
+          </div>
+        `).join("");
+
+    const barAkunHtml = bidderSession
+      ? `<div class="auction-user-bar notranslate">
+           <span>✔ Terverifikasi: <b>${bidderSession.nama}</b> (${sensorNomorWA(bidderSession.wa)})</span>
+           <button type="button" class="close-admin-btn" onclick="bukaModalOtpLelang(true)">Ganti No WA</button>
+         </div>`
+      : `<div class="auction-user-bar" style="background:rgba(212,175,55,0.12); border-color:rgba(212,175,55,0.4); color:var(--gold-light);">
+           <span>🔐 Nomor WA belum diverifikasi</span>
+           <button type="button" class="search-btn" style="padding:4px 10px; font-size:11px;" onclick="bukaModalOtpLelang(false)">Verifikasi WA</button>
+         </div>`;
+
+    // Buat tombol klaim WA jika sudah selesai & ada pemenang
+    const tokenMenang = buatSignature(item.kode, String(currentHighest));
+    const pesanKlaimPemenang = `Halo Admin CUPANG KASEP, saya ingin menang Lelang VIP:\n\n` +
+      `🐟 Kode Ikan: [${item.kode}] ${item.nama}\n` +
+      `🏆 Nominal Menang: ${formatRupiah(currentHighest)}\n` +
+      `👤 Penawar: ${item.highestBidder}\n` +
+      `🔐 Token Verifikasi Lelang: CKL-${item.kode}-${tokenMenang}`;
+    const linkKlaimWa = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(pesanKlaimPemenang)}`;
+
+    return `
+      <div class="auction-panel-box" style="width:100%;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:12px; font-weight:800; color:var(--gold-light);">PANEL LELANG RESMI (LIVE)</span>
+          <span class="auction-timer-badge notranslate ${isEnded ? 'ended' : (isUpcoming ? 'upcoming' : 'active-live')} ${(!isEnded && !isUpcoming && infoTimer.urgent) ? 'urgent' : ''}" style="position:static;" data-auction-timer="${item.kode}" data-starttime="${item.startTime}" data-endtime="${item.endTime}" data-force-ended="${isEnded}" data-phase="${isEnded ? 'ended' : (isUpcoming ? 'upcoming' : 'active')}">
+            ${isEnded ? '🔴 LELANG TUTUP' : infoTimer.text}
+          </span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; background:rgba(255,255,255,0.03); border:1px solid rgba(212,175,55,0.25); border-radius:8px; padding:8px 10px; font-size:11px;">
+          <div>
+            <span style="color:var(--text-muted); display:block;">🕒 Jadwal Mulai:</span>
+            <strong class="notranslate" style="color:#fde047;">${item.startTime ? formatJadwalTeksLelang(item.startTime) : 'Langsung Aktif'}</strong>
+          </div>
+          <div>
+            <span style="color:var(--text-muted); display:block;">🏁 Jadwal Selesai:</span>
+            <strong class="notranslate" style="color:#fca5a5;">${item.endTime ? formatJadwalTeksLelang(item.endTime) : '-'}</strong>
+          </div>
+        </div>
+
+        ${barAkunHtml}
+
+        <div class="auction-grid-stats notranslate">
+          <div class="auction-stat-item">
+            <span class="auction-stat-label">Open Bid (OB)</span>
+            <span class="auction-stat-val">${formatRupiah(item.ob)}</span>
+          </div>
+          <div class="auction-stat-item">
+            <span class="auction-stat-label">Kelipatan (KB)</span>
+            <span class="auction-stat-val">+${formatRupiah(item.kb)}</span>
+          </div>
+          <div class="auction-stat-item">
+            <span class="auction-stat-label">Buy It Now (BIN)</span>
+            <span class="auction-stat-val" style="color:#4ade80;">${item.bin > 0 ? formatRupiah(item.bin) : '-'}</span>
+          </div>
+        </div>
+
+        <div class="auction-current-box notranslate">
+          <div>
+            <span style="font-size:11px; color:var(--text-muted); display:block;">Penawaran Tertinggi Saat Ini:</span>
+            <strong style="font-size:19px; color:var(--gold-light);">${currentHighest > 0 ? formatRupiah(currentHighest) : 'Belum Ada Bid'}</strong>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size:11px; color:var(--text-muted); display:block;">Pemimpin Lelang:</span>
+            <strong style="font-size:12.5px; color:#fff;">${item.highestBidder || '-'}</strong>
+          </div>
+        </div>
+
+        ${isEnded ? `
+          <div style="text-align:center; padding:12px; background:rgba(220,38,38,0.18); border:1px solid rgba(248,113,113,0.5); border-radius:10px; color:#fca5a5; font-size:12.5px; font-weight:700;">
+            LELANG TUTUP<br>
+            ${currentHighest > 0 ? `Pemenang Sah: <b style="color:#fff;">${item.highestBidder}</b> (${formatRupiah(currentHighest)})` : 'Tidak ada penawar'}
+          </div>
+          ${currentHighest > 0 ? `
+            <a href="${linkKlaimWa}" target="_blank" rel="noopener noreferrer" class="btn-claim-wa" style="display:flex;">
+              📲 Klaim Kemenangan Lelang via WhatsApp
+            </a>
+          ` : ''}
+        ` : isUpcoming ? `
+          <div style="text-align:center; padding:14px 12px; background:rgba(217,119,6,0.15); border:1px dashed rgba(253,224,71,0.5); border-radius:10px; color:#fde047; font-size:12.5px; font-weight:700; line-height:1.5;">
+            ⏳ LELANG BELUM DIMULAI<br>
+            <span style="font-size:11.5px; color:#e2e8f0; font-weight:500;">Lelang akan dibuka pada <b class="notranslate" style="color:#fff;">${formatJadwalTeksLelang(item.startTime)}</b>.<br>Tombol penawaran akan terbuka otomatis saat waktu mulai tiba.</span>
+          </div>
+        ` : `
+          <div>
+            <label class="search-label" style="font-size:11.5px;">💰 Nominal Tawaran Anda (Otomatis Next Bid: ${formatRupiah(minNextBid)}):</label>
+            <div class="search-input-group" style="margin-bottom:8px;">
+              <input type="text" id="customBidDisplay_${item.kode}" class="search-input bid-input-locked notranslate" value="${formatRupiah(minNextBid)}" readonly tabindex="-1">
+              <input type="hidden" id="customBidInput_${item.kode}" value="${minNextBid}">
+              <button type="button" class="btn-secondary" style="flex:0.35; white-space:nowrap;" onclick="tambahNominalInputBid('${kodeSafe}', ${item.kb})">+${formatRupiah(item.kb)}</button>
+            </div>
+            <div class="auction-bid-controls">
+              <button type="button" class="btn-bid-action" id="btnSubmitBid_${item.kode}" onclick="prosesPasangBid('${kodeSafe}', 'BID')">
+                Pasang Penawaran
+              </button>
+              ${item.bin > 0 ? `
+                <button type="button" class="btn-bin-action" id="btnSubmitBin_${item.kode}" onclick="prosesPasangBid('${kodeSafe}', 'BIN')">
+                  Buy It Now (${formatRupiah(item.bin)})
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `}
+
+        <div>
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; color:var(--gold-light); margin-bottom:6px;">
+            <span>📜 Riwayat Penawaran Sah:</span>
+            <span>${riwayatArr.length} Bid Masuk</span>
+          </div>
+          <div class="bid-history-box">
+            ${riwayatHtml}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function tambahNominalInputBid(kodeProduk, kelipatan) {
+    playClickSound();
+    const inputEl = document.getElementById("customBidInput_" + kodeProduk);
+    const displayEl = document.getElementById("customBidDisplay_" + kodeProduk);
+    if (!inputEl) return;
+
+    const item = masterCatalogItems.find(i => i.kode.toUpperCase() === String(kodeProduk).toUpperCase());
+    let nilaiBaru = (Number(inputEl.value) || 0) + Number(kelipatan);
+
+    // Jika lelang memiliki batas BIN, kunci agar penambahan tidak melebihi angka BIN
+    if (item && item.bin > 0 && nilaiBaru > item.bin) {
+      nilaiBaru = item.bin;
+    }
+
+    inputEl.value = nilaiBaru;
+    if (displayEl) {
+      displayEl.value = formatRupiah(nilaiBaru);
+    }
+  }
+
+  function bukaModalOtpLelang(resetKeStep1 = false) {
+    playClickSound();
+    if (resetKeStep1) {
+      document.getElementById("otpStep1Box").style.display = "block";
+      document.getElementById("otpStep2Box").style.display = "none";
+    }
+    const existing = getVerifiedBidder();
+    if (existing) {
+      document.getElementById("bidderNameInput").value = existing.nama || "";
+      document.getElementById("bidderWaInput").value = existing.wa || "";
+    }
+    document.getElementById("auctionOtpModal").classList.add("open");
+  }
+
+  function tutupModalOtpLelang() {
+    playClickSound();
+    document.getElementById("auctionOtpModal").classList.remove("open");
+  }
+
+  function kembaliKeStep1Otp() {
+    playClickSound();
+    document.getElementById("otpStep1Box").style.display = "block";
+    document.getElementById("otpStep2Box").style.display = "none";
+  }
+
+  function tampilkanModalBlokirBNR(noWa) {
+    const linkEl = document.getElementById("btnAppealWaBlock");
+    const pesan = `Halo Admin CUPANG KASEP, nomor WhatsApp saya (${noWa}) terdeteksi diblokir pada sistem Lelang VIP karena terdeksi pernag melakukan BNR. Mohon informasinya untuk pengajuan pembukaan blokir. Terima kasih.`;
+    if (linkEl) linkEl.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(pesan)}`;
+    document.getElementById("auctionBlockedModal").classList.add("open");
+  }
+
+  // Fungsi 1: Meminta OTP (Atau langsung lolos tanpa OTP jika nomor WA sudah VERIFIED di Google Sheets!)
+  async function mintaKodeOtpWa() {
+    playClickSound();
+    const nama = document.getElementById("bidderNameInput").value.trim();
+    const waRaw = document.getElementById("bidderWaInput").value.trim();
+    const waClean = normalisasiNomorWA(waRaw);
+
+    if (!nama || waClean.length < 10) {
+      alert("⚠️ Mohon isi Nama Lengkap dan Nomor WhatsApp aktif yang benar!");
+      return;
+    }
+
+    const btn = document.getElementById("btnRequestOtp");
+    btn.disabled = true;
+    btn.innerText = "⏳ Memeriksa Nomor WA...";
+
+    const res = await kirimKeGoogleSheets({
+      action: "auction_request_otp",
+      nama: nama,
+      wa: waClean,
+      fonnteToken: CONFIG.FONNTE_TOKEN
+    });
+
+    btn.disabled = false;
+    btn.innerText = "📲 Lanjutkan / Kirim OTP WA";
+
+    if (!res) {
+      alert("⚠️ Gagal terhubung ke server Google Sheets. Pastikan APPS_SCRIPT_URL sudah di-update.");
+      return;
+    }
+
+    // 1. Jika nomor WA berstatus BLOCKED oleh Admin karena BNR
+    if (res.status === "blocked") {
+      tutupModalOtpLelang();
+      tampilkanModalBlokirBNR(waClean);
+      return;
+    }
+
+    // 2. Jika nomor WA sudah pernah VERIFIED sebelumnya (1x seumur hidup, hemat kuota Fonnte!)
+    if (res.status === "already_verified") {
+      saveVerifiedBidder({
+        nama: res.nama || nama,
+        wa: waClean,
+        token: res.token || "VERIFIED"
+      });
+      tutupModalOtpLelang();
+      tampilkanToast("✅ Nomor WA Anda sudah terverifikasi sebelumnya!");
+      if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
+      if (pendingBidAction) {
+        const act = pendingBidAction;
+        pendingBidAction = null;
+        prosesPasangBid(act.kode, act.tipe);
+      }
+      return;
+    }
+
+    // 3. Jika nomor baru -> OTP dikirim via Fonnte oleh Apps Script
+    if (res.status === "otp_sent") {
+      document.getElementById("otpTargetPhoneText").innerText = waClean;
+      document.getElementById("otpStep1Box").style.display = "none";
+      document.getElementById("otpStep2Box").style.display = "block";
+      tampilkanToast("📩 Kode OTP dikirim ke WhatsApp Anda!");
+    } else {
+      alert("⚠️ " + (res.message || "Gagal mengirim OTP."));
+    }
+  }
+
+  // Fungsi 2: Memverifikasi 4 Digit OTP yang diketik pembeli
+  async function verifikasiKodeOtpWa() {
+    playClickSound();
+    const nama = document.getElementById("bidderNameInput").value.trim();
+    const waClean = normalisasiNomorWA(document.getElementById("bidderWaInput").value.trim());
+    const otp = document.getElementById("bidderOtpCodeInput").value.trim();
+
+    if (!otp || otp.length < 4) {
+      alert("⚠️ Masukkan 4 digit kode OTP dari pesan WhatsApp Anda!");
+      return;
+    }
+
+    const btn = document.getElementById("btnVerifyOtp");
+    btn.disabled = true;
+    btn.innerText = "⏳ Mengecek...";
+
+    const res = await kirimKeGoogleSheets({
+      action: "auction_verify_otp",
+      nama: nama,
+      wa: waClean,
+      otp: otp
+    });
+
+    btn.disabled = false;
+    btn.innerText = "✔ Verifikasi";
+
+    if (res && res.status === "ok") {
+      saveVerifiedBidder({
+        nama: res.nama || nama,
+        wa: waClean,
+        token: res.token || "VERIFIED"
+      });
+      tutupModalOtpLelang();
+      tampilkanToast("🎉 Nomor WhatsApp berhasil diverifikasi untuk selamanya!");
+      if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
+
+      if (pendingBidAction) {
+        const act = pendingBidAction;
+        pendingBidAction = null;
+        prosesPasangBid(act.kode, act.tipe);
+      }
+    } else if (res && res.status === "blocked") {
+      tutupModalOtpLelang();
+      tampilkanModalBlokirBNR(waClean);
+    } else {
+      alert("❌ Kode OTP salah atau tidak sesuai!");
+    }
+  }
+
+  // Fungsi 3: Eksekusi Pasang Penawaran / Buy It Now dengan Pengecekan Blokir BNR Real-Time
+  async function prosesPasangBid(kodeProduk, tipeBid = "BID") {
+    playClickSound();
+    const item = masterCatalogItems.find(i => i.kode.toUpperCase() === String(kodeProduk).toUpperCase());
+    if (!item) return;
+
+    if (apakahLelangBelumMulai(item.startTime)) {
+      alert("⏳ Lelang belum dimulai! Silakan tunggu hingga jadwal mulai tiba.");
+      return;
+    }
+
+    // 1. Cek apakah pembeli sudah verifikasi OTP WA di HP ini
+    const bidder = getVerifiedBidder();
+    if (!bidder || !bidder.wa) {
+      pendingBidAction = { kode: item.kode, tipe: tipeBid };
+      bukaModalOtpLelang(true);
+      return;
+    }
+
+    const currentHighest = item.currentBid > 0 ? item.currentBid : 0;
+    const minNextBid = currentHighest > 0 ? (currentHighest + item.kb) : item.ob;
+    let nominalTawaran = minNextBid;
+
+    if (tipeBid === "BIN") {
+      nominalTawaran = item.bin;
+      if (!confirm(`⚡ KONFIRMASI BUY IT NOW (BIN)\n\nAnda yakin ingin menebus langsung [${item.kode}] ${item.nama} seharga ${formatRupiah(nominalTawaran)}? Lelang akan langsung ditutup untuk Anda.`)) {
+        return;
+      }
+    } else {
+      const inputEl = document.getElementById("customBidInput_" + item.kode);
+      nominalTawaran = inputEl ? Number(inputEl.value) : minNextBid;
+
+      if (isNaN(nominalTawaran) || nominalTawaran < minNextBid) {
+        alert(`⚠️ Minimal penawaran berikutnya adalah ${formatRupiah(minNextBid)}!`);
+        return;
+      }
+      if (item.bin > 0 && nominalTawaran >= item.bin) {
+        tipeBid = "BIN";
+        nominalTawaran = item.bin;
+      }
+    }
+
+    const btnBid = document.getElementById("btnSubmitBid_" + item.kode);
+    if (btnBid) {
+      btnBid.disabled = true;
+      btnBid.innerText = "⏳ Memproses Bid ke Server...";
+    }
+
+    // 2. Kirim ke Google Apps Script (Server mengecek apakah status WA = BLOCKED dan apakah ada bid orang lain yang lebih tinggi)
+    const res = await kirimKeGoogleSheets({
+      action: "auction_place_bid",
+      sheet: CONFIG.AUCTION_SHEET_NAME,
+      kode: item.kode,
+      nama: bidder.nama,
+      wa: bidder.wa,
+      token: bidder.token,
+      nominal: nominalTawaran,
+      tipe: tipeBid,
+      antiSnipeMinutes: CONFIG.ANTI_SNIPE_MINUTES
+    });
+
+    if (btnBid) {
+      btnBid.disabled = false;
+      btnBid.innerText = "Pasang Penawaran";
+    }
+
+    if (!res) {
+      alert("⚠️ Gagal mengirim penawaran. Periksa koneksi internet Anda.");
+      return;
+    }
+
+    // Jika Admin memblokir nomor ini di Google Sheets karena BNR!
+    if (res.status === "blocked") {
+      tampilkanModalBlokirBNR(bidder.wa);
+      return;
+    }
+
+    // Jika belum terverifikasi di Sheet
+    if (res.status === "unverified") {
+      localStorage.removeItem(STORAGE_KEY_BIDDER);
+      pendingBidAction = { kode: item.kode, tipe: tipeBid };
+      bukaModalOtpLelang(true);
+      return;
+    }
+
+    // Jika kalah cepat dengan penawar lain di detik yang sama
+    if (res.status === "outbid" || res.status === "ended") {
+      await segarkanDataKatalogSenyap();
+      bukaDetailProduk(item.kode, false);
+      alert("⚠️ " + (res.message || "Harga lelang telah berubah, silakan periksa nominal terbaru."));
+      return;
+    }
+
+    if (res.status === "ok") {
+      await segarkanDataKatalogSenyap();
+      bukaDetailProduk(item.kode, false);
+      tampilkanToast(tipeBid === "BIN" ? "🏆 Selamat! Anda memenangkan BIN lelang ini!" : "✅ Tawaran Anda berhasil masuk memimpin lelang!");
+    }
   }
 
   window.addEventListener("DOMContentLoaded", function() {

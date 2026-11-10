@@ -656,21 +656,42 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
   }
 
   .wf-link-list a {
     color: var(--text-muted);
     text-decoration: none;
     font-size: 13.5px;
-    font-weight: 500;
-    transition: color 0.2s, transform 0.2s;
-    display: inline-block;
+    font-weight: 600;
+    transition: color 0.25s ease, transform 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
   }
 
   .wf-link-list a:hover {
     color: var(--gold-light);
-    transform: translateX(3px);
+    transform: translateX(4px);
+  }
+
+  .wf-social-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    object-fit: contain;
+    flex-shrink: 0;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .wf-link-list a:hover .wf-social-icon {
+    transform: scale(1.12);
+    border-color: var(--gold-light);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
   }
 
   .wf-copyright {
@@ -2619,18 +2640,48 @@
       </div>
 
       <div class="wf-links-col">
-        <ul class="wf-link-list">
-          <li><a href="#" onclick="bukaSosmedFooter('wa'); return false;">WhatsApp</a></li>
-          <li><a href="#" onclick="bukaSosmedFooter('line'); return false;">Line</a></li>
-          <li><a href="#" onclick="bukaSosmedFooter('telegram'); return false;">Telegram</a></li>
+        <ul class="wf-link-list notranslate">
+          <li>
+            <a href="#" onclick="bukaSosmedFooter('wa'); return false;" title="WhatsApp">
+              <img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp" class="wf-social-icon">
+              <span class="wf-social-label">WhatsApp</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" onclick="bukaSosmedFooter('line'); return false;" title="Line">
+              <img src="https://cdn.simpleicons.org/line/00C300" alt="Line" class="wf-social-icon">
+              <span class="wf-social-label">Line</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" onclick="bukaSosmedFooter('telegram'); return false;" title="Telegram">
+              <img src="https://cdn.simpleicons.org/telegram/26A5E4" alt="Telegram" class="wf-social-icon">
+              <span class="wf-social-label">Telegram</span>
+            </a>
+          </li>
         </ul>
       </div>
 
       <div class="wf-links-col">
-        <ul class="wf-link-list"> 
-          <li><a href="#" onclick="bukaSosmedFooter('ig'); return false;">Instagram</a></li>
-          <li><a href="#" onclick="bukaSosmedFooter('tiktok'); return false;">TikTok</a></li>
-          <li><a href="#" onclick="bukaSosmedFooter('fb'); return false;">Facebook</a></li>
+        <ul class="wf-link-list notranslate"> 
+          <li>
+            <a href="#" onclick="bukaSosmedFooter('ig'); return false;" title="Instagram">
+              <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram" class="wf-social-icon">
+              <span class="wf-social-label">Instagram</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" onclick="bukaSosmedFooter('tiktok'); return false;" title="TikTok">
+              <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" alt="TikTok" class="wf-social-icon">
+              <span class="wf-social-label">TikTok</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" onclick="bukaSosmedFooter('fb'); return false;" title="Facebook">
+              <img src="https://cdn.simpleicons.org/facebook/1877F2" alt="Facebook" class="wf-social-icon">
+              <span class="wf-social-label">Facebook</span>
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -2986,11 +3037,36 @@
       <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px; line-height:1.5;">
         Masukkan <strong>Nomor WhatsApp</strong> aktif Anda. Jika sudah pernah terverifikasi, Anda akan langsung masuk:
       </p>
-      <label class="search-label">📱 Nomor WhatsApp Aktif:</label>
-      <input type="tel" id="bidderWaInput" class="search-input" style="width:100%; margin-bottom:14px; text-transform:none;" placeholder="Contoh: 08123456789" onkeypress="if(event.key === 'Enter') mintaKodeOtpWa()">
+      <label class="search-label">Nomor WhatsApp Aktif:</label>
+      <div class="search-input-group" style="margin-bottom:14px;">
+        <select id="bidderCountryCode" class="search-input notranslate" style="flex: 0 0 118px; padding: 11px 6px; cursor: pointer; text-transform: none; font-weight: 700;">
+          <option value="62" selected>🇮🇩 +62 (ID)</option>
+          <option value="60">🇲🇾 +60 (MY)</option>
+          <option value="65">🇸🇬 +65 (SG)</option>
+          <option value="673">🇧🇳 +673 (BN)</option>
+          <option value="66">🇹🇭 +66 (TH)</option>
+          <option value="84">🇻🇳 +84 (VN)</option>
+          <option value="63">🇵🇭 +63 (PH)</option>
+          <option value="86">🇨🇳 +86 (CN)</option>
+          <option value="852">🇭🇰 +852 (HK)</option>
+          <option value="886">🇹🇼 +886 (TW)</option>
+          <option value="81">🇯🇵 +81 (JP)</option>
+          <option value="82">🇰🇷 +82 (KR)</option>
+          <option value="91">🇮🇳 +91 (IN)</option>
+          <option value="61">🇦🇺 +61 (AU)</option>
+          <option value="971">🇦🇪 +971 (AE)</option>
+          <option value="966">🇸🇦 +966 (SA)</option>
+          <option value="44">🇬🇧 +44 (UK)</option>
+          <option value="49">🇩🇪 +49 (DE)</option>
+          <option value="31">🇳🇱 +31 (NL)</option>
+          <option value="33">🇫🇷 +33 (FR)</option>
+          <option value="1">🇺🇸 +1 (US/CA)</option>
+        </select>
+        <input type="tel" id="bidderWaInput" class="search-input" style="flex:1; text-transform:none;" placeholder="8123456789" onkeypress="if(event.key === 'Enter') mintaKodeOtpWa()">
+      </div>
 
       <button type="button" class="search-btn" id="btnRequestOtp" style="width:100%;" onclick="mintaKodeOtpWa()">
-        📲 Cek Nomor WA
+        Verifikasi WhatsApp
       </button>
     </div>
 
@@ -3709,6 +3785,26 @@
   /* =========================================================
      NAVIGASI SPA MENU NAVBAR ATAS (HOME, GALLERY, ABOUT US)
      ========================================================= */
+  function aturSorotanNavbar(menuAktif) {
+    document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+    if (menuAktif === "gallery") {
+      const el = document.getElementById("navGallery");
+      if (el) el.classList.add("active");
+    } else if (menuAktif === "about") {
+      const el = document.getElementById("navAbout");
+      if (el) el.classList.add("active");
+    } else {
+      const el = document.getElementById("navHome");
+      if (el) el.classList.add("active");
+    }
+  }
+
+  function simpanRuteTerakhir(hashUrl) {
+    if (!hashUrl) return;
+    try { localStorage.setItem("ck_last_route", hashUrl); } catch (e) {}
+    try { sessionStorage.setItem("ck_last_route", hashUrl); } catch (e) {}
+  }
+
   function navigasiMenuAtas(target, simpanHistory = true) {
     if (isWheelSpinning) return;
     playClickSound();
@@ -3724,21 +3820,19 @@
     document.getElementById("sectionGallery").style.display = "none";
     document.getElementById("sectionAbout").style.display = "none";
 
-    document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
-
     if (target === "gallery") {
-      document.getElementById("navGallery").classList.add("active");
+      aturSorotanNavbar("gallery");
       document.getElementById("sectionGallery").style.display = "flex";
     } else if (target === "about") {
-      document.getElementById("navAbout").classList.add("active");
+      aturSorotanNavbar("about");
       document.getElementById("sectionAbout").style.display = "flex";
     } else {
-      document.getElementById("navHome").classList.add("active");
+      aturSorotanNavbar("home");
       document.getElementById("sectionHome").style.display = "grid";
       target = "home";
     }
 
-    sessionStorage.setItem("ck_last_route", "#" + target);
+    simpanRuteTerakhir("#" + target);
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (simpanHistory && window.location.hash !== "#" + target) {
       history.pushState({ tab: target }, "", "#" + target);
@@ -3810,32 +3904,18 @@
       return;
     }
 
-    const kamusToastSosmed = {
-      id: {
-        line: "💬 Line Resmi: Cupang Kasep Official",
-        telegram: "✈️ Telegram Resmi: Cupang Kasep Official",
-        ig: "📸 Ikuti Instagram: @cupangkasep",
-        tiktok: "🎵 Ikuti TikTok: @cupangkasep",
-        fb: "📘 Facebook: Cupang Kasep Official"
-      },
-      en: {
-        line: "💬 Official Line: Cupang Kasep Official",
-        telegram: "✈️ Official Telegram: Cupang Kasep Official",
-        ig: "📸 Follow our Instagram: @cupangkasep",
-        tiktok: "🎵 Follow our TikTok: @cupangkasep",
-        fb: "📘 Official Facebook: Cupang Kasep Official"
-      },
-      zh: {
-        line: "💬 官方 Line: Cupang Kasep Official",
-        telegram: "✈️ 官方 Telegram: Cupang Kasep Official",
-        ig: "📸 关注我们的 Instagram: @cupangkasep",
-        tiktok: "🎵 关注我们的 TikTok: @cupangkasep",
-        fb: "📘 官方 Facebook: Cupang Kasep Official"
-      }
+    // Daftar link profil sosial media resmi (bisa Anda ubah sesuai username asli)
+    const SOCIAL_LINKS = {
+      ig: "https://instagram.com/cupangkasep",
+      tiktok: "https://www.tiktok.com/@cupang_kasep14",
+      fb: "https://facebook.com/cupangkasep",
+      telegram: "https://t.me/cupangkasep",
+      line: "https://line.me/ti/p/~cupangkasep"
     };
 
-    const teksToast = (kamusToastSosmed[USER_LANG] || kamusToastSosmed.id)[platform];
-    if (teksToast) tampilkanToast(teksToast);
+    if (SOCIAL_LINKS[platform]) {
+      window.open(SOCIAL_LINKS[platform], "_blank");
+    }
   }
 
   // Fungsi Pesan WhatsApp Katalog Produk mengikuti bahasa (ID / EN / ZH)
@@ -4445,13 +4525,15 @@
     detailViewEl.style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
 
+    aturSorotanNavbar("gallery");
     const targetHash = "#produk-" + encodeURIComponent(item.kode);
-    sessionStorage.setItem("ck_last_route", targetHash);
-    sessionStorage.setItem("ck_last_mode_lelang", isLelang ? "1" : "0");
+    simpanRuteTerakhir(targetHash);
+    try { localStorage.setItem("ck_last_mode_lelang", isLelang ? "1" : "0"); } catch (e) {}
+    try { sessionStorage.setItem("ck_last_mode_lelang", isLelang ? "1" : "0"); } catch (e) {}
     if (simpanHistory && window.location.hash !== targetHash) {
       history.pushState({ page: "catalogDetail", kode: item.kode }, "", targetHash);
     }
-  } 
+  }
 
   // ✅ GANTI FUNGSI bagikanLinkProduk DENGAN INI (Bisa berjalan walau masih Offline / file://)
   function bagikanLinkProduk(kodeProduk) {
@@ -4509,8 +4591,9 @@
     }
 
     currentOpenDetailCode = null;
+    aturSorotanNavbar("gallery");
     const targetHashKembali = currentCategoryFilter === "Lelang" ? "#lelang" : "#katalog";
-    sessionStorage.setItem("ck_last_route", targetHashKembali);
+    simpanRuteTerakhir(targetHashKembali);
     if (simpanHistory && window.location.hash.startsWith("#produk-")) {
       history.pushState({ page: "catalogPage" }, "", targetHashKembali);
     }
@@ -4926,10 +5009,16 @@
         document.getElementById(id).style.display = (id === idHalaman) ? "block" : "none";
       }
     });
+
+    // Khusus Katalog, Lelang, Sertifikat, dan Undian -> fokuskan shadow navbar di Galeri Menu
+    if (idHalaman !== "landingPage") {
+      aturSorotanNavbar("gallery");
+    }
+
     perbaruiTombolKeranjangMelayang();
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (hashUrl) {
-      sessionStorage.setItem("ck_last_route", hashUrl);
+      simpanRuteTerakhir(hashUrl);
       if (window.location.hash !== hashUrl) {
         history.pushState({ page: idHalaman }, "", hashUrl);
       }
@@ -4942,15 +5031,19 @@
     const tagEl = document.getElementById("catalogHeaderTagline");
     const pillsEl = document.getElementById("catalogCategoryPills");
 
+    aturSorotanNavbar("gallery");
+
     if (modeLelang) {
       currentCategoryFilter = "Lelang";
+      try { localStorage.setItem("ck_last_mode_lelang", "1"); } catch (e) {}
       if (subEl) subEl.innerText = "CUPANG KASEP LIVE AUCTION";
       if (titleEl) titleEl.innerText = "LELANG RESMI";
       if (tagEl) tagEl.innerText = "Penawaran Real-Time Koleksi Ikan Cupang Spesimen Kontes & Kolektor";
       if (pillsEl) pillsEl.style.display = "none";
       aktifkanHalaman("catalogPage", "#lelang");
     } else {
-      const savedCat = kategoriPilihan || sessionStorage.getItem("ck_last_cat_pill") || "Semua";
+      try { localStorage.setItem("ck_last_mode_lelang", "0"); } catch (e) {}
+      const savedCat = kategoriPilihan || localStorage.getItem("ck_last_cat_pill") || sessionStorage.getItem("ck_last_cat_pill") || "Semua";
       currentCategoryFilter = savedCat === "Lelang" ? "Semua" : savedCat;
       if (subEl) subEl.innerText = "OFFICIAL STORE CUPANG KASEP";
       if (titleEl) titleEl.innerText = "KATALOG PRODUK";
@@ -4978,12 +5071,14 @@
 
   function bukaHalamanVerifikasi() {
     playClickSound();
+    aturSorotanNavbar("gallery");
     aktifkanHalaman("verificationPage", "#verifikasi");
     setTimeout(() => { document.getElementById("certInput").focus(); }, 200);
   }
 
   function bukaHalamanUndian() {
     playClickSound();
+    aturSorotanNavbar("gallery");
     aktifkanHalaman("roulettePage", "#undian");
     gambarRodaRoulette();
     perbaruiTampilanVoucher();
@@ -4991,7 +5086,6 @@
 
   function kembaliKeLanding() {
     if (isWheelSpinning) return;
-    // Saat klik "← Kembali" dari Katalog/Verifikasi/Undian, langsung buka tab Galeri Menu (3 Kartu)
     navigasiMenuAtas("gallery");
   }
 
@@ -5001,21 +5095,34 @@
     const hash = window.location.hash;
     if (hash.startsWith("#produk-")) {
       const kodeProd = decodeURIComponent(hash.replace("#produk-", ""));
+      aturSorotanNavbar("gallery");
       aktifkanHalaman("catalogPage", "");
+      simpanRuteTerakhir(hash);
       bukaDetailProduk(kodeProd, false);
     } else if (hash === "#katalog") {
       currentCategoryFilter = "Semua";
+      aturSorotanNavbar("gallery");
       aktifkanHalaman("catalogPage", "");
+      simpanRuteTerakhir("#katalog");
       if (document.getElementById("catalogDetailView").style.display === "block") {
         tutupDetailProduk(false);
       }
     } else if (hash === "#lelang") {
       currentCategoryFilter = "Lelang";
+      aturSorotanNavbar("gallery");
       aktifkanHalaman("catalogPage", "");
+      simpanRuteTerakhir("#lelang");
+      if (document.getElementById("catalogDetailView").style.display === "block") {
+        tutupDetailProduk(false);
+      }
     } else if (hash === "#verifikasi") {
+      aturSorotanNavbar("gallery");
       aktifkanHalaman("verificationPage", "");
+      simpanRuteTerakhir("#verifikasi");
     } else if (hash === "#undian") {
+      aturSorotanNavbar("gallery");
       aktifkanHalaman("roulettePage", "");
+      simpanRuteTerakhir("#undian");
       gambarRodaRoulette();
       perbaruiTampilanVoucher();
     } else if (hash === "#gallery") {
@@ -5569,7 +5676,7 @@
     const params = new URLSearchParams(window.location.search);
     const certParam = params.get("cert");
     const produkParam = params.get("produk");
-    const hash = window.location.hash || sessionStorage.getItem("ck_last_route") || "";
+    const hash = window.location.hash || localStorage.getItem("ck_last_route") || sessionStorage.getItem("ck_last_route") || "#home";
 
     // 1. Jika Link Share Sertifikat
     if (certParam || hash.startsWith("#cert-")) {
@@ -5586,7 +5693,8 @@
       if (!targetKode) return;
 
       isCatalogUnlocked = true;
-      const wasLelang = sessionStorage.getItem("ck_last_mode_lelang") === "1";
+      aturSorotanNavbar("gallery");
+      const wasLelang = (localStorage.getItem("ck_last_mode_lelang") || sessionStorage.getItem("ck_last_mode_lelang")) === "1";
       tampilkanIsiKatalog(wasLelang);
 
       if (!catalogLoadedOnce || masterCatalogItems.length === 0) {
@@ -5658,29 +5766,76 @@
     } catch (e) {}
   }
 
-  function normalisasiNomorWA(no) {
+  function dapatkanKodeNegaraTerpilih() {
+    const sel = document.getElementById("bidderCountryCode");
+    return sel ? String(sel.value).replace(/[^0-9]/g, "") : "62";
+  }
+
+  function normalisasiNomorWA(no, kodeNegaraExplicit = null) {
     let clean = String(no || "").replace(/[^0-9]/g, "");
-    if (clean.startsWith("08")) clean = "62" + clean.slice(1);
-    else if (clean.startsWith("8")) clean = "62" + clean;
+    if (!clean) return "";
+    const cc = kodeNegaraExplicit ? String(kodeNegaraExplicit).replace(/[^0-9]/g, "") : dapatkanKodeNegaraTerpilih();
+
+    if (clean.startsWith("00")) {
+      clean = clean.slice(2);
+    } else if (clean.startsWith("0")) {
+      clean = cc + clean.slice(1);
+    } else if (!clean.startsWith(cc)) {
+      if (cc === "62" && clean.startsWith("8")) {
+        clean = "62" + clean;
+      } else if (clean.length <= 12) {
+        clean = cc + clean;
+      }
+    }
     return clean;
   }
 
   function sensorNomorWA(no) {
-    const clean = normalisasiNomorWA(no);
-    if (clean.length < 8) return clean;
-    return clean.slice(0, 5) + "****" + clean.slice(-3);
+    const clean = String(no || "").replace(/[^0-9]/g, "");
+    if (clean.length < 7) return clean;
+    const prefixLen = clean.length >= 10 ? 5 : 4;
+    return clean.slice(0, prefixLen) + "****" + clean.slice(-3);
   }
 
+  // Mengunci pembacaan string tanggal/jam dari Google Sheets mutlak ke WIB (UTC+7)
   function parseWaktuLelang(str) {
     if (!str) return 0;
-    const parsed = Date.parse(str);
-    if (!isNaN(parsed)) return parsed;
-    // Dukungan format DD/MM/YYYY HH:mm
-    const m = String(str).match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})(?:\s+(\d{1,2}):(\d{1,2}))?/);
-    if (m) {
-      return new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1]), Number(m[4] || 23), Number(m[5] || 59), 0).getTime();
+    const raw = String(str).trim();
+    if (!raw) return 0;
+
+    // 1. Jika format YYYY-MM-DD HH:mm:ss atau YYYY/MM/DD HH:mm
+    let mIso = raw.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})(?:[T\s]+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?/);
+    if (mIso) {
+      const y = Number(mIso[1]);
+      const mo = Number(mIso[2]) - 1;
+      const d = Number(mIso[3]);
+      const h = Number(mIso[4] || 0);
+      const mi = Number(mIso[5] || 0);
+      const s = Number(mIso[6] || 0);
+      // Konversi komponen waktu WIB (UTC+7) ke epoch UTC murni
+      return Date.UTC(y, mo, d, h - 7, mi, s);
     }
-    return 0;
+
+    // 2. Jika format DD/MM/YYYY HH:mm:ss atau DD-MM-YYYY HH:mm
+    let mId = raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})(?:[\s,]+(\d{1,2})[:.](\d{1,2})(?:[:.](\d{1,2}))?)?/);
+    if (mId) {
+      const d = Number(mId[1]);
+      const mo = Number(mId[2]) - 1;
+      const y = Number(mId[3]);
+      const h = Number(mId[4] !== undefined ? mId[4] : 23);
+      const mi = Number(mId[5] !== undefined ? mId[5] : 59);
+      const s = Number(mId[6] || 0);
+      return Date.UTC(y, mo, d, h - 7, mi, s);
+    }
+
+    // 3. Fallback jika sudah memiliki informasi timezone (Z / +07:00)
+    if (/Z|[+\-]\d{2}:?\d{2}$/i.test(raw)) {
+      const parsed = Date.parse(raw);
+      return isNaN(parsed) ? 0 : parsed;
+    }
+
+    const parsedFallback = Date.parse(raw + " GMT+0700");
+    return isNaN(parsedFallback) ? 0 : parsedFallback;
   }
 
   function apakahLelangBelumMulai(startTimeStr) {
@@ -5695,13 +5850,22 @@
     return Date.now() >= target;
   }
 
+  // Menampilkan waktu jadwal dalam bentuk hitung mundur seragam tanpa label zona waktu
   function formatJadwalTeksLelang(str) {
     const ms = parseWaktuLelang(str);
     if (!ms) return str || "-";
-    const d = new Date(ms);
-    const tgl = d.toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" });
-    const jam = d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", hour12: false }).replace(/\./g, ":");
-    return `${tgl} • Pukul ${jam}`;
+    const selisih = ms - Date.now();
+    const pad = n => String(n).padStart(2, "0");
+    if (selisih <= 0) {
+      return "00j : 00m : 00d";
+    }
+    const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
+    const jam = Math.floor((selisih % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const menit = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
+    const detik = Math.floor((selisih % (1000 * 60)) / 1000);
+    return hari > 0
+      ? `${hari}h ${pad(jam)}j ${pad(menit)}m ${pad(detik)}d`
+      : `${pad(jam)}j : ${pad(menit)}m : ${pad(detik)}d`;
   }
 
   function formatHitungMundurLelang(endTimeStr, startTimeStr = "") {
@@ -5710,7 +5874,7 @@
     const endTarget = parseWaktuLelang(endTimeStr);
     const pad = n => String(n).padStart(2, "0");
 
-    // FASE 1: LELANG BELUM DIMULAI (Menunggu Jam Mulai)
+    // FASE 1: LELANG BELUM DIMULAI (Menunggu Jam Mulai berdasarkan patokan UTC+7)
     if (startTarget && now < startTarget) {
       const selisihMulai = startTarget - now;
       const hari = Math.floor(selisihMulai / (1000 * 60 * 60 * 24));
@@ -5723,7 +5887,7 @@
         : `${pad(jam)}j : ${pad(menit)}m : ${pad(detik)}d`;
 
       return {
-        text: `⏳ • ${rincianMulai}`,
+        text: `⏳ Mulai • ${rincianMulai}`,
         upcoming: true,
         ended: false,
         urgent: false,
@@ -5731,7 +5895,7 @@
       };
     }
 
-    // FASE 2 & 3: SUDAH MASUK JAM MULAI -> LANGSUNG COUNTDOWN KE WAKTU SELESAI
+    // FASE 2 & 3: SUDAH MASUK JAM MULAI -> HITUNG MUNDUR KE WAKTU SELESAI (SERENTAK UTC+7)
     if (!endTarget) {
       return { text: "🟢 Aktif", upcoming: false, ended: false, urgent: false, phase: "active" };
     }
@@ -5760,6 +5924,19 @@
 
   // Loop update timer lelang setiap 1 detik (otomatis buka tombol bid begitu jam mulai tiba!)
   setInterval(() => {
+    document.querySelectorAll("[data-auction-subtimer]").forEach(subEl => {
+      const targetStr = subEl.getAttribute("data-targettime") || "";
+      const tipeSub = subEl.getAttribute("data-auction-subtimer");
+      if (!targetStr) return;
+      const ms = parseWaktuLelang(targetStr);
+      if (!ms) return;
+      if (Date.now() >= ms) {
+        subEl.innerText = tipeSub === "start" ? "Sudah Dimulai" : "00j : 00m : 00d (Selesai)";
+      } else {
+        subEl.innerText = formatJadwalTeksLelang(targetStr);
+      }
+    });
+
     document.querySelectorAll("[data-auction-timer]").forEach(el => {
       const kode = el.getAttribute("data-auction-timer");
       const startStr = el.getAttribute("data-starttime") || "";
@@ -5869,7 +6046,7 @@
          </div>`
       : `<div class="auction-user-bar" style="background:rgba(212,175,55,0.12); border-color:rgba(212,175,55,0.4); color:var(--gold-light);">
            <span>🔐 Belum login peserta lelang</span>
-           <button type="button" class="search-btn" style="padding:4px 10px; font-size:11px;" onclick="bukaModalOtpLelang(true)">Login / Verifikasi WA</button>
+           <button type="button" class="search-btn" style="padding:4px 10px; font-size:11px;" onclick="bukaModalOtpLelang(true)">Login Lelang</button>
          </div>`;
 
     // Pengecekan Hak Klaim Pemenang Lelang (Poin 2: Hanya pemenang yang bisa klaim)
@@ -5894,12 +6071,12 @@
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; background:rgba(255,255,255,0.03); border:1px solid rgba(212,175,55,0.25); border-radius:8px; padding:8px 10px; font-size:11px;">
           <div>
-            <span style="color:var(--text-muted); display:block;">🕒 Jadwal Mulai:</span>
-            <strong class="notranslate" style="color:#fde047;">${item.startTime ? formatJadwalTeksLelang(item.startTime) : 'Langsung Aktif'}</strong>
+            <span style="color:var(--text-muted); display:block;">🕒 Hitung Mundur Mulai:</span>
+            <strong class="notranslate" data-auction-subtimer="start" data-targettime="${item.startTime}" style="color:#fde047;">${item.startTime ? (isUpcoming ? formatJadwalTeksLelang(item.startTime) : 'Sudah Dimulai') : 'Langsung Aktif'}</strong>
           </div>
           <div>
-            <span style="color:var(--text-muted); display:block;">🏁 Jadwal Selesai:</span>
-            <strong class="notranslate" style="color:#fca5a5;">${item.endTime ? formatJadwalTeksLelang(item.endTime) : '-'}</strong>
+            <span style="color:var(--text-muted); display:block;">🏁 Sisa Waktu Tutup:</span>
+            <strong class="notranslate" data-auction-subtimer="end" data-targettime="${item.endTime}" style="color:#fca5a5;">${item.endTime ? (isEnded ? '00j : 00m : 00d (Selesai)' : formatJadwalTeksLelang(item.endTime)) : '-'}</strong>
           </div>
         </div>
 
@@ -6116,10 +6293,15 @@
     document.getElementById("otpStep3Box").style.display = "none";
 
     const existing = getVerifiedBidder();
+    const ccSelect = document.getElementById("bidderCountryCode");
     if (existing && !paksaGantiAkun) {
-      document.getElementById("bidderWaInput").value = existing.wa || "";
+      if (ccSelect && existing.cc) ccSelect.value = existing.cc;
+      const savedWa = String(existing.wa || "");
+      const ccVal = ccSelect ? ccSelect.value : "62";
+      document.getElementById("bidderWaInput").value = savedWa.startsWith(ccVal) ? savedWa.slice(ccVal.length) : savedWa;
       document.getElementById("bidderNameInput").value = existing.nama || "";
     } else if (paksaGantiAkun) {
+      if (ccSelect) ccSelect.value = "62";
       document.getElementById("bidderWaInput").value = "";
       document.getElementById("bidderOtpCodeInput").value = "";
       document.getElementById("bidderNameInput").value = "";
@@ -6207,14 +6389,16 @@
     }, 1000);
   }
 
-  // Tahap 1: Cek Nomor WA (Jika sudah pernah verifikasi langsung login, jika belum tampilkan OTP di layar)
+  // Tahap 1: Cek Nomor WA (Mendukung kode negara internasional +62, +60, +65, +1, dll.)
   async function mintaKodeOtpWa(isResend = false) {
     playClickSound();
+    const kodeNegara = dapatkanKodeNegaraTerpilih();
     const waRaw = document.getElementById("bidderWaInput").value.trim();
-    const waClean = normalisasiNomorWA(waRaw);
+    const digitsOnly = waRaw.replace(/[^0-9]/g, "");
+    const waClean = normalisasiNomorWA(waRaw, kodeNegara);
 
-    if (!/^628[0-9]{7,12}$/.test(waClean)) {
-      alert("⚠️ Mohon masukkan Nomor WhatsApp Indonesia yang aktif dan valid (contoh: 08123456789)!");
+    if (!digitsOnly || !/^[1-9][0-9]{7,14}$/.test(waClean)) {
+      alert("⚠️ Mohon masukkan Nomor WhatsApp aktif yang valid sesuai kode negara yang dipilih!");
       return;
     }
 
@@ -6226,19 +6410,20 @@
       btnResend.innerText = "⏳ Membuat OTP baru...";
     } else if (btn) {
       btn.disabled = true;
-      btn.innerText = "⏳ Mengecek Nomor WA...";
+      btn.innerText = "⏳ Mengecek Nomor...";
     }
 
     const res = await kirimKeGoogleSheets({
       action: "auction_request_otp",
       wa: waClean,
+      countryCode: kodeNegara,
       fonnteToken: CONFIG.FONNTE_TOKEN,
       forceResend: (isResend === true)
     });
 
     if (btn) {
       btn.disabled = false;
-      btn.innerText = "📲 Cek Nomor WA";
+      btn.innerText = "Verifikkasi WhatsApp";
     }
 
     if (!res) {

@@ -5615,6 +5615,7 @@
      ========================================================= */
   const STORAGE_KEY_BIDDER = "ck_verified_bidder_v1";
   let pendingBidAction = null; // Menyimpan aksi bid yang tertunda saat diminta verifikasi OTP
+  let forceNewOtpSession = false; // Memaksa kirim OTP WA baru jika user klik tombol Ganti No WA
 
   function getVerifiedBidder() {
     try {
@@ -5799,7 +5800,7 @@
     const barAkunHtml = bidderSession
       ? `<div class="auction-user-bar notranslate">
            <span>✔ Terverifikasi: <b>${bidderSession.nama}</b> (${sensorNomorWA(bidderSession.wa)})</span>
-           <button type="button" class="close-admin-btn" onclick="bukaModalOtpLelang(true)">Ganti No WA</button>
+           <button type="button" class="close-admin-btn" onclick="bukaModalOtpLelang(true, true)">Ganti / Tes OTP</button>
          </div>`
       : `<div class="auction-user-bar" style="background:rgba(212,175,55,0.12); border-color:rgba(212,175,55,0.4); color:var(--gold-light);">
            <span>🔐 Nomor WA belum diverifikasi</span>
@@ -5932,16 +5933,19 @@
     }
   }
 
-  function bukaModalOtpLelang(resetKeStep1 = false) {
+  function bukaModalOtpLelang(resetKeStep1 = false, paksaOtpBaru = false) {
     playClickSound();
+    forceNewOtpSession = (paksaOtpBaru === true);
     if (resetKeStep1) {
       document.getElementById("otpStep1Box").style.display = "block";
       document.getElementById("otpStep2Box").style.display = "none";
     }
     const existing = getVerifiedBidder();
-    if (existing) {
+    if (existing && !paksaOtpBaru) {
       document.getElementById("bidderNameInput").value = existing.nama || "";
       document.getElementById("bidderWaInput").value = existing.wa || "";
+    } else if (paksaOtpBaru) {
+      document.getElementById("bidderOtpCodeInput").value = "";
     }
     document.getElementById("auctionOtpModal").classList.add("open");
   }
@@ -6054,8 +6058,9 @@
       nama: nama,
       wa: waClean,
       fonnteToken: CONFIG.FONNTE_TOKEN,
-      forceResend: isResend === true
+      forceResend: (isResend === true || forceNewOtpSession === true)
     });
+    forceNewOtpSession = false;
 
     if (btn) {
       btn.disabled = false;

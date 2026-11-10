@@ -2992,7 +2992,7 @@
       <input type="tel" id="bidderWaInput" class="search-input" style="width:100%; margin-bottom:14px; text-transform:none;" placeholder="Contoh: 628123456789">
 
       <button type="button" class="search-btn" id="btnRequestOtp" style="width:100%;" onclick="mintaKodeOtpWa()">
-        📲 Lanjutkan / Kirim OTP WA
+        Verifikasi WhatsApp
       </button>
     </div>
 
@@ -5800,7 +5800,7 @@
     const barAkunHtml = bidderSession
       ? `<div class="auction-user-bar notranslate">
            <span>✔ Terverifikasi: <b>${bidderSession.nama}</b> (${sensorNomorWA(bidderSession.wa)})</span>
-           <button type="button" class="close-admin-btn" onclick="bukaModalOtpLelang(true, true)">Ganti / Tes OTP</button>
+           <button type="button" class="close-admin-btn" onclick="bukaModalOtpLelang(true, true)">Ganti Peserta</button>
          </div>`
       : `<div class="auction-user-bar" style="background:rgba(212,175,55,0.12); border-color:rgba(212,175,55,0.4); color:var(--gold-light);">
            <span>🔐 Nomor WA belum diverifikasi</span>
@@ -6064,7 +6064,7 @@
 
     if (btn) {
       btn.disabled = false;
-      btn.innerText = "📲 Lanjutkan / Kirim OTP WA";
+      btn.innerText = "Verifikkasi WhatsApp";
     }
 
     if (!res) {

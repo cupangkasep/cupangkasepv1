@@ -712,17 +712,29 @@
 
   @media (max-width: 768px) {
     .white-footer {
-      grid-template-columns: 1fr;
-      padding: 28px 24px;
-      text-align: center;
+      grid-template-columns: 1fr 1fr; /* Membagi jadi 2 kolom (Kiri & Kanan) */
+      padding: 28px 20px;
+      column-gap: 16px;
+      row-gap: 24px;
     }
     .wf-brand-col {
+      grid-column: 1 / -1; /* Judul & Alamat Toko tetap penuh di bagian atas */
       align-items: center;
+      text-align: center;
     }
     .wf-contact-item {
       text-align: left;
     }
+    .wf-links-col {
+      display: flex;
+      justify-content: center; /* Posisi grup pas di tengah kolom kiri & kanan */
+    }
+    .wf-link-list {
+      align-items: flex-start; /* Mengunci semua logo agar sejajar lurus ke bawah */
+      width: 130px; /* Lebar seragam supaya jarak tepi kiri & kanan seimbang */
+    }
     .wf-copyright {
+      grid-column: 1 / -1;
       margin-top: 6px;
       padding-top: 16px;
       font-size: 11.5px;

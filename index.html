@@ -2992,7 +2992,7 @@
       <input type="tel" id="bidderWaInput" class="search-input" style="width:100%; margin-bottom:14px; text-transform:none;" placeholder="Contoh: 628123456789">
 
       <button type="button" class="search-btn" id="btnRequestOtp" style="width:100%;" onclick="mintaKodeOtpWa()">
-        Verifikasi WA
+        📲 Lanjutkan / Kirim OTP WA
       </button>
     </div>
 
@@ -6087,18 +6087,41 @@
       return;
     }
 
-    // 3. Jika nomor baru atau Resend -> OTP dikirim via Fonnte oleh Apps Script
+    // 3. Jika nomor baru atau Resend -> OTP dikirim via Fonnte
     if (res.status === "otp_sent") {
       document.getElementById("bidderOtpCodeInput").value = "";
       document.getElementById("otpTargetPhoneText").innerText = waClean;
       document.getElementById("otpStep1Box").style.display = "none";
       document.getElementById("otpStep2Box").style.display = "block";
 
+      let terkirimLewatBrowser = false;
+
+      // JIKA GOOGLE SCRIPT BELUM DIBERI IZIN UrlFetchApp, OTOMATIS KIRIM LANGSUNG KE FONNTE DARI BROWSER!
+      if (res.waSent === false && res.otpFallback && CONFIG.FONNTE_TOKEN) {
+        try {
+          const formData = new FormData();
+          formData.append("target", waClean);
+          formData.append("message", `🔐 *CUPANG KASEP OFFICIAL*\n\nKode OTP Verifikasi Lelang VIP Anda adalah: *${res.otpFallback}*\n\n⏳ _Kode ini berlaku selama 5 menit._\n_(Cukup verifikasi 1x saja untuk selamanya. Jangan berikan kode ini kepada siapa pun)_.`);
+
+          const resFonnteBrowser = await fetch("https://api.fonnte.com/send", {
+            method: "POST",
+            headers: { "Authorization": CONFIG.FONNTE_TOKEN },
+            body: formData
+          });
+          const jsonFonnte = await resFonnteBrowser.json();
+          if (jsonFonnte && jsonFonnte.status === true) {
+            terkirimLewatBrowser = true;
+          }
+        } catch (errBrowserWa) {
+          console.warn("Fallback Fonnte browser gagal:", errBrowserWa);
+        }
+      }
+
       const bannerEl = document.getElementById("otpSentBannerInfo");
-      if (res.waSent === false) {
-        bannerEl.innerHTML = `⚠️ Kode OTP telah dibuat untuk <strong>${waClean}</strong>, namun pengiriman WA otomatis tertunda (${res.waError || 'Cek koneksi Fonnte'}). Anda tetap bisa meminta kode OTP ke Admin.`;
-      } else {
+      if (res.waSent === true || terkirimLewatBrowser === true) {
         bannerEl.innerHTML = `✅ Kode OTP 4 digit telah dikirim via WhatsApp ke nomor <strong id="otpTargetPhoneText">${waClean}</strong>.`;
+      } else {
+        bannerEl.innerHTML = `⚠️ Kode OTP telah dibuat untuk <strong>${waClean}</strong>, namun pengiriman WA otomatis tertunda (${res.waError || 'Cek koneksi Fonnte'}). Silakan minta kode OTP ke Admin.`;
       }
 
       mulaiTimerOtpLelang(res.expiresInSeconds || 300, 60);
@@ -6106,7 +6129,6 @@
     } else {
       alert("⚠️ " + (res.message || "Gagal mengirim OTP."));
     }
-  }
 
   // Fungsi 2: Memverifikasi 4 Digit OTP yang diketik pembeli
   async function verifikasiKodeOtpWa() {

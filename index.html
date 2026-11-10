@@ -4499,7 +4499,8 @@
     }
 
     if (simpanHistory && window.location.hash.startsWith("#produk-")) {
-      history.pushState({ page: "catalogPage" }, "", "#katalog");
+      const targetHashKembali = currentCategoryFilter === "Lelang" ? "#lelang" : "#katalog";
+      history.pushState({ page: "catalogPage" }, "", targetHashKembali);
     }
 
     setTimeout(() => {
@@ -5580,7 +5581,9 @@
 
     // 3. Pertahankan posisi halaman jika Google Translate me-refresh halaman
     if (hash === "#katalog") {
-      tampilkanIsiKatalog();
+      tampilkanIsiKatalog(false);
+    } else if (hash === "#lelang") {
+      tampilkanIsiKatalog(true);
     } else if (hash === "#verifikasi") {
       bukaHalamanVerifikasi();
     } else if (hash === "#undian") {
@@ -5956,7 +5959,7 @@
 
   function tampilkanModalBlokirBNR(noWa) {
     const linkEl = document.getElementById("btnAppealWaBlock");
-    const pesan = `Halo Admin CUPANG KASEP, nomor WhatsApp saya (${noWa}) terdeteksi diblokir pada sistem lelang karena terdeksi pernag melakukan BNR. Mohon informasinya untuk pengajuan pembukaan blokir. Terima kasih.`;
+    const pesan = `Halo Admin CUPANG KASEP, nomor WhatsApp saya (${noWa}) terdeteksi diblokir pada sistem lelang karena terdeteksi pernah melakukan BNR. Mohon informasinya untuk pengajuan pembukaan blokir. Terima kasih.`;
     if (linkEl) linkEl.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(pesan)}`;
     document.getElementById("auctionBlockedModal").classList.add("open");
   }
@@ -6129,6 +6132,7 @@
     } else {
       alert("⚠️ " + (res.message || "Gagal mengirim OTP."));
     }
+  }
 
   // Fungsi 2: Memverifikasi 4 Digit OTP yang diketik pembeli
   async function verifikasiKodeOtpWa() {

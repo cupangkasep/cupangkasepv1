@@ -694,6 +694,13 @@
     box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
   }
 
+  /* Efek otomatis saat sosmed dinonaktifkan (tidak bisa diklik) */
+  .wf-link-list a.sosmed-off {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.45;
+  }
+
   .wf-copyright {
     grid-column: 1 / -1;
     margin-top: 12px;
@@ -3900,8 +3907,41 @@
     return "Rp " + num.toLocaleString("id-ID");
   }
 
+  // =========================================================
+  // SAKLAR ON/OFF & LINK SOSIAL MEDIA FOOTER
+  // Ubah "aktif: true" (bisa diklik) atau "aktif: false" (tidak bisa diklik)
+  // =========================================================
+  const PENGATURAN_SOSMED = {
+    wa:       { aktif: true,  url: "AUTO_WA" },
+    line:     { aktif: false, url: "https://line.me/ti/p/~cupangkasep" },
+    telegram: { aktif: false, url: "https://t.me/cupangkasep" },
+    ig:       { aktif: false,  url: "https://instagram.com/cupangkasep" },
+    tiktok:   { aktif: true,  url: "https://www.tiktok.com/@cupang_kasep14" },
+    fb:       { aktif: false, url: "https://facebook.com/cupangkasep" }
+  };
+
+  function terapkanStatusSosmedFooter() {
+    document.querySelectorAll('.wf-link-list a[onclick*="bukaSosmedFooter"]').forEach(el => {
+      const match = el.getAttribute('onclick').match(/bukaSosmedFooter\(['"]([^'"]+)['"]\)/);
+      if (match && match[1]) {
+        const kode = match[1];
+        const data = PENGATURAN_SOSMED[kode];
+        if (!data || !data.aktif) {
+          el.classList.add('sosmed-off');
+          el.removeAttribute('title');
+        } else {
+          el.classList.remove('sosmed-off');
+        }
+      }
+    });
+  }
+  window.addEventListener("DOMContentLoaded", terapkanStatusSosmedFooter);
+
   // Fungsi Sosmed & WA di Footer mengikuti bahasa (ID / EN / ZH)
   function bukaSosmedFooter(platform) {
+    const info = PENGATURAN_SOSMED[platform];
+    if (!info || !info.aktif) return; // Mengunci total jika status aktif: false
+
     playClickSound();
     if (platform === "wa") {
       let pesan = "";
@@ -3916,17 +3956,8 @@
       return;
     }
 
-    // Daftar link profil sosial media resmi (bisa Anda ubah sesuai username asli)
-    const SOCIAL_LINKS = {
-      ig: "https://instagram.com/cupangkasep",
-      tiktok: "https://www.tiktok.com/@cupang_kasep14",
-      fb: "https://facebook.com/cupangkasep",
-      telegram: "https://t.me/cupangkasep",
-      line: "https://line.me/ti/p/~cupangkasep"
-    };
-
-    if (SOCIAL_LINKS[platform]) {
-      window.open(SOCIAL_LINKS[platform], "_blank");
+    if (info.url && info.url !== "...") {
+      window.open(info.url, "_blank");
     }
   }
 

@@ -2997,11 +2997,25 @@
     </div>
 
     <div id="otpStep2Box" style="display:none;">
-      <p style="font-size:12px; color:#a7f3d0; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); padding:8px 10px; border-radius:8px; margin-bottom:12px;">
+      <p id="otpSentBannerInfo" style="font-size:12px; color:#a7f3d0; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); padding:8px 10px; border-radius:8px; margin-bottom:10px;">
         ✅ Kode OTP 4 digit telah dikirim via WhatsApp ke nomor <strong id="otpTargetPhoneText">-</strong>.
       </p>
+
+      <!-- Info Masa Berlaku (Expired) OTP -->
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:11.5px; margin-bottom:8px; padding:6px 10px; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(212,175,55,0.25);">
+        <span style="color:var(--text-muted);">⏳ Masa Berlaku OTP:</span>
+        <strong id="otpExpiryTimerText" style="color:#fde047; font-family:monospace; font-size:13px;">05:00</strong>
+      </div>
+
       <label class="search-label">🔢 Masukkan 4 Digit Kode OTP:</label>
-      <input type="text" id="bidderOtpCodeInput" maxlength="6" class="search-input" style="width:100%; text-align:center; font-size:18px; letter-spacing:6px; margin-bottom:14px;" placeholder="••••">
+      <input type="text" id="bidderOtpCodeInput" maxlength="6" class="search-input" style="width:100%; text-align:center; font-size:18px; letter-spacing:6px; margin-bottom:10px;" placeholder="••••">
+
+      <!-- Tombol Resend OTP -->
+      <div style="text-align:center; margin-bottom:12px;">
+        <button type="button" id="btnResendOtp" class="btn-secondary" style="width:100%; font-size:11.5px; padding:8px;" onclick="mintaKodeOtpWa(true)" disabled>
+          🔄 Kirim Ulang OTP (60d)
+        </button>
+      </div>
 
       <div style="display:flex; gap:8px;">
         <button type="button" class="btn-secondary" onclick="kembaliKeStep1Otp()">← Ganti No</button>
@@ -3040,7 +3054,7 @@
     CATALOG_SHEET_NAME: "KATALOG",
     AUCTION_SHEET_NAME: "Lelang",
     WHATSAPP_NUMBER: "6282121478149",
-    APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyeEAh3i7CoS5jsoyuaWfnbcVkcklN6yH6QMQ4n-dVDbmRobtk_wFEKQQJ2TQ4iWTs/exec",
+    APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyN8YzpfaalSg6jbBhubTmwik3ZLOTakvSLDj343290AVGGyB3XKs3hhFpgvfGUEfc/exec",
     PLACEHOLDER_IMAGE: "https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png",
     START_ON_CATALOG_PAGE: false,
     CATALOG_PASSWORD: "ckvip",
@@ -5947,8 +5961,68 @@
     document.getElementById("auctionBlockedModal").classList.add("open");
   }
 
-  // Fungsi 1: Meminta OTP (Atau langsung lolos tanpa OTP jika nomor WA sudah VERIFIED di Google Sheets!)
-  async function mintaKodeOtpWa() {
+  let otpExpiryInterval = null;
+  let otpResendInterval = null;
+
+  function mulaiTimerOtpLelang(durasiExpiredDetik = 300, jedaResendDetik = 60) {
+    clearInterval(otpExpiryInterval);
+    clearInterval(otpResendInterval);
+
+    const timerText = document.getElementById("otpExpiryTimerText");
+    const btnResend = document.getElementById("btnResendOtp");
+    const btnVerify = document.getElementById("btnVerifyOtp");
+
+    let sisaExpired = durasiExpiredDetik;
+    let sisaResend = jedaResendDetik;
+
+    if (btnVerify) btnVerify.disabled = false;
+
+    // 1. Hitung mundur masa berlaku OTP (5 Menit)
+    const updateExpiryUI = () => {
+      if (!timerText) return;
+      if (sisaExpired <= 0) {
+        clearInterval(otpExpiryInterval);
+        timerText.innerText = "EXPIRED (KEDALUWARSA)";
+        timerText.style.color = "#fca5a5";
+        if (btnVerify) btnVerify.disabled = true;
+        return;
+      }
+      const m = String(Math.floor(sisaExpired / 60)).padStart(2, "0");
+      const s = String(sisaExpired % 60).padStart(2, "0");
+      timerText.innerText = `${m}:${s}`;
+      timerText.style.color = sisaExpired <= 60 ? "#fca5a5" : "#fde047";
+    };
+
+    updateExpiryUI();
+    otpExpiryInterval = setInterval(() => {
+      sisaExpired--;
+      updateExpiryUI();
+    }, 1000);
+
+    // 2. Hitung mundur tombol Resend OTP (60 Detik)
+    const updateResendUI = () => {
+      if (!btnResend) return;
+      if (sisaResend <= 0) {
+        clearInterval(otpResendInterval);
+        btnResend.disabled = false;
+        btnResend.innerText = "🔄 Kirim Ulang Kode OTP Baru";
+        btnResend.style.opacity = "1";
+        return;
+      }
+      btnResend.disabled = true;
+      btnResend.innerText = `🔄 Kirim Ulang OTP (${sisaResend}d)`;
+      btnResend.style.opacity = "0.55";
+    };
+
+    updateResendUI();
+    otpResendInterval = setInterval(() => {
+      sisaResend--;
+      updateResendUI();
+    }, 1000);
+  }
+
+  // Fungsi 1: Meminta OTP / Resend OTP
+  async function mintaKodeOtpWa(isResend = false) {
     playClickSound();
     const nama = document.getElementById("bidderNameInput").value.trim();
     const waRaw = document.getElementById("bidderWaInput").value.trim();
@@ -5960,18 +6034,28 @@
     }
 
     const btn = document.getElementById("btnRequestOtp");
-    btn.disabled = true;
-    btn.innerText = "⏳ Memeriksa Nomor WA...";
+    const btnResend = document.getElementById("btnResendOtp");
+
+    if (isResend && btnResend) {
+      btnResend.disabled = true;
+      btnResend.innerText = "⏳ Mengirim ulang OTP...";
+    } else if (btn) {
+      btn.disabled = true;
+      btn.innerText = "⏳ Memeriksa Nomor WA...";
+    }
 
     const res = await kirimKeGoogleSheets({
       action: "auction_request_otp",
       nama: nama,
       wa: waClean,
-      fonnteToken: CONFIG.FONNTE_TOKEN
+      fonnteToken: CONFIG.FONNTE_TOKEN,
+      forceResend: isResend === true
     });
 
-    btn.disabled = false;
-    btn.innerText = "📲 Lanjutkan / Kirim OTP WA";
+    if (btn) {
+      btn.disabled = false;
+      btn.innerText = "📲 Lanjutkan / Kirim OTP WA";
+    }
 
     if (!res) {
       alert("⚠️ Gagal terhubung ke server Google Sheets. Pastikan APPS_SCRIPT_URL sudah di-update.");
@@ -6003,12 +6087,22 @@
       return;
     }
 
-    // 3. Jika nomor baru -> OTP dikirim via Fonnte oleh Apps Script
+    // 3. Jika nomor baru atau Resend -> OTP dikirim via Fonnte oleh Apps Script
     if (res.status === "otp_sent") {
+      document.getElementById("bidderOtpCodeInput").value = "";
       document.getElementById("otpTargetPhoneText").innerText = waClean;
       document.getElementById("otpStep1Box").style.display = "none";
       document.getElementById("otpStep2Box").style.display = "block";
-      tampilkanToast("📩 Kode OTP dikirim ke WhatsApp Anda!");
+
+      const bannerEl = document.getElementById("otpSentBannerInfo");
+      if (res.waSent === false) {
+        bannerEl.innerHTML = `⚠️ Kode OTP telah dibuat untuk <strong>${waClean}</strong>, namun pengiriman WA otomatis tertunda (${res.waError || 'Cek koneksi Fonnte'}). Anda tetap bisa meminta kode OTP ke Admin.`;
+      } else {
+        bannerEl.innerHTML = `✅ Kode OTP 4 digit telah dikirim via WhatsApp ke nomor <strong id="otpTargetPhoneText">${waClean}</strong>.`;
+      }
+
+      mulaiTimerOtpLelang(res.expiresInSeconds || 300, 60);
+      tampilkanToast(isResend ? "🔄 Kode OTP baru telah dikirim ulang!" : "📩 Kode OTP dikirim ke WhatsApp Anda!");
     } else {
       alert("⚠️ " + (res.message || "Gagal mengirim OTP."));
     }
@@ -6041,6 +6135,8 @@
     btn.innerText = "✔ Verifikasi";
 
     if (res && res.status === "ok") {
+      clearInterval(otpExpiryInterval);
+      clearInterval(otpResendInterval);
       saveVerifiedBidder({
         nama: res.nama || nama,
         wa: waClean,
@@ -6055,11 +6151,13 @@
         pendingBidAction = null;
         prosesPasangBid(act.kode, act.tipe);
       }
+    } else if (res && res.status === "expired_otp") {
+      alert("⏳ " + (res.message || "Kode OTP sudah kedaluwarsa (lewat 5 menit). Silakan klik tombol Kirim Ulang OTP."));
     } else if (res && res.status === "blocked") {
       tutupModalOtpLelang();
       tampilkanModalBlokirBNR(waClean);
     } else {
-      alert("❌ Kode OTP salah atau tidak sesuai!");
+      alert("❌ Kode OTP salah atau tidak sesuai! Pastikan memasukkan 4 angka terbaru.");
     }
   }
 

@@ -6,7 +6,7 @@
 <title>Cupang Kasep Official</title>
 <meta name="description" content="Gerbang resmi Cupang Kasep Official. Jelajahi katalog ikan cupang kontes/kolektor.">
 <meta property="og:title" content="Cupang Kasep Official">
-<meta property="og:description" content="Jelajahi katalog ikan cupang berkualitas, cek keaslian sertifikat VIP, dan menangkan undian berhadiah.">
+<meta property="og:description" content="Jelajahi katalog ikan cupang berkualitas.">
 <meta property="og:image" content="https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png">
 <meta property="og:type" content="website">
 <meta name="google-site-verification" content="rOQTIR-1CAG1h1Rbl7SphkTHTKjcuBARFehp_rHPxM4" />
@@ -766,7 +766,7 @@
     color: var(--gold-primary);
     font-weight: 700;
     margin-bottom: 4px;
-    margin-top: 14px;
+    margin-top: 32px; /* Jarak aman agar tidak pernah tertabrak tombol Kembali */
   }
 
   .vip-title {
@@ -1196,18 +1196,20 @@
 
   .video-badge-overlay {
     position: absolute;
-    bottom: 8px;
-    left: 8px;
+    top: 8px;
+    right: 8px;
     background: rgba(7, 9, 14, 0.85);
     color: var(--gold-light);
     border: 1px solid rgba(212, 175, 55, 0.5);
-    padding: 3px 8px;
+    padding: 3px 7px;
     border-radius: 6px;
-    font-size: 9.5px;
+    font-size: 9px;
     font-weight: 800;
     pointer-events: none;
     z-index: 4;
   }
+
+  /* Badge VIDEO tetap di pojok kanan atas tanpa perlu turun */
 
   .thumb-play-badge {
     position: absolute;
@@ -2107,8 +2109,8 @@
 
   .hot-badge-overlay {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 34px; /* Tepat di bawah badge Views */
+    left: 8px; /* Rata kiri sejajar dengan badge Views */
     background: linear-gradient(135deg, #ef4444, #b91c1c);
     color: #ffffff;
     border: 1px solid #fca5a5;
@@ -2310,12 +2312,16 @@
     position: absolute;
     bottom: 8px;
     right: 8px;
+    max-width: calc(100% - 16px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     background: rgba(16, 185, 129, 0.92);
     border: 1px solid #34d399;
     color: #ffffff;
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 800;
-    padding: 4px 8px;
+    padding: 4px 7px;
     border-radius: 6px;
     z-index: 4;
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -3028,13 +3034,13 @@
      ========================================================= */
   const CONFIG = {
     // 👇 ISI TOKEN API FONNTE ANDA DI DALAM TANDA KUTIP DI BAWAH INI:
-    FONNTE_TOKEN: "ISI_TOKEN_FONNTE_ANDA_DISINI",
+    FONNTE_TOKEN: "bCPc7RrFuG4SMteQFV3d",
 
     SHEET_ID: "15WF5-lpN_G7QU_7UFDx51cU3sC8c1FzCZLftF8CLu6s",
     CATALOG_SHEET_NAME: "KATALOG",
     AUCTION_SHEET_NAME: "Lelang",
     WHATSAPP_NUMBER: "6282121478149",
-    APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbx5MwX7VbX5LMPLGGmxPwzrKBldAlJfNIbSQkIjwI2lbBDg6G7W2o_g0ru-QexctHk/exec",
+    APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyeEAh3i7CoS5jsoyuaWfnbcVkcklN6yH6QMQ4n-dVDbmRobtk_wFEKQQJ2TQ4iWTs/exec",
     PLACEHOLDER_IMAGE: "https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png",
     START_ON_CATALOG_PAGE: false,
     CATALOG_PASSWORD: "ckvip",
@@ -3063,7 +3069,7 @@
      ========================================================= */
   const STORAGE_KEY_CART = "ck_shopping_cart_v1";
   const SESSION_KEY_VIEWS = "ck_viewed_items_session";
-  const HOT_VIEWS_THRESHOLD = 20;
+  const HOT_VIEWS_THRESHOLD = 50;
 
   function getCartItems() {
     try {
@@ -4136,10 +4142,11 @@
       const waLinkRestock = buatLinkWhatsAppKatalog(item, true);
       const kodeSafe = item.kode.replace(/'/g, "\\'");
       const jumlahViews = Number(item.views) || 0;
-      const isHot = !isHabis && jumlahViews >= HOT_VIEWS_THRESHOLD;
       const isIkan = item.kategori.toLowerCase().includes("ikan");
-
       const isLelang = item.kategori.toLowerCase() === "lelang";
+
+      // Hanya tampilkan HOT jika berada di menu Katalog Produk (bukan item Lelang & bukan menu Lelang)
+      const isHot = !isLelang && currentCategoryFilter !== "Lelang" && !isHabis && jumlahViews >= HOT_VIEWS_THRESHOLD;
       const belumMulaiLelang = isLelang && apakahLelangBelumMulai(item.startTime);
       const sudahSelesaiLelang = isLelang && (isHabis || apakahWaktuLelangHabis(item.endTime));
       const infoTimerAwal = isLelang ? formatHitungMundurLelang(item.endTime, item.startTime) : null;
@@ -4162,7 +4169,7 @@
             <span class="views-badge-overlay notranslate">👁️ ${jumlahViews}x</span>
             ${isHot ? '<span class="hot-badge-overlay notranslate">🔥 HOT</span>' : ''}
             ${punyaVideo ? '<span class="video-badge-overlay">▶ VIDEO</span>' : ''}
-            ${isLelang ? `<span class="auction-timer-badge notranslate ${sudahSelesaiLelang ? 'ended' : (belumMulaiLelang ? 'upcoming' : 'active-live')}" data-auction-timer="${item.kode}" data-starttime="${item.startTime}" data-endtime="${item.endTime}" data-force-ended="${sudahSelesaiLelang}" data-phase="${sudahSelesaiLelang ? 'ended' : (belumMulaiLelang ? 'upcoming' : 'active')}">${sudahSelesaiLelang ? '🔴 LELANG TUTUP' : infoTimerAwal.text}</span>` : ''}
+            ${isLelang ? `<span class="auction-timer-badge notranslate ${sudahSelesaiLelang ? 'ended' : (belumMulaiLelang ? 'upcoming' : 'active-live')}" data-auction-timer="${item.kode}" data-starttime="${item.startTime}" data-endtime="${item.endTime}" data-force-ended="${sudahSelesaiLelang}" data-phase="${sudahSelesaiLelang ? 'ended' : (belumMulaiLelang ? 'upcoming' : 'active')}">${sudahSelesaiLelang ? '🔴 LELANG SELESAI' : infoTimerAwal.text}</span>` : ''}
           </div>
           <div class="product-content">
             <div class="card-badges-row">
@@ -4407,7 +4414,7 @@
 
     const topBackBtn = document.getElementById("catalogBackBtn");
     if (topBackBtn) {
-      topBackBtn.innerHTML = "← Kembali ke Katalog";
+      topBackBtn.innerHTML = "← Kembali";
       topBackBtn.setAttribute("onclick", "tutupDetailProduk()");
     }
 
@@ -5685,7 +5692,7 @@
     }
     const selisih = endTarget - now;
     if (selisih <= 0) {
-      return { text: "🔴 LELANG TUTUP", upcoming: false, ended: true, urgent: false, phase: "ended" };
+      return { text: "🔴 LELANG SELESAI", upcoming: false, ended: true, urgent: false, phase: "ended" };
     }
 
     const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
@@ -5716,7 +5723,7 @@
       const prevPhase = el.getAttribute("data-phase") || "";
 
       const info = isForceEnded
-        ? { text: "🔴 LELANG TUTUP", upcoming: false, ended: true, urgent: false, phase: "ended" }
+        ? { text: "🔴 LELANG SELESAI", upcoming: false, ended: true, urgent: false, phase: "ended" }
         : formatHitungMundurLelang(endStr, startStr);
 
       el.innerText = info.text;
@@ -5796,7 +5803,7 @@
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <span style="font-size:12px; font-weight:800; color:var(--gold-light);">PANEL LELANG RESMI (LIVE)</span>
           <span class="auction-timer-badge notranslate ${isEnded ? 'ended' : (isUpcoming ? 'upcoming' : 'active-live')} ${(!isEnded && !isUpcoming && infoTimer.urgent) ? 'urgent' : ''}" style="position:static;" data-auction-timer="${item.kode}" data-starttime="${item.startTime}" data-endtime="${item.endTime}" data-force-ended="${isEnded}" data-phase="${isEnded ? 'ended' : (isUpcoming ? 'upcoming' : 'active')}">
-            ${isEnded ? '🔴 LELANG TUTUP' : infoTimer.text}
+            ${isEnded ? '🔴 LELANG SELESAI' : infoTimer.text}
           </span>
         </div>
 

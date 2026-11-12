@@ -1732,15 +1732,19 @@
     background: #000;
   }
 
-  /* Saat klik tombol Fullscreen: tampilkan fit to screen mengikuti ukuran asli video */
+  /* Saat klik tombol Fullscreen: tampilkan sesuai rasio asli video (Portrait / Landscape) */
   .detail-main-img-box video:fullscreen,
   .detail-main-img-box video:-webkit-full-screen,
   .detail-main-img-box video:-moz-full-screen,
+  .detail-main-img-box video.is-fullscreen-mode,
   .detail-main-img-box iframe:fullscreen,
   .detail-main-img-box iframe:-webkit-full-screen {
     object-fit: contain !important;
-    width: 100vw !important;
-    height: 100vh !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    aspect-ratio: auto !important;
     background: #000 !important;
   }
 
@@ -5465,7 +5469,7 @@
     } else if (mediaObj.type === "video") {
       return `
         ${counterHtml}
-        <video src="${mediaObj.url}" controls playsinline webkit-playsinline x5-playsinline preload="metadata"></video>
+        <video src="${mediaObj.url}" controls playsinline webkit-playsinline x5-playsinline preload="metadata" onloadedmetadata=" pasangListenerFullscreenVideo(this)"></video>
       `;
     } else {
       const safeUrl = mediaObj.url.replace(/'/g, "\\'");
@@ -5474,6 +5478,39 @@
         <img id="detailMainImg" src="${mediaObj.url}" alt="${namaProduk || 'Produk'}" referrerpolicy="no-referrer" onclick="bukaZoom('${safeUrl}')" onerror="this.onerror=null;this.src='${CONFIG.PLACEHOLDER_IMAGE}';">
       `;
     }
+  }
+
+  function pasangListenerFullscreenVideo(videoEl) {
+    if (!videoEl || videoEl.dataset.fsBound) return;
+    videoEl.dataset.fsBound = "1";
+
+    const updateModeFullscreen = () => {
+      const isFs = document.fullscreenElement === videoEl ||
+                   document.webkitFullscreenElement === videoEl ||
+                   videoEl.webkitDisplayingFullscreen;
+
+      if (isFs) {
+        videoEl.classList.add("is-fullscreen-mode");
+        videoEl.style.objectFit = "contain";
+
+        // Deteksi otomatis rasio asli video: Portrait vs Landscape
+        if (screen.orientation && screen.orientation.lock && videoEl.videoWidth && videoEl.videoHeight) {
+          const modeRasio = videoEl.videoHeight > videoEl.videoWidth ? "portrait" : "landscape";
+          screen.orientation.lock(modeRasio).catch(() => {});
+        }
+      } else {
+        videoEl.classList.remove("is-fullscreen-mode");
+        videoEl.style.objectFit = "cover"; // Kembali ke 1:1 penuh di kotak detail produk
+        if (screen.orientation && screen.orientation.unlock) {
+          try { screen.orientation.unlock(); } catch (e) {}
+        }
+      }
+    };
+
+    videoEl.addEventListener("fullscreenchange", updateModeFullscreen);
+    videoEl.addEventListener("webkitfullscreenchange", updateModeFullscreen);
+    videoEl.addEventListener("webkitbeginfullscreen", updateModeFullscreen);
+    videoEl.addEventListener("webkitendfullscreen", updateModeFullscreen);
   }
 
   let lastCatalogScrollPos = 0;

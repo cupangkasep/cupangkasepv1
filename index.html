@@ -1726,7 +1726,7 @@
   .detail-main-img-box iframe {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* Fit to screen mengikuti ukuran/rasio asli video tanpa terpotong */
     display: block;
     border: none;
     background: #000;
@@ -5448,12 +5448,12 @@
     if (mediaObj.type === "gdrive-video") {
       return `
         ${counterHtml}
-        <iframe src="${mediaObj.url}" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <iframe src="${mediaObj.url}" allow="autoplay"></iframe>
       `;
     } else if (mediaObj.type === "video") {
       return `
         ${counterHtml}
-        <video src="${mediaObj.url}" controls playsinline preload="metadata"></video>
+        <video src="${mediaObj.url}" controls playsinline webkit-playsinline x5-playsinline controlsList="nofullscreen" disablePictureInPicture preload="metadata"></video>
       `;
     } else {
       const safeUrl = mediaObj.url.replace(/'/g, "\\'");

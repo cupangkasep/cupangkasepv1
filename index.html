@@ -1726,10 +1726,22 @@
   .detail-main-img-box iframe {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Fit to screen mengikuti ukuran/rasio asli video tanpa terpotong */
+    object-fit: cover;
     display: block;
     border: none;
     background: #000;
+  }
+
+  /* Saat klik tombol Fullscreen: tampilkan fit to screen mengikuti ukuran asli video */
+  .detail-main-img-box video:fullscreen,
+  .detail-main-img-box video:-webkit-full-screen,
+  .detail-main-img-box video:-moz-full-screen,
+  .detail-main-img-box iframe:fullscreen,
+  .detail-main-img-box iframe:-webkit-full-screen {
+    object-fit: contain !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #000 !important;
   }
 
   .video-badge-overlay {
@@ -5448,12 +5460,12 @@
     if (mediaObj.type === "gdrive-video") {
       return `
         ${counterHtml}
-        <iframe src="${mediaObj.url}" allow="autoplay"></iframe>
+        <iframe src="${mediaObj.url}" allow="autoplay; fullscreen" allowfullscreen></iframe>
       `;
     } else if (mediaObj.type === "video") {
       return `
         ${counterHtml}
-        <video src="${mediaObj.url}" controls playsinline webkit-playsinline x5-playsinline controlsList="nofullscreen" disablePictureInPicture preload="metadata"></video>
+        <video src="${mediaObj.url}" controls playsinline webkit-playsinline x5-playsinline preload="metadata"></video>
       `;
     } else {
       const safeUrl = mediaObj.url.replace(/'/g, "\\'");

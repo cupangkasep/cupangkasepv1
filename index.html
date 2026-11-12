@@ -3039,6 +3039,109 @@
     padding: 8px 12px;
     border-radius: 8px;
 }
+
+/* Gaya UI Modal Verifikasi Inbound WA (Tab, Form, Waiting, & Success) */
+.auth-tabs-switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    background: #080a0f;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    margin-bottom: 14px;
+}
+.auth-tab-btn {
+    padding: 9px 8px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.auth-tab-btn.active {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+    color: #05070a;
+    font-weight: 800;
+    box-shadow: 0 3px 10px rgba(212, 175, 55, 0.25);
+}
+.auth-field-group {
+    margin-bottom: 12px;
+}
+.wa-waiting-card {
+    text-align: center;
+    padding: 16px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
+    margin-top: 6px;
+}
+.wa-waiting-spinner {
+    width: 38px;
+    height: 38px;
+    border: 3px solid rgba(37, 211, 102, 0.2);
+    border-top-color: var(--wa-green);
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    animation: spinLoader 0.85s linear infinite;
+}
+.btn-send-wa-verify {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    border: 1px solid #4ade80;
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.3);
+    margin: 12px 0 10px;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.2s ease;
+}
+.btn-send-wa-verify:hover {
+    opacity: 0.94;
+    transform: translateY(-1px);
+}
+.wa-format-preview {
+    background: #06080c;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-family: monospace;
+    font-size: 11px;
+    color: var(--gold-light);
+    word-break: break-all;
+    margin-top: 6px;
+}
+.wa-success-card {
+    text-align: center;
+    padding: 22px 12px;
+    animation: fadeIn 0.3s ease;
+}
+.wa-success-check {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.18);
+    border: 2px solid var(--verified-green);
+    color: #34d399;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
+}
 </style>
 </head>
 <body>
@@ -3634,92 +3737,115 @@
   </div>
 </div>
 
-<!-- MODAL POPUP VERIFIKASI OTP WHATSAPP LELANG (1X SEUMUR HIDUP) -->
+<!-- MODAL POPUP VERIFIKASI PESERTA LELANG (SINGLE FORM + INBOUND WA) -->
 <div class="result-modal" id="auctionOtpModal" onclick="tutupModalOtpLelang()">
-  <div class="result-box" style="max-width: 370px; text-align: left;" onclick="event.stopPropagation()">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <span class="cart-title" style="font-size:15px;">🔐 VERIFIKASI PESERTA LELANG</span>
+  <div class="result-box" style="max-width: 390px; text-align: left;" onclick="event.stopPropagation()">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <span class="cart-title" style="font-size:15px;">🔐 AKSES PESERTA LELANG</span>
       <button type="button" class="close-admin-btn" onclick="tutupModalOtpLelang()">✕</button>
     </div>
 
-    <!-- STEP 1: INPUT NOMOR WA SAJA -->
-    <div id="otpStep1Box">
-      <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px; line-height:1.5;">
-        Masukkan <strong>Nomor WhatsApp</strong> aktif Anda. Jika sudah pernah terverifikasi, Anda akan langsung masuk:
-      </p>
-      <label class="search-label">Nomor WhatsApp Aktif:</label>
-      <div class="search-input-group" style="margin-bottom:14px;">
-        <select id="bidderCountryCode" class="search-input notranslate" style="flex: 0 0 118px; padding: 11px 6px; cursor: pointer; text-transform: none; font-weight: 700;">
-          <option value="62" selected>🇮🇩 +62 (ID)</option>
-          <option value="60">🇲🇾 +60 (MY)</option>
-          <option value="65">🇸🇬 +65 (SG)</option>
-          <option value="673">🇧🇳 +673 (BN)</option>
-          <option value="66">🇹🇭 +66 (TH)</option>
-          <option value="84">🇻🇳 +84 (VN)</option>
-          <option value="63">🇵🇭 +63 (PH)</option>
-          <option value="86">🇨🇳 +86 (CN)</option>
-          <option value="852">🇭🇰 +852 (HK)</option>
-          <option value="886">🇹🇼 +886 (TW)</option>
-          <option value="81">🇯🇵 +81 (JP)</option>
-          <option value="82">🇰🇷 +82 (KR)</option>
-          <option value="91">🇮🇳 +91 (IN)</option>
-          <option value="61">🇦🇺 +61 (AU)</option>
-          <option value="971">🇦🇪 +971 (AE)</option>
-          <option value="966">🇸🇦 +966 (SA)</option>
-          <option value="44">🇬🇧 +44 (UK)</option>
-          <option value="49">🇩🇪 +49 (DE)</option>
-          <option value="31">🇳🇱 +31 (NL)</option>
-          <option value="33">🇫🇷 +33 (FR)</option>
-          <option value="1">🇺🇸 +1 (US/CA)</option>
-        </select>
-        <input type="tel" id="bidderWaInput" class="search-input" style="flex:1; text-transform:none;" placeholder="8123456789" onkeypress="if(event.key === 'Enter') mintaKodeOtpWa()">
-      </div>
-
-      <button type="button" class="search-btn" id="btnRequestOtp" style="width:100%;" onclick="mintaKodeOtpWa()">
-        Verifikasi WhatsApp
-      </button>
-    </div>
-
-    <!-- STEP 2: TAMPILKAN NOMOR OTP & INPUT KODE OTP -->
-    <div id="otpStep2Box" style="display:none;">
-      <p id="otpSentBannerInfo" style="font-size:12px; color:#a7f3d0; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); padding:8px 10px; border-radius:8px; margin-bottom:10px;">
-        ✅ Nomor WA <strong id="otpTargetPhoneText">-</strong> aktif! Silakan ketik kode di bawah ini:
-      </p>
-
-      <label class="search-label">🔑 Nomor OTP:</label>
-      <input type="text" id="generatedOtpDisplay" class="search-input bid-input-locked" style="width:100%; text-align:center; font-size:20px; letter-spacing:8px; margin-bottom:10px; color:#fde047 !important;" readonly value="----">
-
-      <div style="display:flex; justify-content:space-between; align-items:center; font-size:11.5px; margin-bottom:8px; padding:6px 10px; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(212,175,55,0.25);">
-        <span style="color:var(--text-muted);">⏳ Masa Berlaku OTP:</span>
-        <strong id="otpExpiryTimerText" style="color:#fde047; font-family:monospace; font-size:13px;">05:00</strong>
-      </div>
-
-      <label class="search-label">🔢 Masukkan Kode OTP:</label>
-      <input type="text" id="bidderOtpCodeInput" maxlength="6" class="search-input" style="width:100%; text-align:center; font-size:18px; letter-spacing:6px; margin-bottom:10px;" placeholder="••••" onkeypress="if(event.key === 'Enter') verifikasiKodeOtpWa()">
-
-      <div style="text-align:center; margin-bottom:12px;">
-        <button type="button" id="btnResendOtp" class="btn-secondary" style="width:100%; font-size:11.5px; padding:8px;" onclick="mintaKodeOtpWa(true)" disabled>
-          🔄 Buat Ulang OTP (60d)
+    <!-- TAMPILAN 1: SINGLE FORM DENGAN TAB DAFTAR BARU & LOGIN LAMA -->
+    <div id="auctionAuthFormContainer">
+      <div class="auth-tabs-switch">
+        <button type="button" class="auth-tab-btn active" id="tabBtnRegister" onclick="gantiModeAuthLelang('register')">
+          Daftar Peserta Baru
+        </button>
+        <button type="button" class="auth-tab-btn" id="tabBtnLogin" onclick="gantiModeAuthLelang('login')">
+          Login Peserta Lama
         </button>
       </div>
 
-      <div style="display:flex; gap:8px;">
-        <button type="button" class="btn-secondary" onclick="kembaliKeStep1Otp()">← Ganti No</button>
-        <button type="button" class="search-btn" id="btnVerifyOtp" style="flex:1;" onclick="verifikasiKodeOtpWa()">✔ Verifikasi OTP</button>
+      <p id="authModeInfoText" style="font-size:11.5px; color:var(--text-muted); margin-bottom:12px; line-height:1.5;">
+        Lengkapi data di bawah ini, lalu kirim pesan verifikasi ke WhatsApp resmi kami untuk mengaktifkan akun lelang Anda.
+      </p>
+
+      <!-- Input Nama (Hanya tampil pada Tab Daftar Peserta Baru) -->
+      <div class="auth-field-group" id="authNameFieldGroup">
+        <label class="search-label">👤 Nama Lengkap / Panggilan:</label>
+        <input type="text" id="bidderNameInput" class="search-input" style="width:100%; text-transform:none;" placeholder="Contoh: Budi Santoso" autocomplete="name" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
       </div>
+
+      <!-- Input Email (Tampil di Daftar Baru & Login Lama) -->
+      <div class="auth-field-group">
+        <label class="search-label">✉️ Alamat Email:</label>
+        <input type="email" id="bidderEmailInput" class="search-input" style="width:100%; text-transform:none;" placeholder="nama@email.com" autocomplete="email" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+      </div>
+
+      <!-- Input Kode Negara + Nomor WA -->
+      <div class="auth-field-group" style="margin-bottom:16px;">
+        <label class="search-label">📱 Nomor WhatsApp Aktif:</label>
+        <div class="search-input-group">
+          <select id="bidderCountryCode" class="search-input notranslate" style="flex: 0 0 118px; padding: 11px 6px; cursor: pointer; text-transform: none; font-weight: 700;">
+            <option value="62" selected>🇮🇩 +62 (ID)</option>
+            <option value="60">🇲🇾 +60 (MY)</option>
+            <option value="65">🇸🇬 +65 (SG)</option>
+            <option value="673">🇧🇳 +673 (BN)</option>
+            <option value="66">🇹🇭 +66 (TH)</option>
+            <option value="84">🇻🇳 +84 (VN)</option>
+            <option value="63">🇵🇭 +63 (PH)</option>
+            <option value="86">🇨🇳 +86 (CN)</option>
+            <option value="852">🇭🇰 +852 (HK)</option>
+            <option value="886">🇹🇼 +886 (TW)</option>
+            <option value="81">🇯🇵 +81 (JP)</option>
+            <option value="82">🇰🇷 +82 (KR)</option>
+            <option value="91">🇮🇳 +91 (IN)</option>
+            <option value="61">🇦🇺 +61 (AU)</option>
+            <option value="971">🇦🇪 +971 (AE)</option>
+            <option value="966">🇸🇦 +966 (SA)</option>
+            <option value="44">🇬🇧 +44 (UK)</option>
+            <option value="49">🇩🇪 +49 (DE)</option>
+            <option value="31">🇳🇱 +31 (NL)</option>
+            <option value="33">🇫🇷 +33 (FR)</option>
+            <option value="1">🇺🇸 +1 (US/CA)</option>
+          </select>
+          <input type="tel" id="bidderWaInput" class="search-input" style="flex:1; text-transform:none;" placeholder="8123456789" autocomplete="tel" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+        </div>
+      </div>
+
+      <button type="button" class="search-btn" id="btnSubmitAuthLelang" style="width:100%;" onclick="submitFormVerifikasiLelang()">
+        Daftar & Verifikasi
+      </button>
     </div>
 
-    <!-- STEP 3: ISI NAMA LENGKAP / PANGGILAN SETELAH OTP BERHASIL -->
-    <div id="otpStep3Box" style="display:none;">
-      <p style="font-size:12px; color:#a7f3d0; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); padding:8px 10px; border-radius:8px; margin-bottom:12px;">
-        🎉 Kode OTP sesuai! Langkah terakhir, masukkan nama Anda untuk ditampilkan saat lelang:
-      </p>
-      <label class="search-label">👤 Nama Lengkap / Panggilan:</label>
-      <input type="text" id="bidderNameInput" class="search-input" style="width:100%; margin-bottom:14px; text-transform:none;" placeholder="Contoh: Budi Santoso" onkeypress="if(event.key === 'Enter') simpanNamaPesertaBaru()">
+    <!-- TAMPILAN 2: MENUNGGU KONFIRMASI WA (POLLING OTOMATIS) -->
+    <div id="auctionWaitingWaBox" style="display:none;">
+      <div class="wa-waiting-card">
+        <div class="wa-waiting-spinner"></div>
+        <div style="font-size:14px; font-weight:800; color:var(--gold-light); margin-bottom:4px;">
+          Menunggu Konfirmasi WA...
+        </div>
+        <p style="font-size:11.5px; color:var(--text-muted); line-height:1.5;">
+          Klik tombol hijau di bawah untuk membuka WhatsApp dan kirimkan teks verifikasi otomatis ke Admin (jangan ubah isi pesannya):
+        </p>
 
-      <button type="button" class="search-btn" id="btnSaveBidderName" style="width:100%;" onclick="simpanNamaPesertaBaru()">
-        ✔ Simpan & Masuk Lelang
+        <div class="wa-format-preview notranslate" id="waVerifyMessagePreview">VERIFY-REGISTER-...</div>
+
+        <a id="btnOpenWaInbound" href="#" target="_blank" rel="noopener noreferrer" class="btn-send-wa-verify" onclick="playClickSound()">
+          📲 Klik untuk Kirim WA
+        </a>
+
+        <div style="font-size:11px; color:#a7f3d0; margin-top:4px;">
+          🔄 Halaman ini otomatis mendeteksi pesan Anda setiap 3 detik...
+        </div>
+      </div>
+
+      <button type="button" class="btn-secondary" style="width:100%; margin-top:10px;" onclick="kembaliKeFormAuthLelang()">
+        ← Kembali / Ubah Data
       </button>
+    </div>
+
+    <!-- TAMPILAN 3: NOTIFIKASI SUKSES (CENTANG HIJAU) -->
+    <div id="auctionVerifiedSuccessBox" style="display:none;">
+      <div class="wa-success-card">
+        <div class="wa-success-check">✔</div>
+        <div style="font-size:16px; font-weight:800; color:#4ade80; margin-bottom:4px;">
+          Verifikasi Berhasil!
+        </div>
+        <p style="font-size:12px; color:var(--text-light);" id="waVerifiedWelcomeText">
+          Akun Anda telah aktif. Mengalihkan ke panel lelang...
+        </p>
+      </div>
     </div>
   </div>
 </div>
@@ -4222,19 +4348,19 @@
       navGallery: "Gallery",
       navOngkir: "Shipping Rate",
       navAbout: "About Us",
-      heroTitle: "Discover Rare<br>Collections<br>of betta fish",
-      heroDesc: "Your official gateway to <strong>Cupang Kasep</strong>. Explore our live betta & product catalog, certificate verification, and VIP rewards.",
-      heroBtn: "Start Ur Hobby",
+      heroTitle: "Discover Rare<br>Collections<br>of Betta Fish",
+      heroDesc: "Your official gateway to <strong>Cupang Kasep</strong>. Explore our live Betta & product catalog, certificate verification, and VIP rewards.",
+      heroBtn: "Start Your Hobby",
       cardCatalog: "PRODUCT CATALOG",
       cardAuction: "VIP AUCTION",
       cardCert: "AUTHENTICITY<br>CERTIFICATE",
-      cardPrize: "Prize draw",
+      cardPrize: "Prize Draw",
       aboutTitle: "About Us",
-      aboutSub: "Your Premier Destination for Collection Betta Fish. Celebrating quality, beauty, and passion since 2025.",
+      aboutSub: "Your Premier Destination for Collector Betta Fish. Celebrating quality, beauty, and passion since 2025.",
       storyTitle: "Our Story",
-      storyText: "Starting from a small passionate hobby, Cupang Kasep Official has grown into a trusted breeder and provider of high-quality Betta fish. We focus on genetic excellence, vibrant colors, and healthy fish for collectors.",
+      storyText: "Starting from a passionate hobby, Cupang Kasep Official has grown into a trusted breeder and provider of high-quality Betta fish. We focus on genetic excellence, vibrant colors, and healthy fish for collectors.",
       visionTitle: "Our Vision & Mission",
-      visionText: "To elevate the Betta fish hobby globally by providing top-tier genetics and educating the community. We strive to offer outstanding service and premium varieties to enthusiast and collectors alike."
+      visionText: "To elevate the Betta fish hobby globally by providing top-tier genetics and educating the community. We strive to offer outstanding service and premium varieties to enthusiasts and collectors alike."
     },
     zh: {
       badge: "🌐 中文",
@@ -4265,28 +4391,49 @@
       searchCatalogPlaceholder: "🔍 Cari nama atau kode (misal: CK-001)...",
       certPlaceholder: "Ketik nomor sertifikat...",
       voucherPlaceholder: "Masukkan Kode Voucher Resmi",
+      ongkirProvPlaceholder: "🔍 Ketik / Pilih Provinsi...",
+      ongkirCityPlaceholder: "🔍 Ketik Kecamatan / Kota (cth: Priok)...",
       allTypes: "Semua Jenis / Varian",
       sortDefault: "Urutkan: Terbaru / Default",
       sortAsc: "Harga: Termurah ke Termahal",
-      sortDesc: "Harga: Termahal ke Termurah"
+      sortDesc: "Harga: Termahal ke Termurah",
+      cartTitle: "🛒 KERANJANG BELANJA",
+      cartTotal: "Total Harga:",
+      cartClear: "🗑️ Kosongkan",
+      cartCheckout: "Beli via WhatsApp",
+      viewsSuffix: "x dilihat"
     },
     en: {
       searchCatalogPlaceholder: "🔍 Search name or code (e.g., CK-001)...",
       certPlaceholder: "Enter certificate number...",
       voucherPlaceholder: "Enter Official Voucher Code",
+      ongkirProvPlaceholder: "🔍 Type / Select Province...",
+      ongkirCityPlaceholder: "🔍 Type District / City (e.g., Priok)...",
       allTypes: "All Types / Variants",
       sortDefault: "Sort: Latest / Default",
       sortAsc: "Price: Low to High",
-      sortDesc: "Price: High to Low"
+      sortDesc: "Price: High to Low",
+      cartTitle: "🛒 SHOPPING CART",
+      cartTotal: "Total Price:",
+      cartClear: "🗑️ Clear",
+      cartCheckout: "Order via WhatsApp",
+      viewsSuffix: " views"
     },
     zh: {
       searchCatalogPlaceholder: "🔍 搜索名称或代码 (例如: CK-001)...",
       certPlaceholder: "输入证书编号...",
       voucherPlaceholder: "输入官方抽奖券代码",
+      ongkirProvPlaceholder: "🔍 输入 / 选择省份...",
+      ongkirCityPlaceholder: "🔍 输入区 / 城市 (例如: Priok)...",
       allTypes: "所有类型 / 品种",
       sortDefault: "排序：最新 / 默认",
       sortAsc: "价格：从低到高",
-      sortDesc: "价格：从高到低"
+      sortDesc: "价格：从高到低",
+      cartTitle: "🛒 购物车",
+      cartTotal: "总价：",
+      cartClear: "🗑️ 清空",
+      cartCheckout: "通过 WhatsApp 购买",
+      viewsSuffix: " 次浏览"
     }
   };
 
@@ -4362,13 +4509,26 @@
       aboutColTexts[1].innerText = t.visionText;
     }
 
-    // 6. Update Placeholder Input & Filter Katalog
+    // 6. Update Placeholder Input, Modal Keranjang & Filter Katalog
     const catSearch = document.getElementById("catalogSearchInput");
     const certInp = document.getElementById("certInput");
     const vouchInp = document.getElementById("voucherInput");
+    const provInp = document.getElementById("ongkirProvinceInput");
+    const cityInp = document.getElementById("ongkirCityInput");
     if (catSearch) catSearch.placeholder = ui.searchCatalogPlaceholder;
     if (certInp) certInp.placeholder = ui.certPlaceholder;
     if (vouchInp) vouchInp.placeholder = ui.voucherPlaceholder;
+    if (provInp) provInp.placeholder = ui.ongkirProvPlaceholder;
+    if (cityInp) cityInp.placeholder = ui.ongkirCityPlaceholder;
+
+    const cartModalTitle = document.getElementById("cartModalTitle");
+    const cartTotalLabel = document.getElementById("cartTotalLabel");
+    const btnClearCart = document.getElementById("btnClearCart");
+    const btnCheckoutWA = document.getElementById("btnCheckoutWA");
+    if (cartModalTitle) cartModalTitle.innerText = ui.cartTitle;
+    if (cartTotalLabel) cartTotalLabel.innerText = ui.cartTotal;
+    if (btnClearCart) btnClearCart.innerText = ui.cartClear;
+    if (btnCheckoutWA) btnCheckoutWA.innerText = ui.cartCheckout;
 
     const sortSelect = document.getElementById("catalogSortSelect");
     if (sortSelect && sortSelect.options.length >= 4) {
@@ -5262,7 +5422,8 @@
       }
     });
 
-    selectEl.innerHTML = `<option value="Semua">Semua Jenis / Varian</option>`;
+    const ui = EXTRA_UI_TEXT[USER_LANG] || EXTRA_UI_TEXT.id;
+    selectEl.innerHTML = `<option value="Semua">${ui.allTypes}</option>`;
     Array.from(jenisSet).sort().forEach(j => {
       const opt = document.createElement("option");
       opt.value = j;
@@ -5581,7 +5742,7 @@
           <div class="card-badges-row">
             <span class="badge-pill-tag primary">${item.kategori}</span>
             <span class="badge-pill-tag outline notranslate">${item.jenis}</span>
-            <span class="badge-pill-tag outline notranslate">👁️ ${jumlahViews}x dilihat</span>
+            <span class="badge-pill-tag outline notranslate">👁️ ${jumlahViews}${(EXTRA_UI_TEXT[USER_LANG] || EXTRA_UI_TEXT.id).viewsSuffix}</span>
             <span class="badge-stock-pill ${isHabis ? 'out-stock' : 'in-stock'}">
               ● ${isHabis ? 'Stok Habis' : 'Tersedia (' + item.stok + ')'}
             </span>
@@ -6942,22 +7103,26 @@
     return Date.now() >= target;
   }
 
-  // Menampilkan waktu jadwal dalam bentuk hitung mundur seragam tanpa label zona waktu
+  // Menampilkan waktu jadwal dalam bentuk hitung mundur seragam sesuai bahasa (ID / EN / ZH)
   function formatJadwalTeksLelang(str) {
     const ms = parseWaktuLelang(str);
     if (!ms) return str || "-";
     const selisih = ms - Date.now();
     const pad = n => String(n).padStart(2, "0");
+    const u = USER_LANG === "en" ? { d: "d", h: "h", m: "m", s: "s" }
+            : (USER_LANG === "zh" ? { d: "天", h: "时", m: "分", s: "秒" }
+            : { d: "h", h: "j", m: "m", s: "d" });
+
     if (selisih <= 0) {
-      return "00j : 00m : 00d";
+      return `00${u.h} : 00${u.m} : 00${u.s}`;
     }
     const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
     const jam = Math.floor((selisih % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const menit = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
     const detik = Math.floor((selisih % (1000 * 60)) / 1000);
     return hari > 0
-      ? `${hari}h ${pad(jam)}j ${pad(menit)}m ${pad(detik)}d`
-      : `${pad(jam)}j : ${pad(menit)}m : ${pad(detik)}d`;
+      ? `${hari}${u.d} ${pad(jam)}${u.h} ${pad(menit)}${u.m} ${pad(detik)}${u.s}`
+      : `${pad(jam)}${u.h} : ${pad(menit)}${u.m} : ${pad(detik)}${u.s}`;
   }
 
   function formatHitungMundurLelang(endTimeStr, startTimeStr = "") {
@@ -6965,6 +7130,12 @@
     const startTarget = parseWaktuLelang(startTimeStr);
     const endTarget = parseWaktuLelang(endTimeStr);
     const pad = n => String(n).padStart(2, "0");
+
+    const u = USER_LANG === "en"
+      ? { d: "d", h: "h", m: "m", s: "s", start: "Starts in", left: "Time Left", active: "🟢 Active", ended: "🔴 AUCTION ENDED" }
+      : (USER_LANG === "zh"
+      ? { d: "天", h: "时", m: "分", s: "秒", start: "开始倒计时", left: "剩余时间", active: "🟢 进行中", ended: "🔴 拍卖已结束" }
+      : { d: "h", h: "j", m: "m", s: "d", start: "Mulai", left: "Sisa Waktu", active: "🟢 Aktif", ended: "🔴 LELANG SELESAI" });
 
     // FASE 1: LELANG BELUM DIMULAI (Menunggu Jam Mulai berdasarkan patokan UTC+7)
     if (startTarget && now < startTarget) {
@@ -6975,11 +7146,11 @@
       const detik = Math.floor((selisihMulai % (1000 * 60)) / 1000);
 
       const rincianMulai = hari > 0
-        ? `${hari}h ${pad(jam)}j ${pad(menit)}m ${pad(detik)}d`
-        : `${pad(jam)}j : ${pad(menit)}m : ${pad(detik)}d`;
+        ? `${hari}${u.d} ${pad(jam)}${u.h} ${pad(menit)}${u.m} ${pad(detik)}${u.s}`
+        : `${pad(jam)}${u.h} : ${pad(menit)}${u.m} : ${pad(detik)}${u.s}`;
 
       return {
-        text: `⏳ Mulai • ${rincianMulai}`,
+        text: `⏳ ${u.start} • ${rincianMulai}`,
         upcoming: true,
         ended: false,
         urgent: false,
@@ -6989,11 +7160,11 @@
 
     // FASE 2 & 3: SUDAH MASUK JAM MULAI -> HITUNG MUNDUR KE WAKTU SELESAI (SERENTAK UTC+7)
     if (!endTarget) {
-      return { text: "🟢 Aktif", upcoming: false, ended: false, urgent: false, phase: "active" };
+      return { text: u.active, upcoming: false, ended: false, urgent: false, phase: "active" };
     }
     const selisih = endTarget - now;
     if (selisih <= 0) {
-      return { text: "🔴 LELANG SELESAI", upcoming: false, ended: true, urgent: false, phase: "ended" };
+      return { text: u.ended, upcoming: false, ended: true, urgent: false, phase: "ended" };
     }
 
     const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
@@ -7002,11 +7173,11 @@
     const detik = Math.floor((selisih % (1000 * 60)) / 1000);
 
     const rincianWaktu = hari > 0
-      ? `${hari}h ${pad(jam)}j ${pad(menit)}m ${pad(detik)}d`
-      : `${pad(jam)}j : ${pad(menit)}m : ${pad(detik)}d`;
+      ? `${hari}${u.d} ${pad(jam)}${u.h} ${pad(menit)}${u.m} ${pad(detik)}${u.s}`
+      : `${pad(jam)}${u.h} : ${pad(menit)}${u.m} : ${pad(detik)}${u.s}`;
 
     return {
-      text: `🟢 Sisa Waktu • ${rincianWaktu}`,
+      text: `🟢 ${u.left} • ${rincianWaktu}`,
       upcoming: false,
       ended: false,
       urgent: selisih <= 10 * 60 * 1000,
@@ -7141,15 +7312,32 @@
            <button type="button" class="search-btn" style="padding:4px 10px; font-size:11px;" onclick="bukaModalOtpLelang(true)">Login Lelang</button>
          </div>`;
 
-    // Pengecekan Hak Klaim Pemenang Lelang (Poin 2: Hanya pemenang yang bisa klaim)
+    // Pengecekan Hak Klaim Pemenang Lelang (Poin 2: Hanya pemenang yang bisa klaim, mendukung ID/EN/ZH)
     const isCurrentUserWinner = currentHighest > 0 && apakahUserPemenangSah(item, bidderSession);
     const tokenMenang = buatSignature(item.kode, String(currentHighest));
-    const pesanKlaimPemenang = `Halo Admin CUPANG KASEP, saya pemenang sah lelang:\n\n` +
-      `🐟 Kode Ikan: [${item.kode}] ${item.nama}\n` +
-      `🏆 Nominal Menang: ${formatRupiah(currentHighest)}\n` +
-      `👤 Pemenang: ${item.highestBidder}\n` +
-      `📱 No WA: ${bidderSession ? bidderSession.wa : '-'}\n` +
-      `🔐 Token Verifikasi Lelang: CKL-${item.kode}-${tokenMenang}`;
+    let pesanKlaimPemenang = "";
+    if (USER_LANG === "en") {
+      pesanKlaimPemenang = `Hello CUPANG KASEP Admin, I am the official auction winner:\n\n` +
+        `🐟 Fish Code: [${item.kode}] ${item.nama}\n` +
+        `🏆 Winning Bid: ${formatRupiah(currentHighest)}\n` +
+        `👤 Winner: ${item.highestBidder}\n` +
+        `📱 WhatsApp: ${bidderSession ? bidderSession.wa : '-'}\n` +
+        `🔐 Auction Verification Token: CKL-${item.kode}-${tokenMenang}`;
+    } else if (USER_LANG === "zh") {
+      pesanKlaimPemenang = `您好 CUPANG KASEP 客服，我是本次拍卖的正式中标者：\n\n` +
+        `🐟 斗鱼代码: [${item.kode}] ${item.nama}\n` +
+        `🏆 中标价格: ${formatRupiah(currentHighest)}\n` +
+        `👤 中标者: ${item.highestBidder}\n` +
+        `📱 WhatsApp: ${bidderSession ? bidderSession.wa : '-'}\n` +
+        `🔐 拍卖验证令牌: CKL-${item.kode}-${tokenMenang}`;
+    } else {
+      pesanKlaimPemenang = `Halo Admin CUPANG KASEP, saya pemenang sah lelang:\n\n` +
+        `🐟 Kode Ikan: [${item.kode}] ${item.nama}\n` +
+        `🏆 Nominal Menang: ${formatRupiah(currentHighest)}\n` +
+        `👤 Pemenang: ${item.highestBidder}\n` +
+        `📱 No WA: ${bidderSession ? bidderSession.wa : '-'}\n` +
+        `🔐 Token Verifikasi Lelang: CKL-${item.kode}-${tokenMenang}`;
+    }
     const linkKlaimWa = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(pesanKlaimPemenang)}`;
 
     return `
@@ -7377,40 +7565,89 @@
     }
   }
 
-  function bukaModalOtpLelang(resetKeStep1 = false, paksaGantiAkun = false) {
+  let currentAuthMode = "register"; // 'register' | 'login'
+  let waVerifyPollInterval = null;
+
+  function hentikanPollingVerifikasiWa() {
+    if (waVerifyPollInterval) {
+      clearInterval(waVerifyPollInterval);
+      waVerifyPollInterval = null;
+    }
+  }
+
+  function gantiModeAuthLelang(mode) {
     playClickSound();
-    forceNewOtpSession = false;
-    document.getElementById("otpStep1Box").style.display = "block";
-    document.getElementById("otpStep2Box").style.display = "none";
-    document.getElementById("otpStep3Box").style.display = "none";
+    currentAuthMode = mode === "login" ? "login" : "register";
+
+    const tabReg = document.getElementById("tabBtnRegister");
+    const tabLog = document.getElementById("tabBtnLogin");
+    const nameGroup = document.getElementById("authNameFieldGroup");
+    const submitBtn = document.getElementById("btnSubmitAuthLelang");
+    const infoText = document.getElementById("authModeInfoText");
+
+    if (currentAuthMode === "login") {
+      if (tabReg) tabReg.classList.remove("active");
+      if (tabLog) tabLog.classList.add("active");
+      if (nameGroup) nameGroup.style.display = "none";
+      if (submitBtn) submitBtn.innerText = "Login";
+      if (infoText) {
+        infoText.innerText = "Masukkan Email dan Nomor WhatsApp yang sudah terdaftar, lalu konfirmasi melalui WhatsApp.";
+      }
+    } else {
+      if (tabLog) tabLog.classList.remove("active");
+      if (tabReg) tabReg.classList.add("active");
+      if (nameGroup) nameGroup.style.display = "block";
+      if (submitBtn) submitBtn.innerText = "Daftar & Verifikasi";
+      if (infoText) {
+        infoText.innerText = "Lengkapi data di bawah ini, lalu kirim pesan verifikasi ke WhatsApp resmi kami untuk mengaktifkan akun lelang Anda.";
+      }
+    }
+  }
+
+  function bukaModalOtpLelang(resetKeForm = false, paksaGantiAkun = false) {
+    playClickSound();
+    hentikanPollingVerifikasiWa();
+
+    document.getElementById("auctionAuthFormContainer").style.display = "block";
+    document.getElementById("auctionWaitingWaBox").style.display = "none";
+    document.getElementById("auctionVerifiedSuccessBox").style.display = "none";
 
     const existing = getVerifiedBidder();
     const ccSelect = document.getElementById("bidderCountryCode");
+
     if (existing && !paksaGantiAkun) {
       if (ccSelect && existing.cc) ccSelect.value = existing.cc;
       const savedWa = String(existing.wa || "");
       const ccVal = ccSelect ? ccSelect.value : "62";
       document.getElementById("bidderWaInput").value = savedWa.startsWith(ccVal) ? savedWa.slice(ccVal.length) : savedWa;
       document.getElementById("bidderNameInput").value = existing.nama || "";
-    } else if (paksaGantiAkun) {
-      if (ccSelect) ccSelect.value = "62";
-      document.getElementById("bidderWaInput").value = "";
-      document.getElementById("bidderOtpCodeInput").value = "";
-      document.getElementById("bidderNameInput").value = "";
+      document.getElementById("bidderEmailInput").value = existing.email || "";
+      gantiModeAuthLelang("login");
+    } else {
+      if (paksaGantiAkun) {
+        if (ccSelect) ccSelect.value = "62";
+        document.getElementById("bidderWaInput").value = "";
+        document.getElementById("bidderNameInput").value = "";
+        document.getElementById("bidderEmailInput").value = "";
+      }
+      gantiModeAuthLelang("register");
     }
+
     document.getElementById("auctionOtpModal").classList.add("open");
   }
 
   function tutupModalOtpLelang() {
     playClickSound();
+    hentikanPollingVerifikasiWa();
     document.getElementById("auctionOtpModal").classList.remove("open");
   }
 
-  function kembaliKeStep1Otp() {
+  function kembaliKeFormAuthLelang() {
     playClickSound();
-    document.getElementById("otpStep1Box").style.display = "block";
-    document.getElementById("otpStep2Box").style.display = "none";
-    document.getElementById("otpStep3Box").style.display = "none";
+    hentikanPollingVerifikasiWa();
+    document.getElementById("auctionWaitingWaBox").style.display = "none";
+    document.getElementById("auctionVerifiedSuccessBox").style.display = "none";
+    document.getElementById("auctionAuthFormContainer").style.display = "block";
   }
 
   function tampilkanModalBlokirBNR(noWa) {
@@ -7420,106 +7657,56 @@
     document.getElementById("auctionBlockedModal").classList.add("open");
   }
 
-  let otpExpiryInterval = null;
-  let otpResendInterval = null;
-  let currentServerOtp = null;
-  let currentServerOtpTime = 0;
-  let currentPendingToken = "VERIFIED";
-
-  function mulaiTimerOtpLelang(durasiExpiredDetik = 300, jedaResendDetik = 60) {
-    clearInterval(otpExpiryInterval);
-    clearInterval(otpResendInterval);
-
-    const timerText = document.getElementById("otpExpiryTimerText");
-    const btnResend = document.getElementById("btnResendOtp");
-    const btnVerify = document.getElementById("btnVerifyOtp");
-
-    let sisaExpired = durasiExpiredDetik;
-    let sisaResend = jedaResendDetik;
-
-    if (btnVerify) btnVerify.disabled = false;
-
-    const updateExpiryUI = () => {
-      if (!timerText) return;
-      if (sisaExpired <= 0) {
-        clearInterval(otpExpiryInterval);
-        timerText.innerText = "EXPIRED (KEDALUWARSA)";
-        timerText.style.color = "#fca5a5";
-        if (btnVerify) btnVerify.disabled = true;
-        return;
-      }
-      const m = String(Math.floor(sisaExpired / 60)).padStart(2, "0");
-      const s = String(sisaExpired % 60).padStart(2, "0");
-      timerText.innerText = `${m}:${s}`;
-      timerText.style.color = sisaExpired <= 60 ? "#fca5a5" : "#fde047";
-    };
-
-    updateExpiryUI();
-    otpExpiryInterval = setInterval(() => {
-      sisaExpired--;
-      updateExpiryUI();
-    }, 1000);
-
-    const updateResendUI = () => {
-      if (!btnResend) return;
-      if (sisaResend <= 0) {
-        clearInterval(otpResendInterval);
-        btnResend.disabled = false;
-        btnResend.innerText = "🔄 Buat Ulang Kode OTP Baru";
-        btnResend.style.opacity = "1";
-        return;
-      }
-      btnResend.disabled = true;
-      btnResend.innerText = `🔄 Buat Ulang OTP (${sisaResend}d)`;
-      btnResend.style.opacity = "0.55";
-    };
-
-    updateResendUI();
-    otpResendInterval = setInterval(() => {
-      sisaResend--;
-      updateResendUI();
-    }, 1000);
-  }
-
-  // Tahap 1: Cek Nomor WA (Mendukung kode negara internasional +62, +60, +65, +1, dll.)
-  async function mintaKodeOtpWa(isResend = false) {
+  async function submitFormVerifikasiLelang() {
     playClickSound();
+    const isRegister = currentAuthMode === "register";
+    const namaInput = document.getElementById("bidderNameInput").value.trim();
+    const emailInput = document.getElementById("bidderEmailInput").value.trim().toLowerCase();
     const kodeNegara = dapatkanKodeNegaraTerpilih();
     const waRaw = document.getElementById("bidderWaInput").value.trim();
     const digitsOnly = waRaw.replace(/[^0-9]/g, "");
     const waClean = normalisasiNomorWA(waRaw, kodeNegara);
 
-    if (!digitsOnly || !/^[1-9][0-9]{7,14}$/.test(waClean)) {
-      alert("⚠️ Mohon masukkan Nomor WhatsApp aktif yang valid sesuai kode negara yang dipilih!");
+    // 1. Validasi Input Form
+    if (isRegister && (!namaInput || namaInput.length < 2)) {
+      alert("⚠️ Mohon isi Nama Lengkap atau Nama Panggilan Anda (minimal 2 karakter)!");
+      document.getElementById("bidderNameInput").focus();
       return;
     }
 
-    const btn = document.getElementById("btnRequestOtp");
-    const btnResend = document.getElementById("btnResendOtp");
-
-    if (isResend && btnResend) {
-      btnResend.disabled = true;
-      btnResend.innerText = "⏳ Membuat OTP baru...";
-    } else if (btn) {
-      btn.disabled = true;
-      btn.innerText = "⏳ Mengecek Nomor...";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailInput || !emailRegex.test(emailInput)) {
+      alert("⚠️ Mohon masukkan Alamat Email yang valid (contoh: nama@email.com)!");
+      document.getElementById("bidderEmailInput").focus();
+      return;
     }
+
+    if (!digitsOnly || !/^[1-9][0-9]{7,14}$/.test(waClean)) {
+      alert("⚠️ Mohon masukkan Nomor WhatsApp aktif yang valid sesuai kode negara yang dipilih!");
+      document.getElementById("bidderWaInput").focus();
+      return;
+    }
+
+    // 2. Kirim inisialisasi verifikasi ke Google Apps Script
+    const btn = document.getElementById("btnSubmitAuthLelang");
+    const teksAsliBtn = btn.innerText;
+    btn.disabled = true;
+    btn.innerText = "⏳ Memvalidasi Data...";
 
     const res = await kirimKeGoogleSheets({
-      action: "auction_request_otp",
+      action: "auction_init_verify",
+      mode: currentAuthMode,
+      nama: isRegister ? namaInput : "",
+      email: emailInput,
       wa: waClean,
-      countryCode: kodeNegara,
-      fonnteToken: CONFIG.FONNTE_TOKEN,
-      forceResend: (isResend === true)
+      countryCode: kodeNegara
     });
 
-    if (btn) {
-      btn.disabled = false;
-      btn.innerText = "Verifikasi WhatsApp";
-    }
+    btn.disabled = false;
+    btn.innerText = teksAsliBtn;
 
     if (!res) {
-      alert("⚠️ Gagal terhubung ke server Google Sheets.");
+      alert("⚠️ Gagal terhubung ke server Google Sheets. Periksa koneksi internet Anda.");
       return;
     }
 
@@ -7529,150 +7716,94 @@
       return;
     }
 
-    if (res.status === "invalid_wa") {
-      alert("❌ " + (res.message || "Nomor WhatsApp tidak aktif / tidak terdaftar di WhatsApp!"));
+    if (res.status === "not_found") {
+      alert("⚠️ " + (res.message || "Data peserta tidak ditemukan. Silakan daftar melalui tab Daftar Peserta Baru."));
+      gantiModeAuthLelang("register");
       return;
     }
 
-    // Jika nomor WA sudah pernah terverifikasi sebelumnya -> langsung masuk tanpa OTP & tanpa isi nama lagi!
-    if (res.status === "already_verified" && res.nama) {
-      saveVerifiedBidder({
-        nama: res.nama,
+    if (res.status === "error") {
+      alert("⚠️ " + (res.message || "Terjadi kesalahan saat memproses data."));
+      return;
+    }
+
+    // 3. Siapkan Format Pesan Inbound WA & Tampilkan Layar Penantian
+    const namaBersih = (isRegister ? namaInput : (res.nama || "Peserta")).replace(/[\r\n]+/g, " ").trim();
+    const formatPesanWa = isRegister
+      ? `VERIFY-REGISTER-${namaBersih}-${emailInput}`
+      : `VERIFY-LOGIN-${emailInput}`;
+
+    const linkWa = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(formatPesanWa)}`;
+    const btnWaEl = document.getElementById("btnOpenWaInbound");
+    const previewEl = document.getElementById("waVerifyMessagePreview");
+
+    if (btnWaEl) btnWaEl.href = linkWa;
+    if (previewEl) previewEl.innerText = formatPesanWa;
+
+    document.getElementById("auctionAuthFormContainer").style.display = "none";
+    document.getElementById("auctionVerifiedSuccessBox").style.display = "none";
+    document.getElementById("auctionWaitingWaBox").style.display = "block";
+
+    // 4. Mulai Polling setiap 3 detik untuk mengecek apakah pesan WA sudah diterima server
+    mulaiPollingStatusVerifikasi(waClean, emailInput, namaBersih, kodeNegara);
+  }
+
+  function mulaiPollingStatusVerifikasi(waClean, emailInput, fallbackNama, kodeNegara) {
+    hentikanPollingVerifikasiWa();
+
+    const cekStatusKeServer = async () => {
+      const resPoll = await kirimKeGoogleSheets({
+        action: "auction_check_status",
         wa: waClean,
-        token: res.token || "VERIFIED"
+        email: emailInput,
+        mode: currentAuthMode
       });
-      tutupModalOtpLelang();
-      tampilkanToast(`✅ Selamat datang kembali, ${res.nama}!`);
-      if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
-      if (pendingBidAction) {
-        const act = pendingBidAction;
-        pendingBidAction = null;
-        prosesPasangBid(act.kode, act.tipe);
-      }
-      return;
-    }
 
-    // Jika nomor WA baru -> Tampilkan OTP langsung di kolom "Nomor OTP"
-    if (res.status === "otp_sent") {
-      currentServerOtp = String(res.otpFallback || res.otp || "").replace(/[^0-9]/g, "");
-      currentServerOtpTime = Date.now();
-      document.getElementById("generatedOtpDisplay").value = currentServerOtp;
-      document.getElementById("bidderOtpCodeInput").value = "";
-      document.getElementById("otpTargetPhoneText").innerText = waClean;
-      document.getElementById("otpStep1Box").style.display = "none";
-      document.getElementById("otpStep2Box").style.display = "block";
-      document.getElementById("otpStep3Box").style.display = "none";
+      if (!resPoll) return;
 
-      mulaiTimerOtpLelang(res.expiresInSeconds || 300, 60);
-      tampilkanToast("🔑 Nomor WA aktif! Silakan masukkan Kode OTP yang tampil di layar.");
-    } else {
-      alert("⚠️ " + (res.message || "Gagal memproses nomor WA."));
-    }
-  }
-
-  // Tahap 2: Verifikasi Kode OTP -> Lanjut ke Step 3 (Isi Nama Lengkap / Panggilan)
-  async function verifikasiKodeOtpWa() {
-    playClickSound();
-    const waClean = normalisasiNomorWA(document.getElementById("bidderWaInput").value.trim());
-    const otp = document.getElementById("bidderOtpCodeInput").value.replace(/[^0-9]/g, "");
-
-    if (!otp || otp.length < 4) {
-      alert("⚠️ Masukkan 4 digit kode OTP yang tertera pada kolom Nomor OTP!");
-      return;
-    }
-
-    const btn = document.getElementById("btnVerifyOtp");
-    btn.disabled = true;
-    btn.innerText = "⏳ Mengecek...";
-
-    const res = await kirimKeGoogleSheets({
-      action: "auction_verify_otp",
-      wa: waClean,
-      otp: otp
-    });
-
-    btn.disabled = false;
-    btn.innerText = "✔ Verifikasi OTP";
-
-    const belumExpiredLokal = (Date.now() - currentServerOtpTime) <= 5 * 60 * 1000;
-    const cocokLokal = currentServerOtp && otp === currentServerOtp && belumExpiredLokal;
-
-    if ((res && (res.status === "ok" || res.status === "already_verified")) || (cocokLokal && (!res || res.status !== "blocked"))) {
-      clearInterval(otpExpiryInterval);
-      clearInterval(otpResendInterval);
-      currentServerOtp = null;
-      currentPendingToken = (res && res.token) ? res.token : "VERIFIED";
-
-      // Jika sudah ada nama di server, langsung masuk; jika belum, buka Step 3 untuk isi Nama
-      if (res && res.nama && String(res.nama).trim() !== "" && String(res.nama).trim() !== "-") {
-        saveVerifiedBidder({
-          nama: res.nama,
-          wa: waClean,
-          token: currentPendingToken
-        });
+      if (resPoll.status === "blocked") {
+        hentikanPollingVerifikasiWa();
         tutupModalOtpLelang();
-        tampilkanToast("🎉 Verifikasi berhasil!");
-        if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
-        if (pendingBidAction) {
-          const act = pendingBidAction;
-          pendingBidAction = null;
-          prosesPasangBid(act.kode, act.tipe);
-        }
-      } else {
-        document.getElementById("otpStep1Box").style.display = "none";
-        document.getElementById("otpStep2Box").style.display = "none";
-        document.getElementById("otpStep3Box").style.display = "block";
-        setTimeout(() => { document.getElementById("bidderNameInput").focus(); }, 100);
+        tampilkanModalBlokirBNR(waClean);
+        return;
       }
-    } else if (res && res.status === "expired_otp") {
-      alert("⏳ Kode OTP sudah kedaluwarsa. Silakan klik Buat Ulang OTP.");
-    } else if (res && res.status === "blocked") {
-      tutupModalOtpLelang();
-      tampilkanModalBlokirBNR(waClean);
-    } else {
-      alert("❌ Kode OTP tidak cocok! Pastikan mengetik 4 angka yang tampil di kotak Nomor OTP.");
-    }
-  }
 
-  // Tahap 3: Simpan Nama Lengkap / Panggilan setelah OTP berhasil (Poin 1)
-  async function simpanNamaPesertaBaru() {
-    playClickSound();
-    const nama = document.getElementById("bidderNameInput").value.trim();
-    const waClean = normalisasiNomorWA(document.getElementById("bidderWaInput").value.trim());
+      if (resPoll.status === "verified") {
+        hentikanPollingVerifikasiWa();
 
-    if (!nama || nama.length < 2) {
-      alert("⚠️ Mohon isi Nama Lengkap atau Nama Panggilan Anda!");
-      return;
-    }
+        const namaFinal = (resPoll.nama && resPoll.nama !== "-") ? resPoll.nama : (fallbackNama || "Peserta");
+        const tokenFinal = resPoll.token || "VERIFIED";
 
-    const btn = document.getElementById("btnSaveBidderName");
-    btn.disabled = true;
-    btn.innerText = "⏳ Menyimpan...";
+        saveVerifiedBidder({
+          nama: namaFinal,
+          wa: waClean,
+          email: emailInput,
+          cc: kodeNegara,
+          token: tokenFinal
+        });
 
-    const res = await kirimKeGoogleSheets({
-      action: "auction_save_name",
-      wa: waClean,
-      nama: nama
-    });
+        // Tampilkan layar sukses centang hijau
+        document.getElementById("auctionWaitingWaBox").style.display = "none";
+        const welcomeEl = document.getElementById("waVerifiedWelcomeText");
+        if (welcomeEl) {
+          welcomeEl.innerText = `Selamat datang, ${namaFinal}! Akun Anda telah terverifikasi.`;
+        }
+        document.getElementById("auctionVerifiedSuccessBox").style.display = "block";
+        tampilkanToast(`✅ Verifikasi WA berhasil! Halo, ${namaFinal}`);
 
-    btn.disabled = false;
-    btn.innerText = "✔ Simpan & Masuk Lelang";
+        setTimeout(() => {
+          tutupModalOtpLelang();
+          if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
+          if (pendingBidAction) {
+            const act = pendingBidAction;
+            pendingBidAction = null;
+            prosesPasangBid(act.kode, act.tipe);
+          }
+        }, 1100);
+      }
+    };
 
-    saveVerifiedBidder({
-      nama: nama,
-      wa: waClean,
-      token: (res && res.token) ? res.token : currentPendingToken
-    });
-
-    tutupModalOtpLelang();
-    tampilkanToast(`🎉 Selamat bergabung di lelang, ${nama}!`);
-    if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
-
-    if (pendingBidAction) {
-      const act = pendingBidAction;
-      pendingBidAction = null;
-      prosesPasangBid(act.kode, act.tipe);
-    }
+    waVerifyPollInterval = setInterval(cekStatusKeServer, 3000);
   }
 
   // Eksekusi Pasang Penawaran / Buy It Now

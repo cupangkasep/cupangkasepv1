@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
 <title>Cupang Kasep Official</title>
 <meta name="description" content="Gerbang resmi Cupang Kasep Official. Jelajahi katalog ikan cupang kontes/kolektor.">
 <meta property="og:title" content="Cupang Kasep Official">
@@ -10,8 +10,26 @@
 <meta property="og:image" content="https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png">
 <meta property="og:type" content="website">
 <meta name="google-site-verification" content="rOQTIR-1CAG1h1Rbl7SphkTHTKjcuBARFehp_rHPxM4" />
-<link rel="icon" type="image/png" href="https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png">
-<style>
+<link rel="canonical" href="https://www.cupangkasep.com/" />
+
+<!-- Favicon Resmi Standar Google Search (Ukuran Persegi & Background Gelap Agar Logo Putih Terlihat Jelas) -->
+<link rel="icon" type="image/png" sizes="48x48" href="https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png?w=48&h=48&fit=fillmax&fill=solid&fill-color=07090e&bg=07090e&fm=png">
+<link rel="icon" type="image/png" sizes="96x96" href="https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png?w=96&h=96&fit=fillmax&fill=solid&fill-color=07090e&bg=07090e&fm=png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png?w=192&h=192&fit=fillmax&fill=solid&fill-color=07090e&bg=07090e&fm=png">
+<link rel="shortcut icon" href="https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png?w=192&h=192&fit=fillmax&fill=solid&fill-color=07090e&bg=07090e&fm=png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png?w=180&h=180&fit=fillmax&fill=solid&fill-color=07090e&bg=07090e&fm=png">
+
+<!-- Schema Markup Resmi Google untuk Mengenali Logo & Nama Brand Cupang Kasep -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Cupang Kasep Official",
+  "alternateName": "Cupang Kasep",
+  "url": "https://www.cupangkasep.com",
+  "logo": "https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png?w=512&h=512&fit=fillmax&fill=solid&fill-color=07090e&bg=07090e&fm=png"
+}
+</script>
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap');
 
   :root {
@@ -94,11 +112,20 @@
     left: 0;
     width: 100%;
     z-index: 1000;
+  }
+
+  /* Lapisan background & blur dipisah agar tidak mengunci menu melayang bawah di HP */
+  .ck-navbar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
     background: rgba(8, 9, 12, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(212, 175, 55, 0.25);
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.75);
+    z-index: -1;
+    pointer-events: none;
   }
 
   .nav-brand {
@@ -169,57 +196,90 @@
     animation: fadeIn 0.3s ease;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     .container {
-      padding-top: 104px; /* Pas dengan tinggi navbar 2 baris di HP */
+      padding-top: 64px; /* Lebih ringkas karena badge/menu atas sudah dihilangkan */
+      padding-bottom: 88px; /* Ruang aman agar konten & footer tidak tertutup menu bawah */
     }
-    #sectionHome, #sectionGallery, #sectionAbout {
-      scroll-margin-top: 104px;
+    #sectionHome, #sectionGallery, #sectionOngkir, #sectionAbout {
+      scroll-margin-top: 64px;
     }
     .ck-navbar {
-      padding: 10px 14px;
-      flex-wrap: wrap;
-      row-gap: 8px;
-      column-gap: 6px;
+      padding: 12px 16px;
+      flex-wrap: nowrap;
     }
     .nav-brand {
-      font-size: clamp(13.5px, 4vw, 15.5px);
-      gap: 7px;
-      max-width: calc(100% - 115px); /* Mengunci agar tombol kanan tidak pernah turun baris */
+      font-size: clamp(14px, 4vw, 16.5px);
+      gap: 8px;
+      max-width: calc(100% - 110px);
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .nav-logo-left {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
     }
     .nav-right-group {
       gap: 6px;
       margin-left: auto;
     }
     .nav-sound-btn {
-      width: 28px;
-      height: 28px;
-      font-size: 11.5px;
+      width: 30px;
+      height: 30px;
+      font-size: 12px;
     }
     .nav-lang-switch {
-      padding: 4px 10px;
-      font-size: 10.5px;
+      padding: 5px 10px;
+      font-size: 11px;
     }
+    /* Memindahkan Beranda, Galeri, Cek Ongkir, Tentang Kami tepat ke bawah layar HP/Tablet */
     .nav-links {
-      order: 3;
-      width: 100%;
-      justify-content: space-between;
-      gap: 4px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(212, 175, 55, 0.15);
-      flex-wrap: nowrap;
+      position: fixed !important;
+      top: auto !important;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+      left: 50% !important;
+      transform: translateX(-50%) scale(1) !important;
+      transform-origin: bottom center !important;
+      width: calc(100vw - 28px) !important;
+      max-width: 420px !important;
+      justify-content: space-around !important;
+      gap: 4px !important;
+      padding: 10px 12px !important;
+      margin: 0 !important;
+      background: rgba(12, 15, 22, 0.95) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      border: 1px solid rgba(212, 175, 55, 0.35) !important;
+      border-radius: 30px !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95), 0 0 18px rgba(212, 175, 55, 0.15) !important;
+      z-index: 9999 !important;
+      flex-wrap: nowrap !important;
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                  padding 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                  bottom 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity 0.32s ease,
+                  background 0.32s ease,
+                  box-shadow 0.32s ease !important;
+    }
+    /* Efek mengecil ala Instagram saat layar di-scroll ke bawah */
+    .nav-links.nav-minimized {
+      transform: translateX(-50%) scale(0.82) !important;
+      bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+      padding: 6px 10px !important;
+      background: rgba(12, 15, 22, 0.72) !important;
+      border-color: rgba(212, 175, 55, 0.2) !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+      opacity: 0.78 !important;
     }
     .nav-item {
-      font-size: clamp(11px, 3.2vw, 12.5px);
-      padding: 4px 8px;
+      font-size: clamp(11.5px, 3.2vw, 13px);
+      padding: 6px 10px;
       white-space: nowrap;
       flex-shrink: 0;
+      transition: all 0.28s ease;
+    }
+    .nav-links.nav-minimized .nav-item {
+      padding: 4px 8px;
     }
     .nav-item.active::before {
       inset: -2px -5px;
@@ -2490,30 +2550,16 @@
     gap: 10px;
   }
 
-  .nav-sound-btn {
-    background-color: rgba(212, 175, 55, 0.12);
-    border: 1px solid rgba(212, 175, 55, 0.45);
-    color: var(--gold-light);
-    font-size: 13px;
-    width: 32px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s, border-color 0.2s, transform 0.15s;
-  }
-
-  .nav-sound-btn:hover {
-    background-color: rgba(212, 175, 55, 0.25);
-    border-color: var(--gold-light);
-  }
-
-  .nav-sound-btn.muted {
-    background-color: rgba(239, 68, 68, 0.15);
-    border-color: rgba(239, 68, 68, 0.5);
-    color: #fca5a5;
+  /* Mencegah browser HP (iOS/Android) auto-zoom saat user mengetik di kolom input mana pun */
+  @media (max-width: 1024px) {
+    input:not([type="checkbox"]):not([type="radio"]),
+    select:not(.nav-lang-switch),
+    textarea,
+    .search-input,
+    .catalog-input,
+    .catalog-select {
+      font-size: 16px !important;
+    }
   }
 
   .nav-lang-switch {
@@ -2599,6 +2645,44 @@
     box-shadow: 0 2px 10px rgba(239, 68, 68, 0.5);
     pointer-events: none;
     z-index: 4;
+  }
+
+  @media (max-width: 1024px) {
+    .floating-cart-btn {
+      bottom: calc(82px + env(safe-area-inset-bottom, 0px)) !important;
+      right: 16px !important;
+      height: 46px !important;
+      transition: bottom 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                  width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                  padding 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-radius 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+                  background 0.32s ease,
+                  box-shadow 0.32s ease !important;
+    }
+    /* Mengikuti gerakan turun-naik navbar bawah dengan irama yang persis sama, tanpa mengecilkan ukuran keranjang */
+    .floating-cart-btn.cart-follow-nav {
+      bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    /* Saat sembunyi: Menjadi bulat melayang utuh di sebelah kanan (hanya logo 🛒) */
+    .floating-cart-btn.cart-docked {
+      right: 16px !important;
+      width: 46px !important;
+      height: 46px !important;
+      padding: 0 !important;
+      border-radius: 50% !important;
+      border: 1.5px solid rgba(212, 175, 55, 0.65) !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 0px !important;
+      background: rgba(12, 15, 22, 0.92) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85), 0 0 14px rgba(212, 175, 55, 0.2) !important;
+    }
+    .floating-cart-btn.cart-docked #floatingCartLabel,
+    .floating-cart-btn.cart-docked #floatingCartCount {
+      display: none !important;
+    }
   }
 
   .floating-cart-btn {
@@ -2962,9 +3046,6 @@
       <a class="nav-item" id="navAbout" onclick="navigasiMenuAtas('about')">Tentang Kami</a>
     </div>
     <div class="nav-right-group">
-      <button type="button" class="nav-sound-btn notranslate" id="soundToggleBtn" onclick="toggleMuteAudio()" title="Atur Suara Efek">
-        🔊
-      </button>
       <select class="nav-lang-switch notranslate" id="langDropdown" onchange="pilihBahasa(this.value)" title="Pilih Bahasa">
         <option value="id" selected>🇮🇩 ID</option>
         <option value="en">🇬🇧 EN</option>
@@ -2999,13 +3080,13 @@
     <section class="features-section" id="sectionGallery">
       <div class="pdf-cards-grid">
 
-        <!-- 1. Katalog Produk -->
+        <!-- 1. Koleksi CK -->
         <div class="pdf-card" onclick="bukaHalamanKatalog()">
           <div class="pdf-card-art">
             <img src="https://images.unsplash.com/vector-1794241878796-c82c88e2db67?q=80&w=951&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Product Catalog">
           </div>
           <div class="pdf-card-footer">
-            <div class="pdf-card-title">KATALOG PRODUK</div>
+            <div class="pdf-card-title">Koleksi CK</div>
           </div>
         </div>
 
@@ -3212,7 +3293,7 @@
     <div class="vip-header">
       <button type="button" class="back-btn" id="catalogBackBtn" onclick="kembaliKeLanding()">← Kembali</button>
       <div class="brand-subtitle" id="catalogHeaderSubtitle">OFFICIAL STORE CUPANG KASEP</div>
-      <h1 class="vip-title" id="catalogHeaderTitle">KATALOG PRODUK</h1>
+      <h1 class="vip-title" id="catalogHeaderTitle">KOLEKSI CK</h1>
       <p class="vip-tagline" id="catalogHeaderTagline">Koleksi Ikan Cupang Berkualitas & Kebutuhan Perawatan Terbaik</p>
     </div>
 
@@ -3513,7 +3594,7 @@
 <div class="result-modal" id="cartModal" onclick="tutupModalKeranjang()">
   <div class="cart-modal-box" onclick="event.stopPropagation()">
     <div class="cart-header">
-      <span class="cart-title" id="cartModalTitle">🛒 KERANJANG BELANJA</span>
+      <span class="cart-title" id="cartModalTitle">🛒  BELANJA</span>
       <button type="button" class="close-admin-btn" onclick="tutupModalKeranjang()">✕ Tutup</button>
     </div>
 
@@ -3715,7 +3796,7 @@
       labelEl.innerText = USER_LANG === "en" ? "Cart" : (USER_LANG === "zh" ? "购物车" : "Keranjang");
     }
 
-    // Hanya muncul jika berada di halaman Katalog Produk (bukan Lelang & bukan halaman lain)
+    // Hanya muncul jika berada di halaman Koleksi CK (bukan Lelang & bukan halaman lain)
     const isCatalogVisible = document.getElementById("catalogPage").style.display === "block";
     const isNotAuction = currentCategoryFilter !== "Lelang";
     floatBtn.style.display = (isCatalogVisible && isNotAuction) ? "flex" : "none";
@@ -3759,6 +3840,8 @@
     }
 
     saveCartItems(cart);
+    const floatBtn = document.getElementById("floatingCartBtn");
+    if (floatBtn) floatBtn.classList.remove("cart-docked");
     tampilkanToast(`🛒 [${item.kode}] masuk keranjang!`);
   }
 
@@ -3791,6 +3874,14 @@
 
   async function bukaModalKeranjang() {
     playClickSound();
+    const floatBtn = document.getElementById("floatingCartBtn");
+
+    // Jika di HP keranjang sedang bersembunyi di kanan (hanya logo), klik pertama memunculkan bentuk aslinya dulu
+    if (floatBtn && window.innerWidth <= 1024 && floatBtn.classList.contains("cart-docked")) {
+      floatBtn.classList.remove("cart-docked");
+      return;
+    }
+
     renderIsiModalKeranjang();
     document.getElementById("cartModal").classList.add("open");
 
@@ -4096,7 +4187,7 @@
       heroTitle: "Temukan Koleksi<br>Langka<br>Ikan Cupang",
       heroDesc: "Gerbang resmi menuju <strong>Cupang Kasep</strong>. Jelajahi katalog ikan & produk secara langsung, verifikasi sertifikat, dan hadiah VIP.",
       heroBtn: "Mulai Hobi Anda",
-      cardCatalog: "KATALOG PRODUK",
+      cardCatalog: "KOLEKSI CK",
       cardAuction: "LELANG CK",
       cardCert: "SERTIFIKAT<br>KEASLIAN",
       cardPrize: "Undian Hadiah",
@@ -4906,7 +4997,7 @@
     }
   }
 
-  // Fungsi Pesan WhatsApp Katalog Produk mengikuti bahasa (ID / EN / ZH)
+  // Fungsi Pesan WhatsApp Koleksi CK mengikuti bahasa (ID / EN / ZH)
   function buatLinkWhatsAppKatalog(item, isHabis) {
     let pesan = "";
     if (USER_LANG === "en") {
@@ -5237,7 +5328,7 @@
       const isIkan = item.kategori.toLowerCase().includes("ikan");
       const isLelang = item.kategori.toLowerCase() === "lelang";
 
-      // Hanya tampilkan HOT jika berada di menu Katalog Produk (bukan item Lelang & bukan menu Lelang)
+      // Hanya tampilkan HOT jika berada di menu Koleksi CK (bukan item Lelang & bukan menu Lelang)
       const isHot = !isLelang && currentCategoryFilter !== "Lelang" && !isHabis && jumlahViews >= HOT_VIEWS_THRESHOLD;
       const belumMulaiLelang = isLelang && apakahLelangBelumMulai(item.startTime);
       const sudahSelesaiLelang = isLelang && (isHabis || apakahWaktuLelangHabis(item.endTime));
@@ -5798,35 +5889,7 @@
     document.getElementById("secretAdminPanel").style.display = "none";
   }
 
-  let isAudioMuted = localStorage.getItem("ck_audio_muted") === "true";
-
-  function perbaruiIkonSuara() {
-    const btn = document.getElementById("soundToggleBtn");
-    if (!btn) return;
-    if (isAudioMuted) {
-      btn.innerText = "🔇";
-      btn.classList.add("muted");
-    } else {
-      btn.innerText = "🔊";
-      btn.classList.remove("muted");
-    }
-  }
-
-  function toggleMuteAudio() {
-    isAudioMuted = !isAudioMuted;
-    localStorage.setItem("ck_audio_muted", isAudioMuted);
-    perbaruiIkonSuara();
-    if (!isAudioMuted) {
-      playClickSound();
-      tampilkanToast("🔊 Efek suara diaktifkan");
-    } else {
-      stopWheelTickSound();
-      tampilkanToast("🔇 Efek suara dibisukan");
-    }
-  }
-
   function initAudio() {
-    if (isAudioMuted) return;
     if (!audioCtx) {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
       if (AudioContextClass) {
@@ -5839,21 +5902,8 @@
   }
 
   function playClickSound() {
-    if (isAudioMuted) return;
+    // Suara klik tombol dinonaktifkan, hanya menyiapkan AudioContext untuk suara Spin Roulette
     initAudio();
-    if (!audioCtx) return;
-    const now = audioCtx.currentTime;
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(800, now);
-    osc.frequency.exponentialRampToValueAtTime(200, now + 0.06);
-    gain.gain.setValueAtTime(0.3, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start(now);
-    osc.stop(now + 0.06);
   }
 
   function playSingleTick() {
@@ -6034,7 +6084,7 @@
       const savedCat = kategoriPilihan || localStorage.getItem("ck_last_cat_pill") || sessionStorage.getItem("ck_last_cat_pill") || "Semua";
       currentCategoryFilter = savedCat === "Lelang" ? "Semua" : savedCat;
       if (subEl) subEl.innerText = "OFFICIAL STORE CUPANG KASEP";
-      if (titleEl) titleEl.innerText = "KATALOG PRODUK";
+      if (titleEl) titleEl.innerText = "KOLEKSI CK";
       if (tagEl) tagEl.innerText = "Koleksi Ikan Cupang Berkualitas & Kebutuhan Perawatan Terbaik";
       if (pillsEl) {
         pillsEl.style.display = "flex";
@@ -7726,14 +7776,61 @@
     });
   }
 
+  // Sensor Scroll HP: Mengecilkan navbar bawah & membuat keranjang bulat mengikuti gerakan turun-naik navbar
+  function inisialisasiScrollNavbarHP() {
+    let lastScrollY = window.scrollY || 0;
+    const navLinks = document.querySelector(".nav-links");
+    const topNavbar = document.querySelector(".ck-navbar");
+    const floatCartBtn = document.getElementById("floatingCartBtn");
+    if (!navLinks) return;
+
+    window.addEventListener("scroll", function() {
+      const currentScrollY = window.scrollY || 0;
+      const selisihScroll = currentScrollY - lastScrollY;
+
+      // Ubah keranjang menjadi bulat melayang (hanya logo 🛒) setiap kali user scroll di Koleksi CK
+      if (floatCartBtn && floatCartBtn.style.display === "flex" && Math.abs(selisihScroll) > 6) {
+        floatCartBtn.classList.add("cart-docked");
+      }
+
+      // Jika masih di bagian paling atas halaman, kembalikan posisi ke atas normal
+      if (currentScrollY <= 40) {
+        navLinks.classList.remove("nav-minimized");
+        if (floatCartBtn) floatCartBtn.classList.remove("cart-follow-nav");
+        if (topNavbar) topNavbar.classList.remove("nav-top-compact");
+        lastScrollY = currentScrollY;
+        return;
+      }
+
+      // Scroll ke bawah (> 8px) -> Navbar mengecil & keranjang ikut bergerak turun seirama (tanpa mengecil)
+      if (selisihScroll > 8) {
+        navLinks.classList.add("nav-minimized");
+        if (floatCartBtn) floatCartBtn.classList.add("cart-follow-nav");
+      }
+      // Scroll ke atas (< -8px) -> Navbar membesar kembali & keranjang ikut bergerak naik seirama
+      else if (selisihScroll < -8) {
+        navLinks.classList.remove("nav-minimized");
+        if (floatCartBtn) floatCartBtn.classList.remove("cart-follow-nav");
+      }
+
+      lastScrollY = currentScrollY;
+    }, { passive: true });
+
+    // Jika user menyentuh kapsul navbar saat sedang mengecil, langsung perbesar & naikkan keranjang seirama
+    navLinks.addEventListener("touchstart", function() {
+      navLinks.classList.remove("nav-minimized");
+      if (floatCartBtn) floatCartBtn.classList.remove("cart-follow-nav");
+    }, { passive: true });
+  }
+
   window.addEventListener("DOMContentLoaded", function() {
     document.cookie = "googtrans=/id/id; path=/";
     document.cookie = "googtrans=/id/id; path=/; domain=" + location.hostname;
     muatKursRealTime();
-    perbaruiIkonSuara();
     pilihBahasa("id", false);
     cekDirectLinkUrl();
     mulaiPemantauUpdateWeb();
+    inisialisasiScrollNavbarHP();
   });
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

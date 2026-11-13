@@ -3906,7 +3906,7 @@ html.modal-open-lock {
      ========================================================= */
   const CONFIG = {
     // 👇 ISI TOKEN API FONNTE ANDA DI DALAM TANDA KUTIP DI BAWAH INI:
-    FONNTE_TOKEN: "bCPc7RrFuG4SMteQFV3d",
+    FONNTE_TOKEN: "bCPc7RrFuG4SMteQFV3d", 
 
     SHEET_ID: "15WF5-lpN_G7QU_7UFDx51cU3sC8c1FzCZLftF8CLu6s",
     CATALOG_SHEET_NAME: "KATALOG",
@@ -7805,12 +7805,13 @@ html.modal-open-lock {
       .replace(/[\r\n\-]+/g, " ")
       .replace(/\s+/g, " ")
       .trim();
+    const kodeUnikPesan = Math.floor(1000 + Math.random() * 9000);
     const formatPesanWa = isRegister
-      ? `VERIFY-REGISTER-${namaBersih}-${emailInput}-${waClean}`
-      : `VERIFY-LOGIN-${emailInput}-${waClean}`;
+      ? `VERIFY-REGISTER-${namaBersih}-${emailInput}-${waClean}-${kodeUnikPesan}`
+      : `VERIFY-LOGIN-${emailInput}-${waClean}-${kodeUnikPesan}`;
 
     const nomorBotFonnte = String(CONFIG.FONNTE_WA_NUMBER || "6285111761840").replace(/[^0-9]/g, "");
-    const linkWa = `https://wa.me/${nomorBotFonnte}?text=${encodeURIComponent(formatPesanWa)}`;
+    const linkWa = `https://api.whatsapp.com/send?phone=${nomorBotFonnte}&text=${encodeURIComponent(formatPesanWa)}`;
     const btnWaEl = document.getElementById("btnOpenWaInbound");
     const previewEl = document.getElementById("waVerifyMessagePreview");
 

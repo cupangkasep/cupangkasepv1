@@ -3071,6 +3071,39 @@
 }
 .auth-field-group {
     margin-bottom: 12px;
+    width: 100%;
+}
+.auth-field-group .search-input-group {
+    display: grid !important;
+    grid-template-columns: 122px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    align-items: center !important;
+}
+.auth-field-group .search-input {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 46px !important;
+    padding: 0 12px !important;
+    line-height: 44px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+}
+.auth-field-group select.search-input {
+    padding: 0 8px !important;
+    text-align: center !important;
+    text-align-last: center !important;
+}
+body.modal-open-lock,
+html.modal-open-lock {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+}
+#auctionOtpModal.open,
+#cartModal.open,
+#auctionBlockedModal.open {
+    overscroll-behavior: contain;
+    touch-action: pan-y;
 }
 .wa-waiting-card {
     text-align: center;
@@ -3769,14 +3802,14 @@
       <!-- Input Email (Tampil di Daftar Baru & Login Lama) -->
       <div class="auth-field-group">
         <label class="search-label">✉️ Alamat Email:</label>
-        <input type="email" id="bidderEmailInput" class="search-input" style="width:100%; text-transform:none;" placeholder="nama@email.com" autocomplete="email" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+        <input type="email" id="bidderEmailInput" class="search-input notranslate" style="text-transform:none;" placeholder="nama@email.com" autocomplete="email" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
       </div>
 
       <!-- Input Kode Negara + Nomor WA -->
       <div class="auth-field-group" style="margin-bottom:16px;">
         <label class="search-label">📱 Nomor WhatsApp Aktif:</label>
         <div class="search-input-group">
-          <select id="bidderCountryCode" class="search-input notranslate" style="flex: 0 0 118px; padding: 11px 6px; cursor: pointer; text-transform: none; font-weight: 700;">
+          <select id="bidderCountryCode" class="search-input notranslate" style="cursor: pointer; text-transform: none; font-weight: 700;">
             <option value="62" selected>🇮🇩 +62 (ID)</option>
             <option value="60">🇲🇾 +60 (MY)</option>
             <option value="65">🇸🇬 +65 (SG)</option>
@@ -3799,7 +3832,7 @@
             <option value="33">🇫🇷 +33 (FR)</option>
             <option value="1">🇺🇸 +1 (US/CA)</option>
           </select>
-          <input type="tel" id="bidderWaInput" class="search-input" style="flex:1; text-transform:none;" placeholder="8123456789" autocomplete="tel" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+          <input type="tel" id="bidderWaInput" class="search-input notranslate" style="text-transform:none;" placeholder="8123456789" autocomplete="tel" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
         </div>
       </div>
 
@@ -3878,7 +3911,8 @@
     SHEET_ID: "15WF5-lpN_G7QU_7UFDx51cU3sC8c1FzCZLftF8CLu6s",
     CATALOG_SHEET_NAME: "KATALOG",
     AUCTION_SHEET_NAME: "Lelang",
-    WHATSAPP_NUMBER: "6282121478149",
+    WHATSAPP_NUMBER: "6282121478149",      // Nomor WA Admin Utama (+62 821-2147-8149) untuk Order & Keranjang
+    FONNTE_WA_NUMBER: "6285111761840",     // Nomor WA Bot Fonnte khusus pengecekan Verifikasi Lelang
     APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyN8YzpfaalSg6jbBhubTmwik3ZLOTakvSLDj343290AVGGyB3XKs3hhFpgvfGUEfc/exec",
     PLACEHOLDER_IMAGE: "https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png",
     START_ON_CATALOG_PAGE: false,
@@ -4219,36 +4253,13 @@
     totalEl.innerText = formatRupiah(totalHarga);
   }
 
-  async function checkoutKeranjangWA() {
+  function checkoutKeranjangWA() {
     playClickSound();
-    let cart = getCartItems();
+    const cart = getCartItems();
     if (cart.length === 0) {
       tampilkanToast("⚠️ Keranjang masih kosong!");
       return;
     }
-
-    // Cek sekali lagi ke Google Sheets tepat saat tombol Beli via WhatsApp ditekan
-    const btnWA = document.getElementById("btnCheckoutWA");
-    const teksAsliBtn = btnWA ? btnWA.innerText : "Beli via WhatsApp";
-    if (btnWA) {
-      btnWA.disabled = true;
-      btnWA.innerText = "⏳ Mengecek Stok...";
-    }
-
-    const adaPerubahanMendadak = await validasiStokKeranjangOtomatis();
-
-    if (btnWA) {
-      btnWA.disabled = false;
-      btnWA.innerText = teksAsliBtn;
-    }
-
-    // Jika ternyata ada ikan yang baru saja terjual, batalkan buka WA agar pembeli membaca kotak peringatan dulu
-    if (adaPerubahanMendadak) {
-      return;
-    }
-
-    cart = getCartItems();
-    if (cart.length === 0) return;
 
     let totalHarga = 0;
     const rincianBaris = cart.map((c, i) => {
@@ -4278,7 +4289,17 @@
         `Mohon info ketersediaan stok dan ongkos kirimnya. Terima kasih!`;
     }
 
-    window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(pesan)}`, "_blank");
+    const nomorAdmin = String(CONFIG.WHATSAPP_NUMBER || "6282121478149").replace(/[^0-9]/g, "");
+    const waUrl = `https://api.whatsapp.com/send?phone=${nomorAdmin}&text=${encodeURIComponent(pesan)}`;
+
+    // Buat elemen anchor dinamis agar diizinkan penuh oleh sistem operasi HP & browser in-app (IG/TikTok/Safari)
+    const linkTemp = document.createElement("a");
+    linkTemp.href = waUrl;
+    linkTemp.target = "_blank";
+    linkTemp.rel = "noopener noreferrer";
+    document.body.appendChild(linkTemp);
+    linkTemp.click();
+    document.body.removeChild(linkTemp);
   }
 
   function catatViewProduk(item) {
@@ -7002,8 +7023,7 @@
      5. MESIN UTAMA LELANG VIP, OTP FONNTE 1X SELAMANYA, & BLOKIR BNR
      ========================================================= */
   const STORAGE_KEY_BIDDER = "ck_verified_bidder_v1";
-  let pendingBidAction = null; // Menyimpan aksi bid yang tertunda saat diminta verifikasi OTP
-  let forceNewOtpSession = false; // Memaksa kirim OTP WA baru jika user klik tombol Ganti No WA
+  let pendingBidAction = null; // Menyimpan aksi bid yang tertunda saat diminta verifikasi WA
 
   function getVerifiedBidder() {
     try {
@@ -7591,7 +7611,7 @@
       if (nameGroup) nameGroup.style.display = "none";
       if (submitBtn) submitBtn.innerText = "Login";
       if (infoText) {
-        infoText.innerText = "Masukkan Email dan Nomor WhatsApp yang sudah terdaftar, lalu konfirmasi melalui WhatsApp.";
+        infoText.innerText = "Masukkan Alamat Email dan Nomor WhatsApp Anda yang terdaftar untuk langsung masuk ke akun lelang.";
       }
     } else {
       if (tabLog) tabLog.classList.remove("active");
@@ -7633,12 +7653,17 @@
       gantiModeAuthLelang("register");
     }
 
+    // Kunci scroll layar belakang saat modal login dibuka
+    document.body.classList.add("modal-open-lock");
+    document.documentElement.classList.add("modal-open-lock");
     document.getElementById("auctionOtpModal").classList.add("open");
   }
 
   function tutupModalOtpLelang() {
     playClickSound();
     hentikanPollingVerifikasiWa();
+    document.body.classList.remove("modal-open-lock");
+    document.documentElement.classList.remove("modal-open-lock");
     document.getElementById("auctionOtpModal").classList.remove("open");
   }
 
@@ -7716,9 +7741,20 @@
       return;
     }
 
+    // Jika salah satu (Email atau No WA) salah / tidak serasi -> Tolak & tetap di form Login
+    if (res.status === "mismatch") {
+      alert("❌ " + (res.message || "Email atau Nomor WhatsApp Anda salah / tidak sesuai!"));
+      return;
+    }
+
+    // Jika keduanya (Email & No WA) belum ada di database -> Arahkan ke Daftar Peserta Baru
     if (res.status === "not_found") {
-      alert("⚠️ " + (res.message || "Data peserta tidak ditemukan. Silakan daftar melalui tab Daftar Peserta Baru."));
+      alert("⚠️ " + (res.message || "Nomor WhatsApp dan Email belum terdaftar. Silakan mendaftar pada tab Daftar Peserta Baru."));
       gantiModeAuthLelang("register");
+      setTimeout(() => {
+        const nameInp = document.getElementById("bidderNameInput");
+        if (nameInp) nameInp.focus();
+      }, 100);
       return;
     }
 
@@ -7727,13 +7763,54 @@
       return;
     }
 
-    // 3. Siapkan Format Pesan Inbound WA & Tampilkan Layar Penantian
-    const namaBersih = (isRegister ? namaInput : (res.nama || "Peserta")).replace(/[\r\n]+/g, " ").trim();
+    // 2B. JIKA NO WA & EMAIL SERASI (ATAU DATA LAMA TAMBAH EMAIL) -> LANGSUNG LOGIN TANPA KIRIM WA
+    if (res.status === "already_verified_email_updated" || res.status === "already_verified") {
+      const namaFinalLama = (res.nama && res.nama !== "-") ? res.nama : (namaInput || "Peserta");
+      const tokenFinalLama = res.token || "VERIFIED";
+      const isEmailBaruDitautkan = res.status === "already_verified_email_updated";
+
+      saveVerifiedBidder({
+        nama: namaFinalLama,
+        wa: res.wa || waClean,
+        email: res.email || emailInput,
+        cc: kodeNegara,
+        token: tokenFinalLama
+      });
+
+      document.getElementById("auctionAuthFormContainer").style.display = "none";
+      document.getElementById("auctionWaitingWaBox").style.display = "none";
+      const welcomeEl = document.getElementById("waVerifiedWelcomeText");
+      if (welcomeEl) {
+        welcomeEl.innerText = isEmailBaruDitautkan
+          ? `Email berhasil ditautkan! Selamat datang kembali, ${namaFinalLama}.`
+          : `Login berhasil! Selamat datang kembali, ${namaFinalLama}.`;
+      }
+      document.getElementById("auctionVerifiedSuccessBox").style.display = "block";
+      tampilkanToast(isEmailBaruDitautkan ? `✅ Email tersimpan! Halo, ${namaFinalLama}` : `✅ Selamat datang kembali, ${namaFinalLama}!`);
+
+      setTimeout(() => {
+        tutupModalOtpLelang();
+        if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
+        if (pendingBidAction) {
+          const act = pendingBidAction;
+          pendingBidAction = null;
+          prosesPasangBid(act.kode, act.tipe);
+        }
+      }, 900);
+      return;
+    }
+
+    // 3. Siapkan Format Pesan Inbound WA ke Nomor Bot Fonnte (6285111761840) & Tampilkan Layar Penantian
+    const namaBersih = (isRegister ? namaInput : (res.nama || "Peserta"))
+      .replace(/[\r\n\-]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
     const formatPesanWa = isRegister
       ? `VERIFY-REGISTER-${namaBersih}-${emailInput}`
       : `VERIFY-LOGIN-${emailInput}`;
 
-    const linkWa = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(formatPesanWa)}`;
+    const nomorBotFonnte = String(CONFIG.FONNTE_WA_NUMBER || "6285111761840").replace(/[^0-9]/g, "");
+    const linkWa = `https://wa.me/${nomorBotFonnte}?text=${encodeURIComponent(formatPesanWa)}`;
     const btnWaEl = document.getElementById("btnOpenWaInbound");
     const previewEl = document.getElementById("waVerifyMessagePreview");
 
@@ -7772,12 +7849,14 @@
         hentikanPollingVerifikasiWa();
 
         const namaFinal = (resPoll.nama && resPoll.nama !== "-") ? resPoll.nama : (fallbackNama || "Peserta");
+        const waFinal = resPoll.wa || waClean;
+        const emailFinal = (resPoll.email && resPoll.email !== "-") ? resPoll.email : emailInput;
         const tokenFinal = resPoll.token || "VERIFIED";
 
         saveVerifiedBidder({
           nama: namaFinal,
-          wa: waClean,
-          email: emailInput,
+          wa: waFinal,
+          email: emailFinal,
           cc: kodeNegara,
           token: tokenFinal
         });
@@ -7859,6 +7938,7 @@
       kode: item.kode,
       nama: bidder.nama,
       wa: bidder.wa,
+      email: bidder.email || "",
       token: bidder.token,
       nominal: nominalTawaran,
       tipe: tipeBid,

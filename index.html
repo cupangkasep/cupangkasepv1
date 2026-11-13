@@ -7806,8 +7806,8 @@ html.modal-open-lock {
       .replace(/\s+/g, " ")
       .trim();
     const formatPesanWa = isRegister
-      ? `VERIFY-REGISTER-${namaBersih}-${emailInput}`
-      : `VERIFY-LOGIN-${emailInput}`;
+      ? `VERIFY-REGISTER-${namaBersih}-${emailInput}-${waClean}`
+      : `VERIFY-LOGIN-${emailInput}-${waClean}`;
 
     const nomorBotFonnte = String(CONFIG.FONNTE_WA_NUMBER || "6285111761840").replace(/[^0-9]/g, "");
     const linkWa = `https://wa.me/${nomorBotFonnte}?text=${encodeURIComponent(formatPesanWa)}`;
@@ -7825,63 +7825,96 @@ html.modal-open-lock {
     mulaiPollingStatusVerifikasi(waClean, emailInput, namaBersih, kodeNegara);
   }
 
+  let sedangCekStatusWa = false;
+  let listenerVisibilityWa = null;
+
   function mulaiPollingStatusVerifikasi(waClean, emailInput, fallbackNama, kodeNegara) {
     hentikanPollingVerifikasiWa();
+    sedangCekStatusWa = false;
 
     const cekStatusKeServer = async () => {
-      const resPoll = await kirimKeGoogleSheets({
-        action: "auction_check_status",
-        wa: waClean,
-        email: emailInput,
-        mode: currentAuthMode
-      });
-
-      if (!resPoll) return;
-
-      if (resPoll.status === "blocked") {
+      if (sedangCekStatusWa) return;
+      const waitingBox = document.getElementById("auctionWaitingWaBox");
+      if (!waitingBox || waitingBox.style.display === "none") {
         hentikanPollingVerifikasiWa();
-        tutupModalOtpLelang();
-        tampilkanModalBlokirBNR(waClean);
         return;
       }
 
-      if (resPoll.status === "verified") {
-        hentikanPollingVerifikasiWa();
-
-        const namaFinal = (resPoll.nama && resPoll.nama !== "-") ? resPoll.nama : (fallbackNama || "Peserta");
-        const waFinal = resPoll.wa || waClean;
-        const emailFinal = (resPoll.email && resPoll.email !== "-") ? resPoll.email : emailInput;
-        const tokenFinal = resPoll.token || "VERIFIED";
-
-        saveVerifiedBidder({
-          nama: namaFinal,
-          wa: waFinal,
-          email: emailFinal,
-          cc: kodeNegara,
-          token: tokenFinal
+      sedangCekStatusWa = true;
+      try {
+        const resPoll = await kirimKeGoogleSheets({
+          action: "auction_check_status",
+          wa: waClean,
+          email: emailInput,
+          mode: currentAuthMode
         });
 
-        // Tampilkan layar sukses centang hijau
-        document.getElementById("auctionWaitingWaBox").style.display = "none";
-        const welcomeEl = document.getElementById("waVerifiedWelcomeText");
-        if (welcomeEl) {
-          welcomeEl.innerText = `Selamat datang, ${namaFinal}! Akun Anda telah terverifikasi.`;
-        }
-        document.getElementById("auctionVerifiedSuccessBox").style.display = "block";
-        tampilkanToast(`✅ Verifikasi WA berhasil! Halo, ${namaFinal}`);
+        if (!resPoll) return;
 
-        setTimeout(() => {
+        if (resPoll.status === "blocked") {
+          hentikanPollingVerifikasiWa();
           tutupModalOtpLelang();
-          if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
-          if (pendingBidAction) {
-            const act = pendingBidAction;
-            pendingBidAction = null;
-            prosesPasangBid(act.kode, act.tipe);
+          tampilkanModalBlokirBNR(waClean);
+          return;
+        }
+
+        if (resPoll.status === "verified") {
+          hentikanPollingVerifikasiWa();
+          if (listenerVisibilityWa) {
+            document.removeEventListener("visibilitychange", listenerVisibilityWa);
+            window.removeEventListener("focus", listenerVisibilityWa);
+            listenerVisibilityWa = null;
           }
-        }, 1100);
+
+          const namaFinal = (resPoll.nama && resPoll.nama !== "-") ? resPoll.nama : (fallbackNama || "Peserta");
+          const waFinal = resPoll.wa || waClean;
+          const emailFinal = (resPoll.email && resPoll.email !== "-") ? resPoll.email : emailInput;
+          const tokenFinal = resPoll.token || "VERIFIED";
+
+          saveVerifiedBidder({
+            nama: namaFinal,
+            wa: waFinal,
+            email: emailFinal,
+            cc: kodeNegara,
+            token: tokenFinal
+          });
+
+          // Tampilkan layar sukses centang hijau
+          document.getElementById("auctionWaitingWaBox").style.display = "none";
+          const welcomeEl = document.getElementById("waVerifiedWelcomeText");
+          if (welcomeEl) {
+            welcomeEl.innerText = `Selamat datang, ${namaFinal}! Akun Anda telah terverifikasi.`;
+          }
+          document.getElementById("auctionVerifiedSuccessBox").style.display = "block";
+          tampilkanToast(`✅ Verifikasi WA berhasil! Halo, ${namaFinal}`);
+
+          setTimeout(() => {
+            tutupModalOtpLelang();
+            if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
+            if (pendingBidAction) {
+              const act = pendingBidAction;
+              pendingBidAction = null;
+              prosesPasangBid(act.kode, act.tipe);
+            }
+          }, 1100);
+        }
+      } finally {
+        sedangCekStatusWa = false;
       }
     };
 
+    // Otomatis cek seketika saat user kembali dari aplikasi WhatsApp ke browser
+    if (listenerVisibilityWa) {
+      document.removeEventListener("visibilitychange", listenerVisibilityWa);
+      window.removeEventListener("focus", listenerVisibilityWa);
+    }
+    listenerVisibilityWa = () => {
+      if (!document.hidden) cekStatusKeServer();
+    };
+    document.addEventListener("visibilitychange", listenerVisibilityWa);
+    window.addEventListener("focus", listenerVisibilityWa);
+
+    cekStatusKeServer();
     waVerifyPollInterval = setInterval(cekStatusKeServer, 3000);
   }
 

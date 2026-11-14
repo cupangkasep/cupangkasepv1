@@ -31,20 +31,20 @@
 }
 </script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
   :root {
-    --bg-dark: #07090e;
-    --card-bg: #0b0d13;
-    --card-surface: #171c28;
-    --gold-primary: #d4af37;
-    --gold-light: #f9e8a2;
-    --gold-dark: #996f0a;
-    --text-light: #f8fafc;
-    --text-muted: #94a3b8;
-    --verified-green: #10b981;
-    --wa-green: #25D366;
-    --danger-red: #ef4444;
+    --bg-dark: #050608;
+    --card-bg: #0a0c10;
+    --card-surface: #12151c;
+    --gold-primary: #c9a96e;
+    --gold-light: #e8d5b5;
+    --gold-dark: #8c6d3b;
+    --text-light: #f4f1ea;
+    --text-muted: #a39e93;
+    --verified-green: #2e8b6e;
+    --wa-green: #249e6b;
+    --danger-red: #a83240;
   }
 
   * {
@@ -68,22 +68,60 @@
   }
 
   /* ==========================================
-     CONTAINER UTAMA & MOTIF GEOMETRIS PDF
+     CONTAINER UTAMA & CAHAYA DARK LUXURY
      ========================================== */
   .container {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
     padding-top: 90px;
-    background-color: #08090c;
+    background-color: #050608;
     background-image: 
-      repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 28px),
-      repeating-linear-gradient(-45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 28px);
+      radial-gradient(circle at 14% 18%, rgba(201, 169, 110, 0.16) 0%, transparent 38%),
+      radial-gradient(circle at 86% 25%, rgba(140, 109, 59, 0.12) 0%, transparent 40%),
+      radial-gradient(circle at 22% 78%, rgba(92, 26, 36, 0.14) 0%, transparent 42%),
+      radial-gradient(circle at 82% 85%, rgba(201, 169, 110, 0.14) 0%, transparent 38%),
+      repeating-linear-gradient(45deg, rgba(232, 213, 181, 0.02) 0px, rgba(232, 213, 181, 0.02) 1.5px, transparent 1.5px, transparent 28px),
+      repeating-linear-gradient(-45deg, rgba(232, 213, 181, 0.02) 0px, rgba(232, 213, 181, 0.02) 1.5px, transparent 1.5px, transparent 28px);
+    background-attachment: fixed;
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+  }
+
+  /* Bola Cahaya Ambient Champagne & Warm Bronze di Balik Kaca */
+  .container::before,
+  .container::after {
+    content: "";
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    filter: blur(105px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+    animation: floatSlow 9s ease-in-out infinite alternate;
+  }
+
+  .container::before {
+    top: 8%;
+    left: -90px;
+    background: radial-gradient(circle, rgba(201, 169, 110, 0.3), rgba(140, 109, 59, 0.04));
+  }
+
+  .container::after {
+    bottom: 10%;
+    right: -90px;
+    background: radial-gradient(circle, rgba(140, 109, 59, 0.26), rgba(92, 26, 36, 0.08));
+    animation-delay: -4.5s;
+  }
+
+  .landing-page, #catalogPage, #verificationPage, #roulettePage {
+    position: relative;
+    z-index: 2;
   }
 
   @keyframes fadeIn {
@@ -101,13 +139,13 @@
   }
 
   /* ==========================================
-     1. NAVBAR ATAS (SELALU MENGIKUTI KE BAWAH)
+     1. NAVBAR ATAS GLASSMORPHIC
      ========================================== */
   .ck-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px clamp(20px, 6vw, 100px); /* Otomatis menyesuaikan HP, Tablet, & Monitor Lebar */
+    padding: 16px clamp(20px, 6vw, 100px);
     position: fixed;
     top: 0;
     left: 0;
@@ -115,16 +153,15 @@
     z-index: 1000;
   }
 
-  /* Lapisan background & blur dipisah agar tidak mengunci menu melayang bawah di HP */
   .ck-navbar::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(8, 9, 12, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.75);
+    background: linear-gradient(135deg, rgba(15, 20, 32, 0.58) 0%, rgba(8, 11, 18, 0.42) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.2);
     z-index: -1;
     pointer-events: none;
   }
@@ -133,13 +170,13 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-    font-size: 18px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
     font-weight: 700;
     font-style: italic;
-    color: #ffffff;
+    color: var(--gold-light);
     text-decoration: none;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
     cursor: pointer;
     white-space: nowrap;
   }
@@ -154,8 +191,15 @@
 
   .nav-links {
     display: flex;
-    gap: 42px;
+    gap: 16px;
     align-items: center;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 30px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.18);
   }
 
   .nav-item {
@@ -167,21 +211,27 @@
     letter-spacing: 0.5px;
     transition: all 0.3s ease;
     cursor: pointer;
-    padding: 6px 14px;
+    padding: 7px 16px;
     border-radius: 20px;
+    border: 1px solid transparent;
     z-index: 1;
   }
 
   .nav-item:hover {
     color: #ffffff;
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.15);
   }
 
   .nav-item.active {
     color: #fffbeb;
     font-weight: 700;
     text-shadow: 0 0 10px rgba(249, 232, 162, 0.85);
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.28) 0%, rgba(212, 175, 55, 0.06) 70%, transparent 100%);
-    box-shadow: 0 0 18px rgba(212, 175, 55, 0.35), inset 0 0 10px rgba(212, 175, 55, 0.2);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.32) 0%, rgba(255, 255, 255, 0.08) 100%);
+    border: 1px solid rgba(249, 232, 162, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.4);
   }
 
   /* Efek sorot cahaya lembut (backlight) di belakang teks menu saat aktif */
@@ -247,12 +297,12 @@
       gap: 4px !important;
       padding: 10px 12px !important;
       margin: 0 !important;
-      background: rgba(12, 15, 22, 0.95) !important;
-      backdrop-filter: blur(16px) !important;
-      -webkit-backdrop-filter: blur(16px) !important;
-      border: 1px solid rgba(212, 175, 55, 0.35) !important;
+      background: linear-gradient(135deg, rgba(20, 26, 40, 0.55), rgba(10, 14, 22, 0.42)) !important;
+      backdrop-filter: blur(22px) saturate(190%) !important;
+      -webkit-backdrop-filter: blur(22px) saturate(190%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.22) !important;
       border-radius: 30px !important;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95), 0 0 18px rgba(212, 175, 55, 0.15) !important;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
       z-index: 9999 !important;
       flex-wrap: nowrap !important;
       transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
@@ -267,10 +317,10 @@
       transform: translateX(-50%) scale(0.82) !important;
       bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
       padding: 6px 10px !important;
-      background: rgba(12, 15, 22, 0.72) !important;
-      border-color: rgba(212, 175, 55, 0.2) !important;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
-      opacity: 0.78 !important;
+      background: rgba(15, 20, 32, 0.38) !important;
+      border-color: rgba(255, 255, 255, 0.16) !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+      opacity: 0.88 !important;
     }
     .nav-item {
       font-size: clamp(11.5px, 3.2vw, 13px);
@@ -323,14 +373,20 @@
     width: 100%;
     max-width: 1140px;
     margin: 0 auto;
+    min-height: calc(100vh - 90px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .ongkir-card-wrapper {
-    background: linear-gradient(145deg, #121722, #0b0e15);
-    border: 1.5px solid rgba(212, 175, 55, 0.4);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(15, 20, 32, 0.45) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(249, 232, 162, 0.35);
     border-radius: 22px;
     padding: clamp(18px, 4vw, 34px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.25);
     width: 100%;
   }
 
@@ -368,29 +424,33 @@
 
   .ongkir-col-label {
     display: block;
-    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-    font-size: clamp(15px, 2vw, 19px);
-    font-weight: 700;
-    color: var(--text-light);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(18px, 2.2vw, 22px);
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    color: var(--gold-light);
     margin-bottom: 8px;
   }
 
   .ongkir-input-box {
     width: 100%;
     height: 54px;
-    background: #171c28;
-    border: 1.5px solid rgba(212, 175, 55, 0.35);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 4px 14px rgba(0, 0, 0, 0.3);
+    border-radius: 14px;
     padding: 0 16px;
     color: #ffffff;
-    font-size: 16px; /* Minimal 16px agar browser HP tidak auto-zoom saat mengetik */
+    font-size: 16px;
     font-weight: 600;
     font-family: inherit;
     outline: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: all 0.25s ease;
   }
 
   .ongkir-input-box:focus {
@@ -575,24 +635,27 @@
   .btn-cek-ongkir-wide {
     width: 100%;
     padding: 15px 24px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
-    color: #05070a;
-    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-    font-size: 17px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(232, 213, 181, 0.88) 0%, rgba(201, 169, 110, 0.72) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: #050608;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
     font-weight: 800;
-    text-transform: lowercase;
-    letter-spacing: 0.5px;
-    border: 1px solid var(--gold-light);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
-    transition: transform 0.15s ease, opacity 0.2s ease;
+    box-shadow: 0 8px 24px rgba(201, 169, 110, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.75);
+    transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
     margin-bottom: 26px;
   }
 
   .btn-cek-ongkir-wide:hover {
-    opacity: 0.94;
+    opacity: 0.96;
     transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(212, 175, 55, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.9);
   }
 
   .ongkir-section-subtitle {
@@ -609,10 +672,13 @@
     gap: 10px;
   }
 
-  /* Baris Ekspedisi 4 Kolom Bersih (Logo, Layanan, Estimasi, Tarif Asli Rata Kanan) */
+  /* Baris Ekspedisi 4 Kolom Glassmorphic */
   .ongkir-courier-row {
-    background: #151a26;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.16);
     border-radius: 14px;
     padding: 16px 20px;
     display: grid;
@@ -744,61 +810,78 @@
     }
   }
 
-  /* --- SECTION A: HERO --- */
+  /* --- SECTION A: HERO (PROPORSI SEIMBANG KIRI & KANAN) --- */
   .hero-section {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: minmax(340px, 560px) minmax(340px, 540px);
+    justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 1600px;
+    max-width: 1480px;
     margin: 0 auto;
-    padding: 60px clamp(20px, 8vw, 140px) 80px;
-    gap: 40px;
+    padding: 40px clamp(20px, 6vw, 100px) 60px;
+    gap: clamp(48px, 7vw, 120px);
     min-height: calc(100vh - 90px);
   }
 
   .hero-text-col {
     text-align: left;
+    width: 100%;
+    max-width: 560px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(22px) saturate(190%);
+    -webkit-backdrop-filter: blur(22px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1.5px solid rgba(255, 255, 255, 0.42);
+    border-left: 1.5px solid rgba(255, 255, 255, 0.32);
+    border-radius: 28px;
+    padding: clamp(28px, 4vw, 48px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.35);
   }
 
   .hero-title {
-    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-    font-size: clamp(34px, 5vw, 56px);
-    font-weight: 700;
-    line-height: 1.12;
-    color: #ffffff;
-    margin-bottom: 22px;
-    letter-spacing: -0.5px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(40px, 5.2vw, 64px);
+    font-weight: 600;
+    line-height: 1.08;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
   }
 
   .hero-desc {
     font-size: 15px;
-    color: #cbd5e1;
-    max-width: 460px;
+    color: var(--text-muted);
+    max-width: 100%;
     margin-bottom: 34px;
-    line-height: 1.7;
+    line-height: 1.75;
   }
 
   .btn-start-hobby {
     display: inline-block;
     padding: 15px 42px;
     border-radius: 40px;
-    background: #2f3e46;
-    color: #ffffff;
-    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-    font-size: 16px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(201, 169, 110, 0.24) 100%);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    color: var(--gold-light);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13.5px;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
     text-decoration: none;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 6px 0 #d1d5db, 0 12px 24px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(232, 213, 181, 0.45);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55), inset 0 1px 2px rgba(255, 255, 255, 0.35);
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+    transition: all 0.25s ease;
   }
 
   .btn-start-hobby:hover {
-    background: #3b4d57;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 0 #d1d5db, 0 16px 28px rgba(0, 0, 0, 0.7);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.35) 0%, rgba(255, 255, 255, 0.18) 100%);
+    border-color: rgba(249, 232, 162, 0.8);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(212, 175, 55, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.5);
   }
 
   .btn-start-hobby:active {
@@ -808,17 +891,18 @@
 
   .hero-img-col {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     position: relative;
+    width: 100%;
   }
 
   .hero-betta-img {
     width: 100%;
-    max-width: 1000px;
+    max-width: 500px;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 15px 35px rgba(56, 189, 248, 0.22));
+    filter: drop-shadow(0 18px 40px rgba(201, 169, 110, 0.25));
     animation: floatSlow 5s ease-in-out infinite;
   }
 
@@ -867,13 +951,13 @@
     }
   }
 
-  /* --- SECTION B: GALLERY / 3 KARTU FITUR UTAMA --- */
+  /* --- SECTION B: GALLERY / 4 KARTU FITUR UTAMA --- */
   .features-section {
-    padding: 60px clamp(24px, 8vw, 140px) 80px;
+    padding: 60px clamp(24px, 6vw, 100px) 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: calc(100vh - 220px);
+    min-height: calc(100vh - 90px);
   }
 
   .pdf-cards-grid {
@@ -886,22 +970,24 @@
   }
 
   .pdf-card {
-    background: #141923;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(15, 20, 32, 0.42) 100%);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
     border-radius: 26px;
-    border: 1.5px solid rgba(212, 175, 55, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     overflow: hidden;
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.65);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.25);
     transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     position: relative;
   }
 
   .pdf-card:hover {
     transform: translateY(-8px);
-    border-color: var(--gold-light);
-    box-shadow: 0 18px 40px rgba(212, 175, 55, 0.25);
+    border-color: rgba(249, 232, 162, 0.7);
+    box-shadow: 0 18px 40px rgba(212, 175, 55, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.4);
   }
 
   .pdf-card-art {
@@ -909,7 +995,7 @@
     height: 270px;
     flex-shrink: 0;
     overflow: hidden;
-    background: radial-gradient(circle at 50% 35%, #232d42 0%, #10141d 80%);
+    background: radial-gradient(circle at 50% 38%, rgba(201, 169, 110, 0.18) 0%, rgba(10, 12, 16, 0.35) 80%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -933,7 +1019,9 @@
   }
 
   .pdf-card-footer {
-    background: #10141d;
+    background: rgba(10, 14, 22, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     height: 96px;
     padding: 12px 16px;
     text-align: center;
@@ -941,17 +1029,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
   }
 
   .pdf-card-title {
-    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-    font-size: 19px;
-    font-weight: 800;
-    color: #ffffff;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-light);
     text-transform: uppercase;
-    line-height: 1.25;
-    letter-spacing: 0.5px;
+    line-height: 1.22;
+    letter-spacing: 1.6px;
   }
 
   @media (max-width: 840px) {
@@ -964,29 +1052,42 @@
     }
   }
 
-  /* --- SECTION C: ABOUT US (SESUAI PDF HALAMAN 3) --- */
+  /* --- SECTION C: ABOUT US FULL GLASSMORPHISM --- */
   .about-section {
-    padding: 60px clamp(24px, 8vw, 140px) 80px;
+    padding: 60px clamp(24px, 6vw, 100px) 80px;
     position: relative;
     display: flex;
     align-items: center;
-    min-height: calc(100vh - 220px);
+    min-height: calc(100vh - 90px);
   }
 
   .about-grid {
     display: grid;
     grid-template-columns: 0.85fr 1.15fr;
-    gap: 48px;
+    gap: 40px;
     align-items: center;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(15, 20, 32, 0.38) 100%);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1.5px solid rgba(255, 255, 255, 0.38);
+    border-radius: 30px;
+    padding: clamp(22px, 4vw, 48px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.3);
   }
 
   .about-img-col {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, rgba(255, 255, 255, 0.02) 70%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
   }
 
   .about-betta-img {
@@ -994,7 +1095,7 @@
     max-width: 1000px;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 15px 35px rgba(250, 204, 21, 0.2));
+    filter: drop-shadow(0 15px 35px rgba(250, 204, 21, 0.25));
   }
 
   .about-content-col {
@@ -1006,16 +1107,22 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 20px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
+    padding: 18px 22px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 20px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
   }
 
   .about-main-title {
-    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-    font-size: clamp(32px, 4.5vw, 52px);
-    font-weight: 700;
-    color: #ffffff;
-    line-height: 1.1;
-    margin-bottom: 14px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-light);
+    line-height: 1.08;
+    margin-bottom: 12px;
   }
 
   .about-subtitle {
@@ -1028,20 +1135,38 @@
   .about-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 28px;
+    gap: 20px;
+  }
+
+  .about-columns > div {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 1px solid rgba(249, 232, 162, 0.45);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.28);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .about-columns > div:hover {
+    transform: translateY(-4px);
+    border-color: rgba(249, 232, 162, 0.65);
   }
 
   .about-col-title {
-    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-    font-size: 20px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 24px;
     font-weight: 700;
-    color: #ffffff;
+    letter-spacing: 0.5px;
+    color: var(--gold-light);
     margin-bottom: 10px;
   }
 
   .about-col-text {
     font-size: 13.5px;
-    color: #cbd5e1;
+    color: #e2e8f0;
     line-height: 1.65;
   }
 
@@ -1061,11 +1186,13 @@
     }
   }
 
-  /* --- SECTION D: FOOTER LUXURY DARK VIP --- */
+  /* --- SECTION D: FOOTER GLASSMORPHIC VIP --- */
   .white-footer {
-    background: linear-gradient(180deg, #0b0e15 0%, #05070a 100%);
+    background: linear-gradient(180deg, rgba(15, 20, 32, 0.5) 0%, rgba(5, 7, 10, 0.72) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     color: var(--text-light);
-    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
     padding: 44px clamp(24px, 8vw, 140px);
     display: grid;
     grid-template-columns: 1.3fr 1fr 1fr;
@@ -1073,7 +1200,7 @@
     align-items: start;
     width: 100%;
     margin-top: auto;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
   }
 
   .wf-brand-col {
@@ -1084,10 +1211,11 @@
   }
 
   .wf-brand-title {
-    font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 25px;
+    font-weight: 700;
     font-style: italic;
+    letter-spacing: 0.8px;
     background: linear-gradient(to right, var(--gold-light), var(--gold-primary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1113,8 +1241,15 @@
     align-items: flex-start;
     gap: 10px;
     font-size: 13px;
-    color: var(--text-muted);
+    color: var(--text-light);
     line-height: 1.5;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 16px;
+    padding: 12px 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25);
   }
 
   .wf-contact-icon {
@@ -1158,31 +1293,41 @@
   }
 
   .wf-link-list a {
-    color: var(--text-muted);
+    color: var(--text-light);
     text-decoration: none;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 600;
-    transition: color 0.25s ease, transform 0.25s ease;
+    transition: all 0.25s ease;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    padding: 6px 14px 6px 8px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.22);
   }
 
   .wf-link-list a:hover {
     color: var(--gold-light);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(255, 255, 255, 0.1));
+    border-color: rgba(249, 232, 162, 0.55);
     transform: translateX(4px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.4);
   }
 
   .wf-social-icon {
     width: 28px;
     height: 28px;
-    border-radius: 8px;
+    border-radius: 10px;
     object-fit: contain;
     flex-shrink: 0;
     padding: 4px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35);
     transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
@@ -1252,14 +1397,16 @@
   #verificationPage, #roulettePage, #catalogPage {
     display: none;
     animation: fadeIn 0.35s ease;
-    width: calc(100% - 32px); /* Memberi jarak aman 16px di kiri-kanan layar HP */
+    width: calc(100% - 32px);
     max-width: 1200px;
     margin: 24px auto 50px;
-    background: var(--card-bg);
-    border: 1px solid rgba(212, 175, 55, 0.35);
-    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(20, 26, 40, 0.52) 0%, rgba(10, 13, 20, 0.42) 100%);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.8);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.22);
   }
 
   #verificationPage, #roulettePage {
@@ -1267,8 +1414,10 @@
   }
 
   .vip-header {
-    background: linear-gradient(135deg, #06080c 0%, #1a2130 50%, #06080c 100%);
-    border-bottom: 2px solid var(--gold-primary);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(212, 175, 55, 0.12) 50%, rgba(255, 255, 255, 0.04) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(249, 232, 162, 0.35);
     padding: 16px 14px;
     text-align: center;
     position: relative;
@@ -1278,15 +1427,18 @@
     position: absolute;
     left: 12px;
     top: 14px;
-    background: rgba(212, 175, 55, 0.12);
-    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(249, 232, 162, 0.4);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
     color: var(--gold-light);
     font-size: 11px;
     font-weight: 600;
-    padding: 5px 11px;
-    border-radius: 14px;
+    padding: 6px 13px;
+    border-radius: 20px;
     cursor: pointer;
-    transition: background 0.2s, transform 0.15s;
+    transition: all 0.2s ease;
   }
 
   .back-btn:hover {
@@ -1299,18 +1451,19 @@
 
   .brand-subtitle {
     font-size: 10px;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-transform: uppercase;
     color: var(--gold-primary);
     font-weight: 700;
     margin-bottom: 4px;
-    margin-top: 32px; /* Jarak aman agar tidak pernah tertabrak tombol Kembali */
+    margin-top: 32px;
   }
 
   .vip-title {
-    font-family: 'Cinzel', serif;
-    font-size: 19px;
-    font-weight: 800;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(24px, 3.5vw, 30px);
+    font-weight: 700;
+    letter-spacing: 1.5px;
     background: linear-gradient(to right, var(--gold-light), var(--gold-primary), var(--gold-light));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -1345,22 +1498,25 @@
     flex: 1;
     min-width: max-content;
     padding: 9px 14px;
-    border-radius: 10px;
-    background: #0b0e16;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    color: var(--text-muted);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    color: var(--text-light);
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
     text-align: center;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
   }
 
   .cat-pill.active {
-    background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
-    color: #05070a;
-    border-color: var(--gold-light);
-    box-shadow: 0 3px 12px rgba(212, 175, 55, 0.3);
+    background: linear-gradient(135deg, rgba(249, 232, 162, 0.32), rgba(212, 175, 55, 0.18));
+    color: #fffbeb;
+    border-color: rgba(249, 232, 162, 0.65);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.45);
   }
 
   .catalog-filter-bar {
@@ -1378,14 +1534,22 @@
   .catalog-input, .catalog-select {
     width: 100%;
     padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(212, 175, 55, 0.35);
-    background: #080a0f;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15);
     color: #fff;
     font-size: 12.5px;
     font-family: inherit;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
+  }
+
+  .catalog-select option {
+    background-color: #0b0d13;
+    color: #ffffff;
   }
 
   .catalog-input:focus, .catalog-select:focus {
@@ -1407,14 +1571,24 @@
   }
 
   .refresh-catalog-btn {
-    background: transparent;
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(249, 232, 162, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
     color: var(--gold-light);
-    padding: 4px 10px;
-    border-radius: 8px;
+    padding: 6px 12px;
+    border-radius: 14px;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .refresh-catalog-btn:hover {
+    background: rgba(212, 175, 55, 0.22);
+    border-color: var(--gold-light);
+    transform: translateY(-1px);
   }
 
   .catalog-grid-wrapper {
@@ -1451,22 +1625,25 @@
     }
   }
 
-  /* --- KARTU PRODUK COMPACT & RESPONSIVE --- */
+  /* --- KARTU PRODUK GLASSMORPHIC --- */
   .product-card {
-    background: linear-gradient(160deg, #161c2a 0%, #0d111a 100%);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 12px;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.08) 0%, rgba(15, 20, 32, 0.42) 100%);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 16px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.22);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     position: relative;
   }
 
   .product-card:hover {
     transform: translateY(-4px);
-    border-color: var(--gold-primary);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7), 0 0 12px rgba(212, 175, 55, 0.15);
+    border-color: rgba(249, 232, 162, 0.65);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 16px rgba(212, 175, 55, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.35);
   }
 
   .product-card.out-of-stock {
@@ -1517,22 +1694,25 @@
   .badge-pill-tag {
     font-size: 8.5px;
     font-weight: 800;
-    padding: 3px 6px;
-    border-radius: 5px;
+    padding: 4px 8px;
+    border-radius: 8px;
     text-transform: uppercase;
     letter-spacing: 0.3px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
   }
 
   .badge-pill-tag.primary {
-    background: rgba(212, 175, 55, 0.15);
-    color: var(--gold-primary);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.28), rgba(212, 175, 55, 0.1));
+    color: var(--gold-light);
+    border: 1px solid rgba(249, 232, 162, 0.45);
   }
 
   .badge-pill-tag.outline {
-    background: rgba(7, 9, 14, 0.6);
+    background: rgba(255, 255, 255, 0.08);
     color: var(--text-light);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.22);
   }
 
   .product-title {
@@ -1586,9 +1766,11 @@
   .btn-card-cart {
     flex: 1;
     padding: 7px 6px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
-    color: #05070a;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(249, 232, 162, 0.32), rgba(212, 175, 55, 0.18));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #fffbeb;
     font-size: 10.5px;
     font-weight: 800;
     text-decoration: none;
@@ -1596,8 +1778,10 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
-    border: none;
-    transition: transform 0.15s, opacity 0.2s;
+    border: 1px solid rgba(249, 232, 162, 0.55);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 
   .btn-card-cart:hover {
@@ -1654,10 +1838,13 @@
   .detail-main-img-box {
     width: 100%;
     aspect-ratio: 1 / 1;
-    background: #06080c;
-    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 20px;
     overflow: hidden;
-    border: 1px solid rgba(212, 175, 55, 0.35);
+    border: 1.5px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.3);
     position: relative;
     cursor: pointer;
   }
@@ -1673,13 +1860,17 @@
     position: absolute;
     top: 12px;
     right: 12px;
-    background: rgba(7, 9, 14, 0.85);
-    color: var(--text-light);
+    background: rgba(15, 20, 32, 0.52);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    color: #ffffff;
     font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+    z-index: 5;
   }
 
   .detail-thumb-list {
@@ -1687,15 +1878,21 @@
     gap: 10px;
     margin-top: 12px;
     overflow-x: auto;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
   }
 
   .detail-thumb-item {
     width: 64px;
     height: 64px;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    opacity: 0.5;
+    border: 1.5px solid rgba(255, 255, 255, 0.22);
+    opacity: 0.6;
     cursor: pointer;
     flex-shrink: 0;
     transition: all 0.2s ease;
@@ -1752,11 +1949,14 @@
     position: absolute;
     top: 8px;
     right: 8px;
-    background: rgba(7, 9, 14, 0.85);
+    background: rgba(15, 20, 32, 0.52);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
     color: var(--gold-light);
-    border: 1px solid rgba(212, 175, 55, 0.5);
-    padding: 3px 7px;
-    border-radius: 6px;
+    border: 1px solid rgba(249, 232, 162, 0.55);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    padding: 4px 8px;
+    border-radius: 8px;
     font-size: 9px;
     font-weight: 800;
     pointer-events: none;
@@ -1786,27 +1986,32 @@
   .badge-stock-pill {
     font-size: 10.5px;
     font-weight: 800;
-    padding: 4px 10px;
+    padding: 4px 11px;
     border-radius: 20px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
   }
 
   .badge-stock-pill.in-stock {
-    background: rgba(16, 185, 129, 0.15);
-    color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    border: 1px solid rgba(52, 211, 153, 0.5);
   }
 
   .badge-stock-pill.out-stock {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(239, 68, 68, 0.2);
     color: #fca5a5;
-    border: 1px solid rgba(239, 68, 68, 0.4);
+    border: 1px solid rgba(248, 113, 113, 0.5);
   }
 
   .detail-title {
-    font-size: clamp(20px, 3vw, 26px);
-    font-weight: 800;
-    color: #ffffff;
-    line-height: 1.25;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(24px, 3.5vw, 32px);
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: var(--text-light);
+    line-height: 1.2;
     text-transform: uppercase;
   }
 
@@ -1829,26 +2034,36 @@
   }
 
   .detail-stars {
-    color: #fde047;
+    color: var(--gold-primary);
+    text-shadow: 0 0 10px rgba(201, 169, 110, 0.35);
     font-size: 14px;
     letter-spacing: 2px;
   }
 
   .spec-table-box {
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.015);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.07) 0%, rgba(15, 20, 32, 0.35) 100%);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
     margin-top: 4px;
   }
 
   .spec-row {
     display: grid;
     grid-template-columns: 120px 1fr;
-    padding: 10px 14px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 11px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 12.5px;
     align-items: center;
+    transition: background 0.2s ease;
+  }
+
+  .spec-row:hover {
+    background: rgba(255, 255, 255, 0.05);
   }
 
   .spec-row:last-child {
@@ -1856,8 +2071,8 @@
   }
 
   .spec-label {
-    color: var(--text-muted);
-    font-weight: 500;
+    color: #cbd5e1;
+    font-weight: 600;
   }
 
   .spec-value {
@@ -1867,8 +2082,12 @@
 
   .detail-note {
     font-size: 11.5px;
-    color: var(--text-muted);
+    color: #cbd5e1;
     margin-top: 4px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
   }
 
   .detail-cta-row {
@@ -1880,9 +2099,13 @@
   .btn-detail-addcart {
     flex: 1;
     padding: 13px 20px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
-    color: #05070a;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(249, 232, 162, 0.4) 0%, rgba(212, 175, 55, 0.22) 100%);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(249, 232, 162, 0.65) !important;
+    box-shadow: 0 8px 22px rgba(212, 175, 55, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    color: #fffbeb;
     font-size: 13.5px;
     font-weight: 800;
     text-decoration: none;
@@ -1890,19 +2113,35 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: opacity 0.2s;
+    transition: all 0.25s ease;
+  }
+
+  .btn-detail-addcart:hover {
+    background: linear-gradient(135deg, rgba(249, 232, 162, 0.55) 0%, rgba(212, 175, 55, 0.35) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(212, 175, 55, 0.38), inset 0 1px 2px rgba(255, 255, 255, 0.7);
   }
 
   .btn-detail-back {
     padding: 13px 18px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
     color: var(--text-light);
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .btn-detail-back:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(249, 232, 162, 0.55);
+    transform: translateY(-2px);
   }
 
   .catalog-loader {
@@ -1916,17 +2155,19 @@
   }
 
   /* ==========================================
-     5. HALAMAN VERIFIKASI & ROULETTE (EXISTING)
+     5. HALAMAN VERIFIKASI & ROULETTE FULL GLASSMORPHIC
      ========================================== */
   .search-section {
-    padding: 14px;
-    background: rgba(255, 255, 255, 0.02);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   }
 
   .search-label {
     font-size: 12px;
-    color: #cbd5e1;
+    color: #e2e8f0;
     margin-bottom: 8px;
     display: block;
     font-weight: 600;
@@ -1939,34 +2180,52 @@
 
   .search-input {
     flex: 1;
-    padding: 11px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    background: #080a0f;
+    padding: 11px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.18), 0 4px 12px rgba(0, 0, 0, 0.25);
     color: #fff;
     font-size: 13px;
     font-weight: 600;
     outline: none;
     text-transform: uppercase;
+    transition: all 0.2s ease;
+  }
+
+  .search-input:focus {
+    border-color: rgba(249, 232, 162, 0.75);
+    background: rgba(255, 255, 255, 0.11);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.3);
   }
 
   .search-input::placeholder {
     text-transform: none;
-    color: #64748b;
+    color: #94a3b8;
     font-weight: 400;
   }
 
   .search-btn {
-    padding: 11px 18px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold-primary), var(--gold-dark));
-    color: #05070a;
-    font-weight: 700;
-    border: none;
-    border-radius: 8px;
+    padding: 11px 20px;
+    background: linear-gradient(135deg, rgba(249, 232, 162, 0.42), rgba(212, 175, 55, 0.24));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: #fffbeb;
+    font-weight: 800;
+    border: 1px solid rgba(249, 232, 162, 0.65);
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.45);
+    border-radius: 12px;
     font-size: 13px;
     cursor: pointer;
     white-space: nowrap;
-    transition: transform 0.15s;
+    transition: all 0.2s ease;
+  }
+
+  .search-btn:hover {
+    background: linear-gradient(135deg, rgba(249, 232, 162, 0.55), rgba(212, 175, 55, 0.35));
+    transform: translateY(-1px);
   }
 
   .state-box {
@@ -1975,12 +2234,15 @@
   }
 
   .state-icon {
-    width: 54px;
-    height: 54px;
+    width: 58px;
+    height: 58px;
     margin: 0 auto 12px;
     border-radius: 50%;
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(212, 175, 55, 0.16);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(249, 232, 162, 0.45);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1993,8 +2255,10 @@
   }
 
   .state-title {
-    font-family: 'Cinzel', serif;
-    font-size: 15px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
     color: var(--gold-light);
     margin-bottom: 6px;
   }
@@ -2024,9 +2288,12 @@
   }
 
   .cert-visual-card {
-    background: linear-gradient(145deg, #181e2c, #0b0e15);
-    border: 2px solid var(--gold-primary);
-    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(15, 20, 32, 0.45));
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(249, 232, 162, 0.45);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
     padding: 14px;
     text-align: center;
     position: relative;
@@ -2034,10 +2301,13 @@
 
   .cert-seal {
     display: inline-block;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 20px;
-    background: rgba(212, 175, 55, 0.15);
-    border: 1px solid var(--gold-primary);
+    background: rgba(212, 175, 55, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(249, 232, 162, 0.55);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35);
     color: var(--gold-light);
     font-size: 10px;
     font-weight: 700;
@@ -2079,9 +2349,11 @@
   }
 
   .cert-fish-name {
-    font-family: 'Cinzel', serif;
-    font-size: 16px;
-    color: #fff;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: var(--text-light);
     margin-bottom: 2px;
   }
 
@@ -2092,17 +2364,20 @@
   }
 
   .details-panel {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    padding: 14px;
   }
 
   .tabs-nav {
     display: flex;
     gap: 6px;
     margin-bottom: 12px;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
     padding-bottom: 8px;
     overflow-x: auto;
   }
@@ -2110,20 +2385,24 @@
   .tab-btn {
     flex: 1;
     min-width: max-content;
-    padding: 8px 10px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--text-muted);
-    border-radius: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: var(--text-light);
+    border-radius: 10px;
     font-size: 12px;
     font-weight: 600;
     text-align: center;
     cursor: pointer;
+    transition: all 0.2s ease;
   }
 
   .tab-btn.active {
-    background: rgba(212, 175, 55, 0.2);
-    border-color: var(--gold-primary);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.32), rgba(255, 255, 255, 0.08));
+    border-color: rgba(249, 232, 162, 0.65);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35);
     color: var(--gold-light);
   }
 
@@ -2145,15 +2424,19 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    background: var(--card-surface);
-    padding: 8px 10px;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-left: 3px solid var(--gold-primary);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.18);
     font-size: 12px;
   }
 
   .info-label {
-    color: var(--text-muted);
+    color: #cbd5e1;
     font-size: 11px;
   }
 
@@ -2166,32 +2449,38 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    background: rgba(16, 185, 129, 0.15);
-    border: 1px solid var(--verified-green);
-    color: #34d399;
-    padding: 2px 8px;
-    border-radius: 12px;
+    background: rgba(16, 185, 129, 0.22);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(52, 211, 153, 0.55);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    color: #6ee7b7;
+    padding: 3px 10px;
+    border-radius: 14px;
     font-size: 11px;
     font-weight: 700;
   }
 
   .guarantee-box {
-    background: rgba(212, 175, 55, 0.06);
-    border: 1px dashed rgba(212, 175, 55, 0.4);
-    padding: 10px;
-    border-radius: 8px;
+    background: rgba(212, 175, 55, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(249, 232, 162, 0.38);
+    padding: 12px;
+    border-radius: 12px;
     font-size: 11.5px;
-    color: #cbd5e1;
+    color: #e2e8f0;
   }
 
   .hash-code {
     margin-top: 8px;
-    padding: 6px;
-    background: #06080c;
-    border-radius: 6px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
     font-family: monospace;
     font-size: 9.5px;
-    color: var(--gold-primary);
+    color: var(--gold-light);
     word-break: break-all;
   }
 
@@ -2204,14 +2493,23 @@
   .btn-secondary {
     flex: 1;
     padding: 10px;
-    border-radius: 8px;
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    background: rgba(212, 175, 55, 0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.25);
     color: var(--gold-light);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 11.5px;
     text-align: center;
     cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: rgba(249, 232, 162, 0.55);
   }
 
   .roulette-body {
@@ -2224,10 +2522,13 @@
 
   .voucher-panel {
     width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 12px;
-    padding: 12px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(15, 20, 32, 0.4));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    padding: 14px;
   }
 
   .voucher-status-bar {
@@ -2236,16 +2537,19 @@
     align-items: center;
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
     font-size: 12px;
   }
 
   .chance-pill {
-    background: rgba(212, 175, 55, 0.18);
-    border: 1px solid var(--gold-primary);
+    background: rgba(212, 175, 55, 0.24);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(249, 232, 162, 0.55);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35);
     color: var(--gold-light);
     font-weight: 800;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 20px;
     font-size: 11.5px;
   }
@@ -2271,8 +2575,8 @@
     height: 0;
     border-left: 14px solid transparent;
     border-right: 14px solid transparent;
-    border-top: 26px solid #ef4444;
-    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.8));
+    border-top: 26px solid #9e2a38;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.9));
   }
 
   .wheel-pointer::after {
@@ -2306,9 +2610,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Cinzel', serif;
-    font-weight: 800;
-    font-size: 12px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1px;
     color: #090c12;
     z-index: 10;
     pointer-events: none;
@@ -2319,15 +2624,18 @@
     max-width: 260px;
     padding: 14px 24px;
     border-radius: 30px;
-    border: 1px solid var(--gold-light);
-    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
-    color: #05070a;
+    border: 1px solid rgba(249, 232, 162, 0.75);
+    background: linear-gradient(135deg, rgba(249, 232, 162, 0.45) 0%, rgba(212, 175, 55, 0.28) 100%);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    color: #fffbeb;
     font-size: 14px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.55);
+    transition: all 0.25s ease;
   }
 
   .btn-spin-wheel:disabled {
@@ -2338,10 +2646,13 @@
 
   .history-panel {
     width: 100%;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    padding: 14px;
   }
 
   .history-title {
@@ -2365,9 +2676,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 7px 10px;
-    background: var(--card-surface);
-    border-radius: 8px;
+    padding: 9px 12px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
     border-left: 3px solid var(--gold-primary);
   }
 
@@ -2414,9 +2728,10 @@
   }
 
   .secret-admin-title {
-    font-family: 'Cinzel', serif;
-    font-size: 13px;
-    font-weight: 800;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
     color: var(--gold-light);
   }
 
@@ -2444,7 +2759,9 @@
   .result-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(6, 8, 14, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     display: none;
     align-items: center;
     justify-content: center;
@@ -2460,12 +2777,14 @@
   .result-box {
     width: 100%;
     max-width: 310px;
-    background: linear-gradient(145deg, #1b2234, #0c1018);
-    border: 2px solid var(--gold-primary);
-    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(28, 36, 54, 0.68), rgba(12, 16, 24, 0.58));
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid rgba(249, 232, 162, 0.45);
+    border-radius: 20px;
     padding: 22px 18px;
     text-align: center;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.9);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), inset 0 1px 2px rgba(255, 255, 255, 0.28);
   }
 
   .result-icon {
@@ -2474,9 +2793,10 @@
   }
 
   .result-title {
-    font-family: 'Cinzel', serif;
-    font-size: 18px;
-    font-weight: 800;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
     color: var(--gold-light);
     margin-bottom: 6px;
   }
@@ -2537,16 +2857,19 @@
 
   .toast-msg {
     position: fixed;
-    bottom: 20px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background: #10b981;
-    color: #042f2e;
-    font-weight: 700;
-    font-size: 12px;
-    padding: 8px 16px;
-    border-radius: 20px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.55), rgba(6, 95, 70, 0.45));
+    backdrop-filter: blur(18px) saturate(190%);
+    -webkit-backdrop-filter: blur(18px) saturate(190%);
+    border: 1px solid rgba(110, 231, 183, 0.65);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 12.5px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.45);
     opacity: 0;
     pointer-events: none;
     transition: all 0.25s ease;
@@ -2559,16 +2882,167 @@
   }
 
   /* ==========================================
-     DROPDOWN BAHASA SIMPEL DI NAVBAR
+     TOGGLE DARK/LIGHT LENSA KACA & DROPDOWN BAHASA
      ========================================== */
   .nav-right-group {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
   }
 
-  /* Mencegah browser HP (iOS/Android) auto-zoom saat user mengetik di kolom input mana pun */
+  /* Toggle Tema dengan Lensa Kaca Melayang (Sesuai Gambar Referensi) */
+  .theme-glass-switch {
+    position: relative;
+    width: 78px;
+    height: 30px;
+    border-radius: 30px;
+    background: linear-gradient(145deg, rgba(16, 19, 25, 0.92), rgba(26, 31, 40, 0.88));
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.65), inset 0 2px 5px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    outline: none;
+    transition: background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+  }
+
+  .theme-switch-label {
+    position: absolute;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.35s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .theme-switch-label.dark-txt {
+    left: 13px;
+    color: #d1d5db;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .theme-switch-label.light-txt {
+    right: 12px;
+    color: #ffffff;
+    opacity: 0;
+    transform: translateX(6px);
+  }
+
+  /* Lensa Kaca Bulat (Oversized Glass Orb) */
+  .theme-glass-lens {
+    position: absolute;
+    top: 50%;
+    left: 41px;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.03) 70%);
+    backdrop-filter: blur(8px) saturate(160%);
+    -webkit-backdrop-filter: blur(8px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55),
+                inset 0 1.5px 2px rgba(255, 255, 255, 0.55),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: none;
+    transition: left 0.52s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.45s ease,
+                border-color 0.45s ease,
+                box-shadow 0.45s ease;
+  }
+
+  .theme-lens-icon {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .theme-lens-icon.moon-ico {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+    color: #ffffff;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+  }
+
+  .theme-lens-icon.sun-ico {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+    color: #ffffff;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.85));
+  }
+
+  /* State Saat Light Mode Aktif pada Toggle */
+  body.light-mode .theme-glass-switch {
+    background: linear-gradient(145deg, rgba(168, 174, 182, 0.78), rgba(198, 203, 210, 0.68));
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18),
+                0 0 15px rgba(255, 255, 255, 0.75),
+                inset 0 1px 3px rgba(255, 255, 255, 0.85);
+  }
+
+  body.light-mode .theme-switch-label.dark-txt {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+
+  body.light-mode .theme-switch-label.light-txt {
+    opacity: 1;
+    transform: translateX(0);
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  }
+
+  body.light-mode .theme-glass-lens {
+    left: -5px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.12) 70%);
+    border: 1.2px solid rgba(255, 255, 255, 0.88);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22),
+                0 0 12px rgba(255, 255, 255, 0.65),
+                inset 0 2px 3px rgba(255, 255, 255, 0.95);
+  }
+
+  body.light-mode .theme-lens-icon.moon-ico {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+  }
+
+  body.light-mode .theme-lens-icon.sun-ico {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
   @media (max-width: 1024px) {
+    .nav-right-group {
+      gap: 8px;
+    }
+    .theme-glass-switch {
+      width: 68px;
+      height: 26px;
+    }
+    .theme-glass-lens {
+      width: 36px;
+      height: 36px;
+      left: 35px;
+    }
+    body.light-mode .theme-glass-lens {
+      left: -3px;
+    }
+    .theme-switch-label {
+      font-size: 10px;
+    }
+    .theme-switch-label.dark-txt { left: 10px; }
+    .theme-switch-label.light-txt { right: 9px; }
+
     input:not([type="checkbox"]):not([type="radio"]),
     select:not(.nav-lang-switch),
     textarea,
@@ -2580,13 +3054,16 @@
   }
 
   .nav-lang-switch {
-    background-color: rgba(212, 175, 55, 0.12);
-    border: 1px solid rgba(212, 175, 55, 0.45);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.28), 0 4px 12px rgba(0, 0, 0, 0.35);
     color: var(--gold-light);
     font-family: inherit;
     font-size: 11.5px;
     font-weight: 700;
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
     cursor: pointer;
     outline: none;
@@ -2595,7 +3072,7 @@
     -moz-appearance: none;
     background-image: none;
     text-align: center;
-    transition: background-color 0.2s, border-color 0.2s;
+    transition: all 0.25s ease;
   }
 
   .nav-lang-switch:hover, .nav-lang-switch:focus {
@@ -2604,12 +3081,12 @@
   }
 
   .nav-lang-switch option {
-    background-color: #0b0d13;
-    color: #ffffff;
+    background-color: var(--card-bg);
+    color: var(--text-light);
     font-weight: 600;
   }
 
-  /* Sembunyikan seluruh banner/pop-up bawaan Google Translate agar tampilan tetap bersih */
+  /* Sembunyikan seluruh banner/pop-up bawaan Google Translate */
   .skiptranslate iframe,
   .goog-te-banner-frame,
   #goog-gt-tt,
@@ -2625,18 +3102,293 @@
   }
 
   /* ==========================================
-     6. VIEW COUNTER, HOT BADGE & FLOATING CART
+     TEMA LIGHT LUXURY (SILK IVORY, ALABASTER & ESPRESSO BRONZE)
+     ========================================== */
+  body.light-mode {
+    --bg-dark: #f4f0e8;
+    --card-bg: #ebe4d8;
+    --card-surface: #e2d9c8;
+    --gold-primary: #8c6229;
+    --gold-light: #5a3c11;
+    --gold-dark: #b89152;
+    --text-light: #1e1b18;
+    --text-muted: #655c52;
+    --verified-green: #16654e;
+    --wa-green: #187a52;
+    --danger-red: #9e2a38;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+  }
+
+  body.light-mode .container {
+    background-color: #f4f0e8;
+    background-image: 
+      radial-gradient(circle at 14% 18%, rgba(201, 169, 110, 0.22) 0%, transparent 38%),
+      radial-gradient(circle at 86% 25%, rgba(184, 145, 82, 0.16) 0%, transparent 40%),
+      radial-gradient(circle at 22% 78%, rgba(212, 195, 168, 0.35) 0%, transparent 42%),
+      radial-gradient(circle at 82% 85%, rgba(201, 169, 110, 0.2) 0%, transparent 38%),
+      repeating-linear-gradient(45deg, rgba(140, 98, 41, 0.03) 0px, rgba(140, 98, 41, 0.03) 1.5px, transparent 1.5px, transparent 28px),
+      repeating-linear-gradient(-45deg, rgba(140, 98, 41, 0.03) 0px, rgba(140, 98, 41, 0.03) 1.5px, transparent 1.5px, transparent 28px);
+  }
+
+  body.light-mode .ck-navbar::before {
+    background: linear-gradient(135deg, rgba(248, 245, 238, 0.78) 0%, rgba(235, 228, 216, 0.68) 100%);
+    border-bottom: 1px solid rgba(140, 98, 41, 0.22);
+    box-shadow: 0 8px 28px rgba(30, 27, 24, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+
+  body.light-mode .nav-logo-left {
+    filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.45));
+  }
+
+  body.light-mode .nav-links {
+    background: rgba(255, 255, 255, 0.52);
+    border-color: rgba(140, 98, 41, 0.2);
+    box-shadow: 0 4px 16px rgba(30, 27, 24, 0.06), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+
+  @media (max-width: 1024px) {
+    body.light-mode .nav-links {
+      background: linear-gradient(135deg, rgba(248, 245, 238, 0.85), rgba(235, 228, 216, 0.78)) !important;
+      border: 1px solid rgba(140, 98, 41, 0.3) !important;
+      box-shadow: 0 12px 32px rgba(30, 27, 24, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.95) !important;
+    }
+    body.light-mode .nav-links.nav-minimized {
+      background: rgba(244, 240, 232, 0.72) !important;
+    }
+  }
+
+  body.light-mode .nav-item {
+    color: #5c5349;
+  }
+
+  body.light-mode .nav-item:hover {
+    color: #1e1b18;
+    background: rgba(140, 98, 41, 0.08);
+    border-color: rgba(140, 98, 41, 0.2);
+  }
+
+  body.light-mode .nav-item.active {
+    color: #3d280a;
+    text-shadow: none;
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.38) 0%, rgba(255, 255, 255, 0.75) 100%);
+    border-color: rgba(140, 98, 41, 0.5);
+    box-shadow: 0 4px 14px rgba(140, 98, 41, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+
+  body.light-mode .nav-lang-switch {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(140, 98, 41, 0.3);
+    color: var(--gold-light);
+    box-shadow: 0 4px 12px rgba(30, 27, 24, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+
+  /* Kartu & Panel Kaca pada Mode Light Luxury (Frosted Quartz) */
+  body.light-mode .hero-text-col,
+  body.light-mode .pdf-card,
+  body.light-mode .ongkir-card-wrapper,
+  body.light-mode .about-grid,
+  body.light-mode .about-columns > div,
+  body.light-mode #verificationPage,
+  body.light-mode #roulettePage,
+  body.light-mode #catalogPage,
+  body.light-mode .product-card,
+  body.light-mode .spec-table-box,
+  body.light-mode .cert-visual-card,
+  body.light-mode .details-panel,
+  body.light-mode .voucher-panel,
+  body.light-mode .history-panel,
+  body.light-mode .auction-panel-box {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(242, 236, 224, 0.58) 100%);
+    border-color: rgba(140, 98, 41, 0.25);
+    box-shadow: 0 16px 38px rgba(30, 27, 24, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  }
+
+  body.light-mode .pdf-card-art,
+  body.light-mode .about-img-col {
+    background: radial-gradient(circle at 50% 38%, rgba(201, 169, 110, 0.25) 0%, rgba(235, 228, 216, 0.5) 80%);
+  }
+
+  body.light-mode .pdf-card-footer,
+  body.light-mode .about-header-row {
+    background: rgba(255, 255, 255, 0.55);
+    border-color: rgba(140, 98, 41, 0.18);
+  }
+
+  body.light-mode .about-subtitle,
+  body.light-mode .about-col-text,
+  body.light-mode .detail-note,
+  body.light-mode .spec-label,
+  body.light-mode .search-label,
+  body.light-mode .info-label,
+  body.light-mode .auction-stat-label {
+    color: var(--text-muted);
+  }
+
+  body.light-mode .product-title,
+  body.light-mode .spec-value,
+  body.light-mode .info-value,
+  body.light-mode .auction-stat-val,
+  body.light-mode .ongkir-cell-val,
+  body.light-mode .cart-item-name,
+  body.light-mode .result-prize {
+    color: var(--text-light) !important;
+  }
+
+  body.light-mode .ongkir-input-box,
+  body.light-mode .catalog-input,
+  body.light-mode .catalog-select,
+  body.light-mode .search-input,
+  body.light-mode .ongkir-courier-row,
+  body.light-mode .info-row,
+  body.light-mode .history-item,
+  body.light-mode .cart-item-row,
+  body.light-mode .auction-stat-item,
+  body.light-mode .bid-history-row {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(140, 98, 41, 0.24);
+    color: var(--text-light);
+    box-shadow: 0 4px 12px rgba(30, 27, 24, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+
+  body.light-mode .bid-history-box,
+  body.light-mode .hash-code,
+  body.light-mode .wa-format-preview {
+    background: rgba(235, 228, 216, 0.65);
+    border-color: rgba(140, 98, 41, 0.22);
+    color: var(--text-light);
+  }
+
+  body.light-mode .bid-input-locked {
+    background: rgba(235, 228, 216, 0.85) !important;
+    color: var(--gold-light) !important;
+  }
+
+  body.light-mode .ongkir-glass-dropdown {
+    background: rgba(248, 245, 238, 0.92);
+    border-color: rgba(140, 98, 41, 0.35);
+    box-shadow: 0 18px 40px rgba(30, 27, 24, 0.16), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  }
+
+  body.light-mode .ongkir-glass-badge-item {
+    background: rgba(255, 255, 255, 0.72);
+    border-color: rgba(140, 98, 41, 0.18);
+    color: var(--text-light);
+  }
+
+  body.light-mode .white-footer {
+    background: linear-gradient(180deg, rgba(238, 231, 219, 0.85) 0%, rgba(226, 217, 200, 0.95) 100%);
+    border-top: 1px solid rgba(140, 98, 41, 0.25);
+    box-shadow: 0 -10px 30px rgba(30, 27, 24, 0.06);
+  }
+
+  body.light-mode .wf-contact-item,
+  body.light-mode .wf-link-list a {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(140, 98, 41, 0.2);
+    color: var(--text-light);
+    box-shadow: 0 4px 12px rgba(30, 27, 24, 0.05), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+
+  body.light-mode .wf-contact-item strong {
+    color: var(--gold-light);
+  }
+
+  body.light-mode .wf-social-icon {
+    background: rgba(30, 27, 24, 0.08);
+    border-color: rgba(140, 98, 41, 0.25);
+  }
+
+  body.light-mode .btn-start-hobby,
+  body.light-mode .btn-card-cart,
+  body.light-mode .btn-detail-addcart,
+  body.light-mode .search-btn,
+  body.light-mode .btn-spin-wheel,
+  body.light-mode .btn-bid-action,
+  body.light-mode .cat-pill.active,
+  body.light-mode .tab-btn.active {
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.42), rgba(140, 98, 41, 0.25));
+    color: #2b1d07;
+    border-color: rgba(140, 98, 41, 0.55);
+    box-shadow: 0 6px 18px rgba(140, 98, 41, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.85);
+  }
+
+  body.light-mode .result-modal {
+    background: rgba(30, 27, 24, 0.42);
+  }
+
+  body.light-mode .result-box,
+  body.light-mode .cart-modal-box {
+    background: linear-gradient(145deg, rgba(250, 247, 242, 0.92), rgba(235, 228, 216, 0.88));
+    border-color: rgba(140, 98, 41, 0.4);
+    box-shadow: 0 20px 50px rgba(30, 27, 24, 0.22), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  }
+
+  body.light-mode .floating-cart-btn {
+    background: linear-gradient(135deg, rgba(250, 247, 242, 0.88) 0%, rgba(235, 228, 216, 0.82) 100%) !important;
+    border-color: rgba(140, 98, 41, 0.55) !important;
+    color: var(--gold-light) !important;
+    box-shadow: 0 10px 28px rgba(30, 27, 24, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.95) !important;
+  }
+
+  body.light-mode .auth-glass-modal-card {
+    background: linear-gradient(135deg, rgba(250, 247, 242, 0.92) 0%, rgba(235, 228, 216, 0.88) 100%) !important;
+    border-color: rgba(140, 98, 41, 0.35) !important;
+    box-shadow: 0 25px 60px rgba(30, 27, 24, 0.22), inset 0 1px 2px rgba(255, 255, 255, 0.95) !important;
+  }
+
+  body.light-mode .auth-overlay-sliding-panel {
+    background: linear-gradient(145deg, rgba(201, 169, 110, 0.28) 0%, rgba(140, 98, 41, 0.14) 45%, rgba(226, 217, 200, 0.85) 100%);
+    box-shadow: 0 0 35px rgba(30, 27, 24, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+
+  body.light-mode .auth-underline-group {
+    border-bottom-color: rgba(140, 98, 41, 0.32);
+  }
+
+  body.light-mode .auth-underline-icon {
+    color: var(--gold-primary);
+  }
+
+  body.light-mode .auth-underline-input {
+    color: var(--text-light) !important;
+  }
+
+  body.light-mode .auth-underline-input::placeholder {
+    color: rgba(101, 92, 82, 0.65);
+  }
+
+  body.light-mode .auth-pill-switch-btn,
+  body.light-mode .auth-main-submit-pill {
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.38) 0%, rgba(140, 98, 41, 0.22) 100%);
+    border-color: rgba(140, 98, 41, 0.5);
+    color: var(--gold-light);
+    box-shadow: 0 6px 18px rgba(140, 98, 41, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.85);
+  }
+
+  body.light-mode .auth-bottom-switch {
+    color: var(--text-muted);
+  }
+
+  body.light-mode .auth-bottom-switch a {
+    color: var(--gold-light);
+  }
+
+  /* ==========================================
+     6. VIEW COUNTER, HOT BADGE & FLOATING CART GLASS
      ========================================== */
   .views-badge-overlay {
     position: absolute;
     top: 8px;
     left: 8px;
-    background: rgba(7, 9, 14, 0.82);
-    backdrop-filter: blur(4px);
-    color: #e2e8f0;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 3px 7px;
-    border-radius: 6px;
+    background: rgba(15, 20, 32, 0.5);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.28);
+    padding: 4px 8px;
+    border-radius: 8px;
     font-size: 9.5px;
     font-weight: 700;
     pointer-events: none;
@@ -2648,18 +3400,20 @@
 
   .hot-badge-overlay {
     position: absolute;
-    top: 34px; /* Tepat di bawah badge Views */
-    left: 8px; /* Rata kiri sejajar dengan badge Views */
-    background: linear-gradient(135deg, #ef4444, #b91c1c);
-    color: #ffffff;
-    border: 1px solid #fca5a5;
-    padding: 3px 7px;
-    border-radius: 6px;
+    top: 36px;
+    left: 8px;
+    background: linear-gradient(135deg, rgba(136, 19, 55, 0.72), rgba(76, 5, 25, 0.58));
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    color: #e8d5b5;
+    border: 1px solid rgba(201, 169, 110, 0.6);
+    padding: 4px 8px;
+    border-radius: 8px;
     font-size: 9px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.4px;
-    box-shadow: 0 2px 10px rgba(239, 68, 68, 0.5);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.3);
     pointer-events: none;
     z-index: 4;
   }
@@ -2676,29 +3430,47 @@
                   background 0.32s ease,
                   box-shadow 0.32s ease !important;
     }
-    /* Mengikuti gerakan turun-naik navbar bawah dengan irama yang persis sama, tanpa mengecilkan ukuran keranjang */
     .floating-cart-btn.cart-follow-nav {
       bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
     }
-    /* Saat sembunyi: Menjadi bulat melayang utuh di sebelah kanan (hanya logo 🛒) */
+    /* Saat sembunyi: Bulat melayang di kanan & menampilkan Badge Jumlah Item di pojok kanan atas */
     .floating-cart-btn.cart-docked {
       right: 16px !important;
-      width: 46px !important;
-      height: 46px !important;
+      width: 48px !important;
+      height: 48px !important;
       padding: 0 !important;
       border-radius: 50% !important;
-      border: 1.5px solid rgba(212, 175, 55, 0.65) !important;
+      border: 1.5px solid rgba(201, 169, 110, 0.65) !important;
       justify-content: center !important;
       align-items: center !important;
       gap: 0px !important;
-      background: rgba(12, 15, 22, 0.92) !important;
-      backdrop-filter: blur(16px) !important;
-      -webkit-backdrop-filter: blur(16px) !important;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85), 0 0 14px rgba(212, 175, 55, 0.2) !important;
+      background: rgba(12, 15, 22, 0.88) !important;
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85), 0 0 14px rgba(201, 169, 110, 0.22) !important;
+      overflow: visible !important;
     }
-    .floating-cart-btn.cart-docked #floatingCartLabel,
-    .floating-cart-btn.cart-docked #floatingCartCount {
+    .floating-cart-btn.cart-docked #floatingCartLabel {
       display: none !important;
+    }
+    .floating-cart-btn.cart-docked #floatingCartCount {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      position: absolute !important;
+      top: -5px !important;
+      right: -5px !important;
+      min-width: 21px !important;
+      height: 21px !important;
+      padding: 0 5px !important;
+      font-size: 10.5px !important;
+      font-weight: 800 !important;
+      border-radius: 50px !important;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary)) !important;
+      color: #050608 !important;
+      border: 1.5px solid var(--bg-dark) !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.65) !important;
+      z-index: 5;
     }
   }
 
@@ -2707,8 +3479,10 @@
     bottom: 24px;
     right: 22px;
     z-index: 9500;
-    background: linear-gradient(135deg, #171c28 0%, #090c12 100%);
-    border: 2px solid var(--gold-primary);
+    background: linear-gradient(135deg, rgba(23, 28, 40, 0.58) 0%, rgba(9, 12, 18, 0.45) 100%);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border: 1px solid rgba(249, 232, 162, 0.55);
     color: var(--gold-light);
     border-radius: 50px;
     padding: 12px 18px;
@@ -2716,13 +3490,13 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.85), 0 0 15px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7), 0 0 16px rgba(212, 175, 55, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.32);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   .floating-cart-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 0 22px rgba(212, 175, 55, 0.45);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.8), 0 0 22px rgba(212, 175, 55, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.45);
   }
 
   .floating-cart-count {
@@ -2734,19 +3508,22 @@
     border-radius: 20px;
     min-width: 24px;
     text-align: center;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
   }
 
   .cart-modal-box {
     width: 100%;
     max-width: 440px;
     max-height: 85vh;
-    background: linear-gradient(145deg, #161c2a, #0b0e15);
-    border: 2px solid var(--gold-primary);
-    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(22, 28, 42, 0.68), rgba(11, 14, 21, 0.58));
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid rgba(249, 232, 162, 0.45);
+    border-radius: 20px;
     padding: 18px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.95);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.25);
   }
 
   .cart-header {
@@ -2758,9 +3535,10 @@
   }
 
   .cart-title {
-    font-family: 'Cinzel', serif;
-    font-size: 16px;
-    font-weight: 800;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
     color: var(--gold-light);
   }
 
@@ -2780,10 +3558,13 @@
     grid-template-columns: 52px 1fr auto;
     gap: 10px;
     align-items: center;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    border-radius: 10px;
-    padding: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    border-radius: 14px;
+    padding: 10px;
   }
 
   .cart-item-thumb {
@@ -2856,15 +3637,18 @@
     font-size: 14px;
     font-weight: 800;
   }
-/* Kotak Peringatan Stok Otomatis */
+/* Kotak Peringatan Stok Otomatis Dark Luxury Glass */
 .stock-alert-box {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
+    background: rgba(140, 109, 59, 0.22);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--gold-light);
+    border: 1px solid rgba(201, 169, 110, 0.5);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
     padding: 12px 15px;
-    border-radius: 8px;
+    border-radius: 12px;
     margin: 10px 0;
-    font-size: 13px;
+    font-size: 12.5px;
     line-height: 1.5;
     display: none;
 }
@@ -2873,17 +3657,20 @@
 }
 .cart-sync-loading {
     font-size: 12px;
-    color: #555;
-    background: #f1f5f9;
+    color: var(--gold-light);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(201, 169, 110, 0.3);
     text-align: center;
-    padding: 6px;
-    border-radius: 6px;
+    padding: 8px;
+    border-radius: 10px;
     margin-bottom: 10px;
     display: none;
 }
 
 /* ==========================================
-   7. GAYA FITUR LELANG VIP & OTP WA
+   7. GAYA FITUR LELANG VIP & OTP WA DARK LUXURY
    ========================================== */
 .auction-timer-badge {
     position: absolute;
@@ -2893,38 +3680,40 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    background: rgba(16, 185, 129, 0.92);
-    border: 1px solid #34d399;
-    color: #ffffff;
+    background: rgba(20, 56, 44, 0.68);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(110, 205, 170, 0.5);
+    color: #e6f4ee;
     font-size: 9.5px;
     font-weight: 800;
-    padding: 4px 7px;
-    border-radius: 6px;
+    padding: 4px 8px;
+    border-radius: 8px;
     z-index: 4;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.35);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.28);
 }
 .auction-timer-badge.active-live {
-    background: rgba(16, 185, 129, 0.92);
-    border-color: #34d399;
-    color: #ffffff;
+    background: rgba(20, 56, 44, 0.68);
+    border-color: rgba(110, 205, 170, 0.5);
+    color: #e6f4ee;
 }
 .auction-timer-badge.upcoming {
-    background: rgba(217, 119, 6, 0.95);
-    border-color: #fde047;
-    color: #ffffff;
-    box-shadow: 0 2px 10px rgba(217, 119, 6, 0.4);
+    background: rgba(120, 82, 28, 0.68);
+    border-color: rgba(232, 213, 181, 0.6);
+    color: var(--gold-light);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 .auction-timer-badge.ended {
-    background: rgba(220, 38, 38, 0.95);
-    border-color: #fca5a5;
-    color: #ffffff;
-    box-shadow: 0 2px 10px rgba(220, 38, 38, 0.4);
+    background: rgba(88, 20, 32, 0.72);
+    border-color: rgba(219, 138, 148, 0.55);
+    color: #f5d0d5;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.28);
 }
 .auction-timer-badge.urgent {
-    background: rgba(16, 185, 129, 0.95);
-    border-color: #fde047;
-    color: #ffffff;
+    background: rgba(20, 56, 44, 0.78);
+    border-color: var(--gold-light);
+    color: var(--gold-light);
     animation: fadeIn 0.6s infinite alternate;
 }
 .bid-input-locked {
@@ -2937,9 +3726,12 @@
     font-weight: 800 !important;
 }
 .auction-panel-box {
-    background: linear-gradient(145deg, #151b28, #0b0e15);
-    border: 1.5px solid var(--gold-primary);
-    border-radius: 14px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(15, 20, 32, 0.45));
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid rgba(249, 232, 162, 0.45);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
     padding: 16px;
     margin-top: 8px;
     display: flex;
@@ -2953,14 +3745,17 @@
     text-align: center;
 }
 .auction-stat-item {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    padding: 8px 6px;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    padding: 10px 6px;
+    border-radius: 12px;
 }
 .auction-stat-label {
     font-size: 10px;
-    color: var(--text-muted);
+    color: #cbd5e1;
     display: block;
 }
 .auction-stat-val {
@@ -2969,10 +3764,13 @@
     color: #fff;
 }
 .auction-current-box {
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid var(--gold-primary);
-    border-radius: 10px;
-    padding: 12px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.22), rgba(255, 255, 255, 0.06));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(249, 232, 162, 0.55);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+    border-radius: 14px;
+    padding: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2988,44 +3786,90 @@
     flex: 1;
     min-width: 140px;
     padding: 12px 14px;
-    border-radius: 10px;
-    border: none;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
-    color: #05070a;
+    border-radius: 12px;
+    border: 1px solid rgba(249, 232, 162, 0.7);
+    background: linear-gradient(135deg, rgba(249, 232, 162, 0.42), rgba(212, 175, 55, 0.25));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.28), inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    color: #fffbeb;
     font-weight: 800;
     font-size: 13px;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-bid-action:hover {
+    background: linear-gradient(135deg, rgba(249, 232, 162, 0.58), rgba(212, 175, 55, 0.38));
+    transform: translateY(-1px);
 }
 .btn-bin-action {
     flex: 1;
     min-width: 140px;
     padding: 12px 14px;
-    border-radius: 10px;
-    border: 1px solid #4ade80;
-    background: rgba(16, 185, 129, 0.18);
-    color: #4ade80;
+    border-radius: 12px;
+    border: 1px solid rgba(110, 231, 183, 0.65);
+    background: rgba(16, 185, 129, 0.25);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+    color: #6ee7b7;
     font-weight: 800;
     font-size: 13px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 .bid-history-box {
-    background: #07090e;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
+    background: rgba(10, 14, 22, 0.38);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+    border-radius: 14px;
     padding: 10px;
     max-height: 170px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-primary) rgba(255, 255, 255, 0.04);
 }
+/* Custom Luxury Glass Scrollbar untuk Riwayat Penawaran Sah, Keranjang & Kode Negara */
+.bid-history-box::-webkit-scrollbar,
+.cart-items-list::-webkit-scrollbar,
+.cc-glass-dropdown-list::-webkit-scrollbar {
+    width: 6px;
+}
+.bid-history-box::-webkit-scrollbar-track,
+.cart-items-list::-webkit-scrollbar-track,
+.cc-glass-dropdown-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    margin: 6px 0;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.bid-history-box::-webkit-scrollbar-thumb,
+.cart-items-list::-webkit-scrollbar-thumb,
+.cc-glass-dropdown-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--gold-light), var(--gold-primary));
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+.bid-history-box::-webkit-scrollbar-thumb:hover,
+.cart-items-list::-webkit-scrollbar-thumb:hover,
+.cc-glass-dropdown-list::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-light);
+}
+
 .bid-history-row {
     display: flex;
     justify-content: space-between;
     font-size: 11.5px;
-    padding: 6px 8px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 6px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
     border-left: 3px solid var(--gold-primary);
 }
 .auction-user-bar {
@@ -3040,59 +3884,582 @@
     border-radius: 8px;
 }
 
-/* Gaya UI Modal Verifikasi Inbound WA (Tab, Form, Waiting, & Success) */
-.auth-tabs-switch {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    background: #080a0f;
-    padding: 5px;
-    border-radius: 10px;
-    border: 1px solid rgba(212, 175, 55, 0.28);
+/* =========================================================
+   GAYA SPLIT-SCREEN DIAGONAL GLASS AUTH MODAL (60FPS BUTTER SMOOTH)
+   ========================================================= */
+.auth-glass-modal-card {
+    width: 100%;
+    max-width: 760px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    position: relative;
+    border-radius: 24px !important;
+    background: linear-gradient(135deg, rgba(26, 29, 36, 0.72) 0%, rgba(10, 12, 16, 0.82) 100%) !important;
+    backdrop-filter: blur(28px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+    text-align: left;
+}
+
+.auth-close-floating {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    z-index: 35;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-light);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.auth-close-floating:hover {
+    background: rgba(168, 50, 64, 0.45);
+    border-color: rgba(245, 208, 213, 0.6);
+    transform: scale(1.08);
+}
+
+.auth-split-stage {
+    position: relative;
+    width: 100%;
+    min-height: 440px;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    border-radius: 24px;
+}
+
+/* Panel Form dengan Hardware Acceleration (Anti-Patah) */
+.auth-form-sliding-panel {
+    width: 52%;
+    padding: 42px 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 5;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform: translate3d(92.3%, 0, 0);
+    transition: transform 0.72s cubic-bezier(0.65, 0, 0.35, 1),
+                opacity 0.28s ease;
+}
+
+.auth-split-stage.mode-register .auth-form-sliding-panel {
+    transform: translate3d(92.3%, 0, 0);
+}
+
+.auth-split-stage.mode-login .auth-form-sliding-panel {
+    transform: translate3d(0%, 0, 0);
+}
+
+/* Transisi Halus Field Nama Tanpa Lompatan Layout */
+#authNameFieldGroup {
+    max-height: 52px;
+    opacity: 1;
+    overflow: hidden;
+    margin-bottom: 18px;
+    padding: 8px 2px;
+    transition: max-height 0.68s cubic-bezier(0.65, 0, 0.35, 1),
+                opacity 0.35s ease,
+                margin-bottom 0.68s cubic-bezier(0.65, 0, 0.35, 1),
+                padding 0.68s cubic-bezier(0.65, 0, 0.35, 1),
+                border-color 0.35s ease;
+}
+
+.auth-split-stage.mode-login #authNameFieldGroup {
+    max-height: 0px !important;
+    opacity: 0 !important;
+    margin-bottom: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    border-bottom-color: transparent !important;
+    pointer-events: none;
+}
+
+/* Panel Kaca Diagonal dengan Hardware Acceleration Murni */
+.auth-overlay-sliding-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 52%;
+    height: 100%;
+    z-index: 10;
+    background: linear-gradient(145deg, rgba(232, 213, 181, 0.14) 0%, rgba(201, 169, 110, 0.08) 45%, rgba(10, 12, 16, 0.78) 100%);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    box-shadow: 0 0 45px rgba(0, 0, 0, 0.75), inset 0 1px 2px rgba(232, 213, 181, 0.35);
+    display: flex;
+    align-items: center;
+    padding: 42px 38px;
+    will-change: transform, clip-path;
+    backface-visibility: hidden;
+    transform: translate3d(0%, 0, 0);
+    transition: transform 0.72s cubic-bezier(0.65, 0, 0.35, 1),
+                clip-path 0.72s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.auth-overlay-sliding-panel::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(232, 213, 181, 0.1), rgba(201, 169, 110, 0.75), rgba(232, 213, 181, 0.15));
+    box-shadow: 0 0 14px rgba(201, 169, 110, 0.55);
+    pointer-events: none;
+    transition: left 0.72s cubic-bezier(0.65, 0, 0.35, 1),
+                right 0.72s cubic-bezier(0.65, 0, 0.35, 1),
+                transform 0.72s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.auth-split-stage.mode-register .auth-overlay-sliding-panel {
+    transform: translate3d(0%, 0, 0);
+    clip-path: polygon(0 0, 91% 0, 100% 100%, 0% 100%);
+}
+
+.auth-split-stage.mode-register .auth-overlay-sliding-panel::after {
+    right: 4.4%;
+    transform: skewX(4.8deg);
+}
+
+.auth-split-stage.mode-login .auth-overlay-sliding-panel {
+    transform: translate3d(92.3%, 0, 0);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 9% 100%);
+}
+
+.auth-split-stage.mode-login .auth-overlay-sliding-panel::after {
+    left: 4.4%;
+    transform: skewX(4.8deg);
+}
+
+.auth-overlay-content {
+    width: 100%;
+    transition: transform 0.32s ease, opacity 0.25s ease;
+}
+
+.auth-content-fading {
+    opacity: 0 !important;
+    transform: scale(0.96) !important;
+}
+
+.auth-overlay-big-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(30px, 3.6vw, 40px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: 1.5px;
+    background: linear-gradient(to right, var(--gold-light), var(--gold-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
     margin-bottom: 14px;
 }
-.auth-tab-btn {
-    padding: 9px 8px;
-    border-radius: 7px;
-    border: none;
-    background: transparent;
+
+.auth-overlay-desc {
+    font-size: 12.5px;
     color: var(--text-muted);
+    line-height: 1.65;
+    margin-bottom: 26px;
+    max-width: 245px;
+}
+
+.auth-pill-switch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 26px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(232, 213, 181, 0.45);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.auth-pill-switch-btn:hover {
+    background: rgba(201, 169, 110, 0.25);
+    border-color: var(--gold-light);
+    transform: translateY(-2px);
+}
+
+.auth-form-heading {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 22px;
+    letter-spacing: 0.8px;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.auth-underline-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.22);
+    padding: 8px 2px;
+    margin-bottom: 18px;
+    transition: border-color 0.25s ease;
+}
+
+.auth-underline-group:focus-within {
+    border-bottom-color: var(--gold-light);
+}
+
+.auth-underline-icon {
+    color: rgba(244, 241, 234, 0.65);
+    font-size: 14px;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.auth-underline-input {
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    color: #ffffff !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    padding: 4px 0 !important;
     font-family: inherit;
+}
+
+.auth-underline-input::placeholder {
+    color: rgba(244, 241, 234, 0.48);
+    font-weight: 400;
+}
+
+/* =========================================================
+   CUSTOM GLASS DROPDOWN AWALAN NEGARA (PAS 4 BARIS + SCROLL)
+   ========================================================= */
+.cc-glass-select-wrap {
+    position: relative;
+    flex-shrink: 0;
+    z-index: 25;
+}
+
+.cc-glass-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    min-width: 96px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(201, 169, 110, 0.14));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(232, 213, 181, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    color: var(--gold-light);
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 11.5px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
 }
-.auth-tab-btn.active {
-    background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
-    color: #05070a;
+
+.cc-glass-trigger:hover {
+    border-color: var(--gold-light);
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.28), rgba(255, 255, 255, 0.12));
+}
+
+.cc-chevron-ico {
+    font-size: 9px;
+    opacity: 0.8;
+    transition: transform 0.25s ease;
+}
+
+.cc-glass-select-wrap.open .cc-chevron-ico {
+    transform: rotate(180deg);
+}
+
+/* Menampilkan Tepat 4 Baris Negara (4 x 36px = 144px + padding = 154px) */
+.cc-glass-dropdown-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 225px;
+    max-height: 154px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 5px;
+    border-radius: 14px;
+    background: rgba(12, 15, 22, 0.92);
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid rgba(232, 213, 181, 0.45);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.28);
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    z-index: 999;
+    animation: fadeIn 0.18s ease;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-primary) rgba(255, 255, 255, 0.04);
+}
+
+.cc-glass-select-wrap.open .cc-glass-dropdown-list {
+    display: flex;
+}
+
+.cc-glass-option-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 34px;
+    min-height: 34px;
+    padding: 0 10px;
+    border-radius: 9px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.cc-glass-option-item:hover,
+.cc-glass-option-item.selected {
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.32), rgba(255, 255, 255, 0.08));
+    color: var(--gold-light);
+    border: 1px solid rgba(232, 213, 181, 0.4);
+}
+
+.cc-opt-country {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+}
+
+.cc-opt-dial {
+    color: var(--gold-primary);
     font-weight: 800;
-    box-shadow: 0 3px 10px rgba(212, 175, 55, 0.25);
+    font-size: 11px;
+    flex-shrink: 0;
 }
-.auth-field-group {
-    margin-bottom: 12px;
+
+body.light-mode .cc-glass-trigger {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: rgba(140, 98, 41, 0.35);
+    color: var(--gold-light);
+}
+
+body.light-mode .cc-glass-dropdown-list {
+    background: rgba(250, 247, 242, 0.96);
+    border-color: rgba(140, 98, 41, 0.4);
+    box-shadow: 0 16px 36px rgba(30, 27, 24, 0.22), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+}
+
+body.light-mode .cc-glass-option-item {
+    color: var(--text-light);
+}
+
+.auth-main-submit-pill {
     width: 100%;
+    padding: 12px 24px;
+    margin-top: 6px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(201, 169, 110, 0.24) 100%);
+    backdrop-filter: blur(14px);
+    border: 1.5px solid rgba(255, 255, 255, 0.32);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
 }
-.auth-field-group .search-input-group {
-    display: grid !important;
-    grid-template-columns: 122px minmax(0, 1fr) !important;
-    gap: 8px !important;
-    width: 100% !important;
-    align-items: center !important;
+
+.auth-main-submit-pill:hover {
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.38) 0%, rgba(255, 255, 255, 0.18) 100%);
+    border-color: var(--gold-light);
+    transform: translateY(-2px);
 }
-.auth-field-group .search-input {
-    width: 100% !important;
-    min-width: 0 !important;
-    height: 46px !important;
-    padding: 0 12px !important;
-    line-height: 44px !important;
-    box-sizing: border-box !important;
-    margin: 0 !important;
+
+.auth-bottom-switch {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 11.5px;
+    color: rgba(244, 241, 234, 0.65);
 }
-.auth-field-group select.search-input {
-    padding: 0 8px !important;
-    text-align: center !important;
-    text-align-last: center !important;
+
+.auth-bottom-switch a {
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-left: 4px;
+}
+
+.auth-bottom-switch a:hover {
+    color: var(--gold-light);
+}
+
+/* Adaptasi Bentuk & Animasi Slide di HP / Tablet */
+@media (max-width: 720px) {
+    .auth-glass-modal-card {
+        max-width: 390px !important;
+    }
+    .auth-split-stage {
+        flex-direction: column;
+        min-height: auto;
+    }
+    .auth-overlay-sliding-panel {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 26px 24px 32px;
+        transform: none !important;
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%) !important;
+        border-right: none !important;
+        border-left: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    }
+    .auth-split-stage.mode-login .auth-overlay-sliding-panel {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 88%) !important;
+    }
+    .auth-form-sliding-panel {
+        width: 100%;
+        padding: 22px 24px 28px;
+        transform: none !important;
+        animation: authMobileSlide 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .auth-overlay-big-title {
+        font-size: 22px;
+        margin-bottom: 6px;
+    }
+    .auth-overlay-desc {
+        font-size: 11.5px;
+        margin-bottom: 14px;
+        max-width: 100%;
+    }
+}
+
+@keyframes authMobileSlide {
+    from { opacity: 0; transform: translateX(28px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* =========================================================
+   GAYA SLIDER / SWIPE GAMBAR DI KATALOG & DETAIL (HP & PC)
+   ========================================================= */
+.card-slider-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    cursor: grab;
+}
+.card-slider-track:active {
+    cursor: grabbing;
+}
+.card-slider-track::-webkit-scrollbar {
+    display: none;
+}
+.card-slide-item {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    scroll-snap-align: center;
+    position: relative;
+    user-select: none;
+}
+.card-slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(10, 12, 16, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: var(--gold-light);
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 6;
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+.product-thumb-wrapper:hover .card-slider-nav,
+.detail-main-img-box:hover .card-slider-nav {
+    opacity: 1;
+}
+.card-slider-nav:hover {
+    background: rgba(201, 169, 110, 0.38);
+    border-color: var(--gold-light);
+}
+.card-slider-nav.prev { left: 8px; }
+.card-slider-nav.next { right: 8px; }
+
+.detail-main-img-box .card-slider-nav {
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+    opacity: 0.85;
+}
+
+.card-slider-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background: rgba(10, 12, 16, 0.48);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    z-index: 5;
+    pointer-events: none;
+}
+.card-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    transition: all 0.25s ease;
+}
+.card-dot.active {
+    width: 14px;
+    border-radius: 4px;
+    background: var(--gold-light);
+}
+
+@media (max-width: 1024px) {
+    .product-thumb-wrapper .card-slider-nav {
+        display: none; /* Di HP/Tablet cukup swipe dengan jari */
+    }
 }
 body.modal-open-lock,
 html.modal-open-lock {
@@ -3199,10 +4566,34 @@ html.modal-open-lock {
       <a class="nav-item" id="navAbout" onclick="navigasiMenuAtas('about')">Tentang Kami</a>
     </div>
     <div class="nav-right-group">
+      <!-- Toggle Dark / Light Mode Lensa Kaca Beranimasi -->
+      <button type="button" class="theme-glass-switch notranslate" id="themeSwitchBtn" onclick="toggleThemeMode()" title="Ganti Mode Gelap / Terang" aria-label="Toggle Theme">
+        <span class="theme-switch-label dark-txt">Dark</span>
+        <span class="theme-switch-label light-txt">Light</span>
+        <span class="theme-glass-lens">
+          <!-- Ikon Bulan (Mode Gelap) -->
+          <svg class="theme-lens-icon moon-ico" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <!-- Ikon Matahari (Mode Terang) -->
+          <svg class="theme-lens-icon sun-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4" fill="currentColor"></circle>
+            <line x1="12" y1="2" x2="12" y2="4"></line>
+            <line x1="12" y1="20" x2="12" y2="22"></line>
+            <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line>
+            <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line>
+            <line x1="2" y1="12" x2="4" y2="12"></line>
+            <line x1="20" y1="12" x2="22" y2="12"></line>
+            <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line>
+            <line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line>
+          </svg>
+        </span>
+      </button>
+
       <select class="nav-lang-switch notranslate" id="langDropdown" onchange="pilihBahasa(this.value)" title="Pilih Bahasa">
-        <option value="id" selected>🇮🇩 ID</option>
-        <option value="en">🇬🇧 EN</option>
-        <option value="zh">🇨🇳 中文</option>
+        <option value="id" selected>ID</option>
+        <option value="en">EN</option>
+        <option value="zh">中文</option>
       </select>
     </div>
   </nav>
@@ -3282,11 +4673,11 @@ html.modal-open-lock {
 
         <!-- 3 Kolom Atas: Provinsi (Kiri), Alamat Pembeli (Tengah), Total Ikan (Kanan) -->
         <div class="ongkir-top-grid">
-          <!-- Kolom 1: Provinsi (Mekanisme Autocomplete Sama Seperti Alamat Pembeli) -->
+          <!-- Kolom 1: Provinsi -->
           <div>
             <label class="ongkir-col-label" id="lblProvinsiPembeli">Provinsi</label>
             <div class="ongkir-autocomplete-wrap" id="ongkirProvAutocompleteWrap">
-              <input type="text" id="ongkirProvinceInput" class="ongkir-input-box" style="padding-right: 40px;" placeholder="🔍 Ketik / Pilih Provinsi..." autocomplete="off" onfocus="bukaDropdownProvinsiGlass()" oninput="cariProvinsiOngkirLive(this.value)">
+              <input type="text" id="ongkirProvinceInput" class="ongkir-input-box" style="padding-right: 40px;" placeholder="Ketik / Pilih Provinsi..." autocomplete="off" onfocus="bukaDropdownProvinsiGlass()" oninput="cariProvinsiOngkirLive(this.value)">
               <button type="button" id="ongkirProvClearBtn" class="ongkir-clear-btn" onclick="hapusInputProvinsiOngkir()" title="Hapus provinsi">✕</button>
               <input type="hidden" id="ongkirSelectedProvince" value="">
               <div id="ongkirProvGlassDropdown" class="ongkir-glass-dropdown notranslate"></div>
@@ -3297,12 +4688,12 @@ html.modal-open-lock {
           <div>
             <label class="ongkir-col-label" id="lblAlamatPembeli">Alamat Pembeli</label>
             <div class="ongkir-autocomplete-wrap" id="ongkirAutocompleteWrap">
-              <input type="text" id="ongkirCityInput" class="ongkir-input-box" style="padding-right: 40px;" placeholder="🔍 Ketik Kecamatan / Kota (cth: Priok)..." autocomplete="off" onfocus="bukaDropdownKotaGlass()" oninput="cariKotaRajaOngkirLive(this.value)">
+              <input type="text" id="ongkirCityInput" class="ongkir-input-box" style="padding-right: 40px;" placeholder="Ketik Kecamatan / Kota (cth: Priok)..." autocomplete="off" onfocus="bukaDropdownKotaGlass()" oninput="cariKotaRajaOngkirLive(this.value)">
               <button type="button" id="ongkirClearBtn" class="ongkir-clear-btn" onclick="hapusInputKotaOngkir()" title="Hapus teks">✕</button>
               <input type="hidden" id="ongkirSelectedCityId" value="">
               <div id="ongkirGlassDropdown" class="ongkir-glass-dropdown notranslate"></div>
             </div>
-            <div class="ongkir-helper-sub">📍 Pengiriman dari: <strong>Kota Bandung (Galeri CK)</strong></div>
+            <div class="ongkir-helper-sub">Pengiriman dari: <strong>Kota Bandung (Galeri CK)</strong></div>
           </div>
 
           <!-- Kolom 3: Total Ikan (Kelipatan 5 ekor = +1 Kg) -->
@@ -3324,8 +4715,8 @@ html.modal-open-lock {
         <!-- Daftar Hasil Ekspedisi -->
         <div class="ongkir-section-subtitle" id="lblEkspedisiLainnya">Daftar Ekspedisi</div>
         <div class="ongkir-courier-list" id="ongkirResultContainer">
-          <div style="text-align:center; padding: 28px 16px; color: var(--text-muted); font-size: 13px; border: 1px dashed rgba(212,175,55,0.25); border-radius: 12px;">
-            🐟 Silakan pilih <strong>Alamat Pembeli</strong> dan <strong>Total Ikan</strong> di atas, lalu tekan tombol <strong>cek ongkir</strong> untuk menampilkan tarif ekspedisi.
+          <div style="text-align:center; padding: 28px 16px; color: var(--text-muted); font-size: 13px; border: 1px dashed rgba(201,169,110,0.28); border-radius: 12px;">
+            Silakan pilih <strong>Alamat Pembeli</strong> dan <strong>Total Ikan</strong> di atas, lalu tekan tombol <strong>Cek Ongkir</strong> untuk menampilkan tarif ekspedisi.
           </div>
         </div>
 
@@ -3374,9 +4765,9 @@ html.modal-open-lock {
 
         <div class="wf-contact-list">
           <div class="wf-contact-item">
-            <span class="wf-contact-icon">🏪</span>
+            <span class="wf-contact-icon">✦</span>
             <span>
-              <strong>Toko:</strong> 
+              <strong>Galeri:</strong> 
               <a href="https://maps.app.goo.gl/upkybmoZqeBiMSt18" target="_blank" rel="noopener noreferrer" class="wf-map-link notranslate" onclick="playClickSound()">
                 Jalan Simpangsari, Kelurahan Sukamiskin, Arcamanik, Kota Bandung, Jawa Barat, 40293
               </a>
@@ -3458,7 +4849,7 @@ html.modal-open-lock {
       </div>
 
       <div class="catalog-filter-bar">
-        <input type="text" id="catalogSearchInput" class="catalog-input" placeholder="🔍 Cari nama atau kode (misal: CK-001)..." oninput="terapkanFilterKatalog()">
+        <input type="text" id="catalogSearchInput" class="catalog-input" placeholder="Cari nama atau kode (misal: CK-001)..." oninput="terapkanFilterKatalog()">
         
         <select id="catalogTypeSelect" class="catalog-select" onchange="terapkanFilterKatalog()">
           <option value="Semua">Semua Jenis / Varian</option>
@@ -3466,7 +4857,7 @@ html.modal-open-lock {
 
         <select id="catalogSortSelect" class="catalog-select" onchange="terapkanFilterKatalog()">
           <option value="default">Urutkan: Terbaru / Default</option>
-          <option value="popular">🔥 Urutkan: Paling Populer</option>
+          <option value="popular">Urutkan: Paling Populer</option>
           <option value="price-asc">Harga: Termurah ke Termahal</option>
           <option value="price-desc">Harga: Termahal ke Termurah</option>
         </select>
@@ -3474,7 +4865,7 @@ html.modal-open-lock {
 
       <div class="catalog-meta-bar">
         <span>Menampilkan <span class="catalog-count-highlight" id="catalogCountText">0</span> koleksi</span>
-        <button type="button" class="refresh-catalog-btn" onclick="muatDataKatalog(true)">🔄 Segarkan Data</button>
+        <button type="button" class="refresh-catalog-btn" onclick="muatDataKatalog(true)">↻ Segarkan Data</button>
       </div>
     </div>
 
@@ -3485,7 +4876,7 @@ html.modal-open-lock {
     </div>
 
     <div class="state-box" id="catalogEmptyState" style="display: none;">
-      <div class="state-icon">🔎</div>
+      <div class="state-icon">◇</div>
       <div class="state-title" id="catalogEmptyTitle">Koleksi Tidak Ditemukan</div>
       <p class="state-desc" id="catalogEmptyDesc">Tidak ada ikan atau produk yang sesuai dengan pencarian Anda.</p>
     </div>
@@ -3512,23 +4903,23 @@ html.modal-open-lock {
     </div>
 
     <div class="search-section">
-      <span class="search-label">🔑 Masukkan Nomor Sertifikat Resmi:</span>
+      <span class="search-label">Masukkan Nomor Sertifikat Resmi:</span>
       <div class="search-input-group">
         <input type="text" id="certInput" class="search-input" placeholder="Ketik nomor sertifikat..." autocomplete="off" onkeypress="if(event.key === 'Enter') cariSertifikat()">
-        <button type="button" class="search-btn" onclick="cariSertifikat()">Cek</button>
+        <button type="button" class="search-btn" onclick="cariSertifikat()">Verifikasi</button>
       </div>
     </div>
 
     <div class="state-box" id="initialState">
-      <div class="state-icon">🔒</div>
+      <div class="state-icon">◈</div>
       <div class="state-title">Akses Data Terkunci</div>
       <p class="state-desc">
-        Silakan ketik <strong>Nomor Sertifikat</strong> yang tertera pada kartu fisik Anda di kolom atas, lalu tekan tombol <strong>Cek</strong> untuk membuka rincian kepemilikan sah.
+        Silakan ketik <strong>Nomor Sertifikat</strong> yang tertera pada kartu fisik Anda di kolom atas, lalu tekan tombol <strong>Verifikasi</strong> untuk membuka rincian kepemilikan sah.
       </p>
     </div>
 
     <div class="state-box" id="errorState" style="display: none;">
-      <div class="state-icon error">⚠️</div>
+      <div class="state-icon error">✕</div>
       <div class="state-title error">Sertifikat Tidak Ditemukan</div>
       <p class="state-desc" id="errorText">
         Nomor sertifikat yang Anda masukkan tidak terdaftar di dalam database resmi Cupang Kasep.
@@ -3537,10 +4928,10 @@ html.modal-open-lock {
 
     <div class="cert-body" id="certBody">
       <div class="cert-visual-card">
-        <div class="cert-seal">★ Authentic VIP Specimen ★</div>
+        <div class="cert-seal">✦ Authentic VIP Specimen ✦</div>
         <div class="fish-photo-wrapper" onclick="bukaZoom(document.getElementById('fishImg').src)">
           <img id="fishImg" src="" alt="Ikan Cupang VIP">
-          <span class="zoom-hint">🔍 Ketuk Foto</span>
+          <span class="zoom-hint">Perbesar Foto</span>
         </div>
         <div class="cert-fish-name notranslate" id="fishStrainTitle">-</div>
         <div class="cert-id-sub notranslate" id="certCodeDisplay">ID: -</div>
@@ -3548,9 +4939,9 @@ html.modal-open-lock {
 
       <div class="details-panel">
         <div class="tabs-nav">
-          <button type="button" class="tab-btn active" onclick="gantiTab('tab-owner', this)">👤 Pemilik</button>
-          <button type="button" class="tab-btn" onclick="gantiTab('tab-genetics', this)">🧬 Genetik</button>
-          <button type="button" class="tab-btn" onclick="gantiTab('tab-security', this)">🛡️ Segel</button>
+          <button type="button" class="tab-btn active" onclick="gantiTab('tab-owner', this)">Pemilik</button>
+          <button type="button" class="tab-btn" onclick="gantiTab('tab-genetics', this)">Genetik</button>
+          <button type="button" class="tab-btn" onclick="gantiTab('tab-security', this)">Segel</button>
         </div>
 
         <div id="tab-owner" class="tab-content active">
@@ -3597,16 +4988,16 @@ html.modal-open-lock {
 
         <div id="tab-security" class="tab-content">
           <div class="guarantee-box">
-            <strong>🔒 Jaminan Keaslian:</strong><br>
+            <strong>✦ Jaminan Keaslian:</strong><br>
             Spesimen ini adalah koleksi VIP asli dari <strong class="notranslate">Cupang Kasep</strong>.
             <div class="hash-code notranslate" id="digitalHash">-</div>
           </div>
         </div>
 
         <div class="action-bar">
-          <button type="button" class="btn-secondary" id="copyBtn" onclick="salinKode()">📋 Salin ID</button>
-          <button type="button" class="btn-secondary" onclick="bagikanLinkSertifikat()">🔗 Share Link</button>
-          <button type="button" class="btn-secondary" onclick="bukaZoom(document.getElementById('fishImg').src)">🖼️ Foto HD</button>
+          <button type="button" class="btn-secondary" id="copyBtn" onclick="salinKode()">Salin ID</button>
+          <button type="button" class="btn-secondary" onclick="bagikanLinkSertifikat()">Bagikan Link</button>
+          <button type="button" class="btn-secondary" onclick="bukaZoom(document.getElementById('fishImg').src)">Foto HD</button>
         </div>
       </div>
     </div>
@@ -3625,7 +5016,7 @@ html.modal-open-lock {
 
     <div class="roulette-body">
       <div class="voucher-panel">
-        <span class="search-label">🎟️ Masukkan Kode Voucher Resmi:</span>
+        <span class="search-label">Masukkan Kode Voucher Resmi:</span>
         <div class="search-input-group">
           <input type="text" id="voucherInput" class="search-input" placeholder="Masukkan Kode Voucher Resmi" autocomplete="off" onkeypress="if(event.key === 'Enter') aktifkanVoucher()">
           <button type="button" class="search-btn" id="btnPakaiVoucher" onclick="aktifkanVoucher()">Pakai</button>
@@ -3639,7 +5030,7 @@ html.modal-open-lock {
       <!-- PANEL RAHASIA ADMIN -->
       <div class="secret-admin-panel" id="secretAdminPanel">
         <div class="secret-admin-header">
-          <span class="secret-admin-title">🕵️ PANEL RAHASIA CEK HADIAH</span>
+          <span class="secret-admin-title">✦ PANEL VERIFIKASI HADIAH</span>
           <button type="button" class="close-admin-btn" onclick="tutupPanelRahasiaAdmin()">✕ Tutup</button>
         </div>
 
@@ -3667,12 +5058,12 @@ html.modal-open-lock {
       </div>
 
       <button type="button" class="btn-spin-wheel" id="spinBtn" onclick="putarRoulette()" disabled>
-        🎯 PUTAR SEKARANG (3x)
+        PUTAR SEKARANG (3x)
       </button>
 
       <div class="history-panel">
         <div class="history-title">
-          <span>🎁 Hasil Undian Voucher Ini:</span>
+          <span>Hasil Undian Voucher Ini:</span>
           <span id="spinCountInfo" style="font-size:11px; color:var(--text-muted);">0/3 Selesai</span>
         </div>
         <div class="history-list" id="spinHistoryList">
@@ -3681,7 +5072,7 @@ html.modal-open-lock {
           </div>
         </div>
         <a id="claimWaBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn-claim-wa">
-          📲 Klaim Hadiah via WhatsApp
+          Klaim Hadiah via WhatsApp
         </a>
       </div>
     </div>
@@ -3692,7 +5083,7 @@ html.modal-open-lock {
 <!-- MODAL POPUP HASIL SPIN -->
 <div class="result-modal" id="resultModal">
   <div class="result-box">
-    <div class="result-icon" id="modalIcon">🎉</div>
+    <div class="result-icon" id="modalIcon" style="color: var(--gold-light); font-family: 'Cormorant Garamond', serif;">✦</div>
     <div class="result-title" id="modalTitle">Hasil Putaran</div>
     <div class="result-prize" id="modalPrize">-</div>
     <p class="result-sub" id="modalSub">Sisa kesempatan Anda: 2x lagi</p>
@@ -3703,11 +5094,11 @@ html.modal-open-lock {
 <!-- MODAL POPUP KESEMPATAN HABIS (0/3) -->
 <div class="result-modal" id="exhaustedModal">
   <div class="result-box">
-    <div class="result-icon">🙏</div>
+    <div class="result-icon" style="color: var(--gold-light); font-family: 'Cormorant Garamond', serif;">◈</div>
     <div class="result-title">Kesempatan Habis (0/3)</div>
-    <p class="result-sub" style="color: #f8fafc; font-size: 13px; line-height: 1.6; margin: 12px 0 18px;">
+    <p class="result-sub" style="color: var(--text-light); font-size: 13px; line-height: 1.6; margin: 12px 0 18px;">
       Kesempatan memutar roda undian Anda sudah habis.<br><br>
-      Terima kasih sudah percaya dan belanja di <strong style="color: var(--gold-light);">Cupang Kasep</strong>!
+      Terima kasih telah mempercayakan koleksi Anda di <strong style="color: var(--gold-light);">Cupang Kasep</strong>.
     </p>
     <button type="button" class="search-btn" style="width:100%;" onclick="tutupModalHabis()">Mengerti</button>
   </div>
@@ -3720,14 +5111,14 @@ html.modal-open-lock {
 </div>
 
 <!-- NOTIFIKASI TOAST -->
-<div class="toast-msg" id="toastMsg">✅ Berhasil!</div>
+<div class="toast-msg" id="toastMsg">✦ Berhasil</div>
 
 <!-- MODAL POPUP PASSWORD KATALOG -->
 <div class="result-modal" id="catalogPasswordModal">
   <div class="result-box">
-    <div class="result-icon">🔒</div>
-    <div class="result-title">Dalam Tahap Pengembangan</div>
-    <p class="result-sub" style="margin-bottom: 12px;">Masukkan password developer.</p>
+    <div class="result-icon" style="color: var(--gold-light); font-family: 'Cormorant Garamond', serif;">◈</div>
+    <div class="result-title">Akses Terbatas</div>
+    <p class="result-sub" style="margin-bottom: 12px;">Masukkan kode akses developer.</p>
     <input type="password" id="catalogPassInput" class="search-input" style="width:100%; text-align:center; margin-bottom:12px; text-transform:none;" placeholder="Ketik password..." onkeypress="if(event.key === 'Enter') verifikasiPasswordKatalog()">
     <div style="display:flex; gap:8px;">
       <button type="button" class="btn-secondary" onclick="tutupModalPasswordKatalog()">Batal</button>
@@ -3736,9 +5127,13 @@ html.modal-open-lock {
   </div>
 </div>
 
-<!-- TOMBOL KERANJANG MELAYANG POJOK KANAN BAWAH -->
+<!-- TOMBOL KERANJANG MELAYANG POJOK KANAN BAWAH (IKON SVG LUXURY) -->
 <button type="button" class="floating-cart-btn notranslate" id="floatingCartBtn" onclick="bukaModalKeranjang()">
-  <span style="font-size: 16px;">🛒</span>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <path d="M16 10a4 4 0 0 1-8 0"></path>
+  </svg>
   <span style="font-size: 12.5px; font-weight: 800;" id="floatingCartLabel">Keranjang</span>
   <span class="floating-cart-count" id="floatingCartCount">0</span>
 </button>
@@ -3747,12 +5142,12 @@ html.modal-open-lock {
 <div class="result-modal" id="cartModal" onclick="tutupModalKeranjang()">
   <div class="cart-modal-box" onclick="event.stopPropagation()">
     <div class="cart-header">
-      <span class="cart-title" id="cartModalTitle">🛒 KERANJANG BELANJA</span>
+      <span class="cart-title" id="cartModalTitle">KERANJANG BELANJA</span>
       <button type="button" class="close-admin-btn" onclick="tutupModalKeranjang()">✕ Tutup</button>
     </div>
 
     <!-- Notifikasi Pengecekan Stok Otomatis -->
-    <div id="cartSyncLoading" class="cart-sync-loading">🔄 Memeriksa stok terbaru ke server...</div>
+    <div id="cartSyncLoading" class="cart-sync-loading">Memeriksa stok terbaru ke server...</div>
     <div id="cartStockAlert" class="stock-alert-box"></div>
 
     <div class="cart-items-list" id="cartItemsContainer"></div>
@@ -3763,86 +5158,82 @@ html.modal-open-lock {
         <span style="color: var(--gold-primary); font-size: 16px;" class="notranslate" id="cartTotalPrice">Rp 0</span>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button type="button" class="btn-secondary" style="flex: 0.45;" onclick="kosongkanKeranjang()" id="btnClearCart">🗑️ Kosongkan</button>
+        <button type="button" class="btn-secondary" style="flex: 0.45;" onclick="kosongkanKeranjang()" id="btnClearCart">Kosongkan</button>
         <button type="button" class="search-btn" style="flex: 1;" onclick="checkoutKeranjangWA()" id="btnCheckoutWA">Beli via WhatsApp</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- MODAL POPUP VERIFIKASI PESERTA LELANG (SINGLE FORM + INBOUND WA) -->
+<!-- MODAL POPUP VERIFIKASI PESERTA LELANG (SPLIT-SCREEN DIAGONAL GLASS SLIDER) -->
 <div class="result-modal" id="auctionOtpModal" onclick="tutupModalOtpLelang()">
-  <div class="result-box" style="max-width: 390px; text-align: left;" onclick="event.stopPropagation()">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-      <span class="cart-title" style="font-size:15px;">🔐 AKSES PESERTA LELANG</span>
-      <button type="button" class="close-admin-btn" onclick="tutupModalOtpLelang()">✕</button>
-    </div>
+  <div class="result-box auth-glass-modal-card" onclick="event.stopPropagation()">
+    <button type="button" class="auth-close-floating" onclick="tutupModalOtpLelang()" title="Tutup">✕</button>
 
-    <!-- TAMPILAN 1: SINGLE FORM DENGAN TAB DAFTAR BARU & LOGIN LAMA -->
-    <div id="auctionAuthFormContainer">
-      <div class="auth-tabs-switch">
-        <button type="button" class="auth-tab-btn active" id="tabBtnRegister" onclick="gantiModeAuthLelang('register')">
-          Daftar Peserta Baru
-        </button>
-        <button type="button" class="auth-tab-btn" id="tabBtnLogin" onclick="gantiModeAuthLelang('login')">
-          Login Peserta Lama
-        </button>
-      </div>
+    <!-- TAMPILAN 1: SPLIT-SCREEN DIAGONAL SLIDER (CREATE ACCOUNT <-> LOGIN) -->
+    <div id="auctionAuthFormContainer" class="auth-split-stage mode-register">
 
-      <p id="authModeInfoText" style="font-size:11.5px; color:var(--text-muted); margin-bottom:12px; line-height:1.5;">
-        Lengkapi data di bawah ini, lalu kirim pesan verifikasi ke WhatsApp resmi kami untuk mengaktifkan akun lelang Anda.
-      </p>
-
-      <!-- Input Nama (Hanya tampil pada Tab Daftar Peserta Baru) -->
-      <div class="auth-field-group" id="authNameFieldGroup">
-        <label class="search-label">👤 Nama Lengkap / Panggilan:</label>
-        <input type="text" id="bidderNameInput" class="search-input" style="width:100%; text-transform:none;" placeholder="Contoh: Budi Santoso" autocomplete="name" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
-      </div>
-
-      <!-- Input Email (Tampil di Daftar Baru & Login Lama) -->
-      <div class="auth-field-group">
-        <label class="search-label">✉️ Alamat Email:</label>
-        <input type="email" id="bidderEmailInput" class="search-input notranslate" style="text-transform:none;" placeholder="nama@email.com" autocomplete="email" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
-      </div>
-
-      <!-- Input Kode Negara + Nomor WA -->
-      <div class="auth-field-group" style="margin-bottom:16px;">
-        <label class="search-label">📱 Nomor WhatsApp Aktif:</label>
-        <div class="search-input-group">
-          <select id="bidderCountryCode" class="search-input notranslate" style="cursor: pointer; text-transform: none; font-weight: 700;">
-            <option value="62" selected>🇮🇩 +62 (ID)</option>
-            <option value="60">🇲🇾 +60 (MY)</option>
-            <option value="65">🇸🇬 +65 (SG)</option>
-            <option value="673">🇧🇳 +673 (BN)</option>
-            <option value="66">🇹🇭 +66 (TH)</option>
-            <option value="84">🇻🇳 +84 (VN)</option>
-            <option value="63">🇵🇭 +63 (PH)</option>
-            <option value="86">🇨🇳 +86 (CN)</option>
-            <option value="852">🇭🇰 +852 (HK)</option>
-            <option value="886">🇹🇼 +886 (TW)</option>
-            <option value="81">🇯🇵 +81 (JP)</option>
-            <option value="82">🇰🇷 +82 (KR)</option>
-            <option value="91">🇮🇳 +91 (IN)</option>
-            <option value="61">🇦🇺 +61 (AU)</option>
-            <option value="971">🇦🇪 +971 (AE)</option>
-            <option value="966">🇸🇦 +966 (SA)</option>
-            <option value="44">🇬🇧 +44 (UK)</option>
-            <option value="49">🇩🇪 +49 (DE)</option>
-            <option value="31">🇳🇱 +31 (NL)</option>
-            <option value="33">🇫🇷 +33 (FR)</option>
-            <option value="1">🇺🇸 +1 (US/CA)</option>
-          </select>
-          <input type="tel" id="bidderWaInput" class="search-input notranslate" style="text-transform:none;" placeholder="8123456789" autocomplete="tel" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+      <!-- PANEL KACA DIAGONAL YANG BERGESER KIRI <-> KANAN -->
+      <div class="auth-overlay-sliding-panel">
+        <div class="auth-overlay-content" id="authOverlayContent">
+          <h2 class="auth-overlay-big-title" id="authOverlayTitle">WELCOME<br>BACK!</h2>
+          <p class="auth-overlay-desc" id="authOverlayDesc">
+            Sudah terdaftar sebagai peserta lelang? Silakan login menggunakan akun Anda.
+          </p>
+          <button type="button" class="auth-pill-switch-btn" id="authOverlayBtn" onclick="gantiModeAuthLelang('login')">
+            Sign In →
+          </button>
         </div>
       </div>
 
-      <button type="button" class="search-btn" id="btnSubmitAuthLelang" style="width:100%;" onclick="submitFormVerifikasiLelang()">
-        Daftar & Verifikasi
-      </button>
+      <!-- PANEL FORM INPUT MINIMALIS YANG BERGESER KANAN <-> KIRI -->
+      <div class="auth-form-sliding-panel" id="authFormSlidingPanel">
+        <h3 class="auth-form-heading" id="authFormHeading">Create Account</h3>
+
+        <!-- Input Nama Lengkap (Ikon Vektor Minimalis) -->
+        <div class="auth-underline-group" id="authNameFieldGroup">
+          <span class="auth-underline-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </span>
+          <input type="text" id="bidderNameInput" class="auth-underline-input" placeholder="Nama Lengkap" autocomplete="name" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+        </div>
+
+        <!-- Input Email (Ikon Vektor Minimalis) -->
+        <div class="auth-underline-group">
+          <span class="auth-underline-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+          </span>
+          <input type="email" id="bidderEmailInput" class="auth-underline-input notranslate" placeholder="Alamat Email" autocomplete="email" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+        </div>
+
+        <!-- Input Kode Negara Custom Glass (Pas 4 Baris + Scroll A-Z) + Nomor WhatsApp -->
+        <div class="auth-underline-group" id="authWaFieldGroup" style="z-index: 25;">
+          <span class="auth-underline-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+          </span>
+          <div class="cc-glass-select-wrap notranslate" id="ccGlassSelectWrap">
+            <input type="hidden" id="bidderCountryCode" value="62">
+            <button type="button" class="cc-glass-trigger" id="ccGlassTriggerBtn" onclick="toggleDropdownKodeNegara(event)">
+              <span id="ccGlassSelectedText">ID +62</span>
+              <span class="cc-chevron-ico">▼</span>
+            </button>
+            <div class="cc-glass-dropdown-list" id="ccGlassDropdownList"></div>
+          </div>
+          <input type="tel" id="bidderWaInput" class="auth-underline-input notranslate" placeholder="Nomor WhatsApp (8123456...)" autocomplete="tel" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+        </div>
+
+        <button type="button" class="auth-main-submit-pill" id="btnSubmitAuthLelang" onclick="submitFormVerifikasiLelang()">
+          Sign Up
+        </button>
+
+        <div class="auth-bottom-switch" id="authBottomSwitch">
+          Already a Member? <a onclick="gantiModeAuthLelang('login')">Login</a>
+        </div>
+      </div>
     </div>
 
     <!-- TAMPILAN 2: MENUNGGU KONFIRMASI WA (POLLING OTOMATIS) -->
-    <div id="auctionWaitingWaBox" style="display:none;">
+    <div id="auctionWaitingWaBox" style="display:none; padding: 28px 24px;">
       <div class="wa-waiting-card">
         <div class="wa-waiting-spinner"></div>
         <div style="font-size:14px; font-weight:800; color:var(--gold-light); margin-bottom:4px;">
@@ -3855,11 +5246,11 @@ html.modal-open-lock {
         <div class="wa-format-preview notranslate" id="waVerifyMessagePreview">VERIFY-REGISTER-...</div>
 
         <a id="btnOpenWaInbound" href="#" target="_blank" rel="noopener noreferrer" class="btn-send-wa-verify" onclick="playClickSound()">
-          📲 Klik untuk Kirim WA
+          Kirim Verifikasi via WhatsApp
         </a>
 
-        <div style="font-size:11px; color:#a7f3d0; margin-top:4px;">
-          🔄 Halaman ini otomatis mendeteksi pesan Anda setiap 3 detik...
+        <div style="font-size:11px; color:var(--gold-light); margin-top:4px;">
+          Halaman ini otomatis mendeteksi pesan Anda setiap 3 detik...
         </div>
       </div>
 
@@ -3868,12 +5259,12 @@ html.modal-open-lock {
       </button>
     </div>
 
-    <!-- TAMPILAN 3: NOTIFIKASI SUKSES (CENTANG HIJAU) -->
-    <div id="auctionVerifiedSuccessBox" style="display:none;">
+    <!-- TAMPILAN 3: NOTIFIKASI SUKSES -->
+    <div id="auctionVerifiedSuccessBox" style="display:none; padding: 24px;">
       <div class="wa-success-card">
-        <div class="wa-success-check">✔</div>
-        <div style="font-size:16px; font-weight:800; color:#4ade80; margin-bottom:4px;">
-          Verifikasi Berhasil!
+        <div class="wa-success-check">✓</div>
+        <div style="font-size:16px; font-weight:800; color:var(--gold-light); margin-bottom:4px;">
+          Verifikasi Berhasil
         </div>
         <p style="font-size:12px; color:var(--text-light);" id="waVerifiedWelcomeText">
           Akun Anda telah aktif. Mengalihkan ke panel lelang...
@@ -3886,14 +5277,14 @@ html.modal-open-lock {
 <!-- MODAL POPUP PERINGATAN BLOKIR BNR (BID & RUN) -->
 <div class="result-modal" id="auctionBlockedModal">
   <div class="result-box" style="max-width: 360px; border-color: var(--danger-red);">
-    <div class="result-icon">🚫</div>
-    <div class="result-title" style="color: #fca5a5;">AKSES LELANG DIBLOKIR</div>
-    <p class="result-sub" id="blockedModalDesc" style="color: #f8fafc; font-size: 12.5px; line-height: 1.6; margin: 10px 0 16px;">
+    <div class="result-icon" style="color: #f5d0d5;">✕</div>
+    <div class="result-title" style="color: #f5d0d5;">AKSES LELANG DIBLOKIR</div>
+    <p class="result-sub" id="blockedModalDesc" style="color: var(--text-light); font-size: 12.5px; line-height: 1.6; margin: 10px 0 16px;">
       Nomor WhatsApp Anda telah diblokir oleh Admin karena pelanggaran aturan lelang (Bid & Run / Pembatalan Sepihak).
     </p>
     <div style="display:flex; flex-direction:column; gap:8px;">
       <a id="btnAppealWaBlock" href="#" target="_blank" rel="noopener noreferrer" class="btn-claim-wa" style="display:flex; margin-top:0;">
-        💬 Hubungi Admin untuk Buka Blokir
+        Hubungi Admin untuk Buka Blokir
       </a>
       <button type="button" class="btn-secondary" onclick="document.getElementById('auctionBlockedModal').classList.remove('open')">Tutup</button>
     </div>
@@ -3986,7 +5377,7 @@ html.modal-open-lock {
 
     const isHabis = item.stok <= 0 || item.status.toLowerCase() === "habis";
     if (isHabis) {
-      tampilkanToast("⚠️ Stok produk ini sedang habis");
+      tampilkanToast("Stok produk ini sedang habis");
       return;
     }
 
@@ -3997,7 +5388,7 @@ html.modal-open-lock {
 
     if (existingIdx !== -1) {
       if (cart[existingIdx].qty >= maxStok) {
-        tampilkanToast(isIkan ? "🐠 Ikan koleksi ini hanya 1 ekor & sudah ada di keranjang!" : "⚠️ Jumlah sudah mencapai batas stok!");
+        tampilkanToast(isIkan ? "Spesimen koleksi ini hanya 1 ekor & sudah ada di keranjang" : "Jumlah sudah mencapai batas stok");
         bukaModalKeranjang();
         return;
       }
@@ -4019,7 +5410,7 @@ html.modal-open-lock {
     saveCartItems(cart);
     const floatBtn = document.getElementById("floatingCartBtn");
     if (floatBtn) floatBtn.classList.remove("cart-docked");
-    tampilkanToast(`🛒 [${item.kode}] masuk keranjang!`);
+    tampilkanToast(`✦ [${item.kode}] ditambahkan ke keranjang`);
   }
 
   function ubahQtyKeranjang(kodeProduk, delta) {
@@ -4406,53 +5797,53 @@ html.modal-open-lock {
     }
   };
 
-  // Kamus otomatis untuk menerjemahkan atribut placeholder & teks dinamis yang tidak terjangkau DOM biasa
+  // Kamus otomatis tanpa emoji agar seragam dengan tema Dark Luxury
   const EXTRA_UI_TEXT = {
     id: {
-      searchCatalogPlaceholder: "🔍 Cari nama atau kode (misal: CK-001)...",
+      searchCatalogPlaceholder: "Cari nama atau kode (misal: CK-001)...",
       certPlaceholder: "Ketik nomor sertifikat...",
       voucherPlaceholder: "Masukkan Kode Voucher Resmi",
-      ongkirProvPlaceholder: "🔍 Ketik / Pilih Provinsi...",
-      ongkirCityPlaceholder: "🔍 Ketik Kecamatan / Kota (cth: Priok)...",
+      ongkirProvPlaceholder: "Ketik / Pilih Provinsi...",
+      ongkirCityPlaceholder: "Ketik Kecamatan / Kota (cth: Priok)...",
       allTypes: "Semua Jenis / Varian",
       sortDefault: "Urutkan: Terbaru / Default",
       sortAsc: "Harga: Termurah ke Termahal",
       sortDesc: "Harga: Termahal ke Termurah",
-      cartTitle: "🛒 KERANJANG BELANJA",
+      cartTitle: "KERANJANG BELANJA",
       cartTotal: "Total Harga:",
-      cartClear: "🗑️ Kosongkan",
+      cartClear: "Kosongkan",
       cartCheckout: "Beli via WhatsApp",
       viewsSuffix: "x dilihat"
     },
     en: {
-      searchCatalogPlaceholder: "🔍 Search name or code (e.g., CK-001)...",
+      searchCatalogPlaceholder: "Search name or code (e.g., CK-001)...",
       certPlaceholder: "Enter certificate number...",
       voucherPlaceholder: "Enter Official Voucher Code",
-      ongkirProvPlaceholder: "🔍 Type / Select Province...",
-      ongkirCityPlaceholder: "🔍 Type District / City (e.g., Priok)...",
+      ongkirProvPlaceholder: "Type / Select Province...",
+      ongkirCityPlaceholder: "Type District / City (e.g., Priok)...",
       allTypes: "All Types / Variants",
       sortDefault: "Sort: Latest / Default",
       sortAsc: "Price: Low to High",
       sortDesc: "Price: High to Low",
-      cartTitle: "🛒 SHOPPING CART",
+      cartTitle: "SHOPPING CART",
       cartTotal: "Total Price:",
-      cartClear: "🗑️ Clear",
+      cartClear: "Clear",
       cartCheckout: "Order via WhatsApp",
       viewsSuffix: " views"
     },
     zh: {
-      searchCatalogPlaceholder: "🔍 搜索名称或代码 (例如: CK-001)...",
+      searchCatalogPlaceholder: "搜索名称或代码 (例如: CK-001)...",
       certPlaceholder: "输入证书编号...",
       voucherPlaceholder: "输入官方抽奖券代码",
-      ongkirProvPlaceholder: "🔍 输入 / 选择省份...",
-      ongkirCityPlaceholder: "🔍 输入区 / 城市 (例如: Priok)...",
+      ongkirProvPlaceholder: "输入 / 选择省份...",
+      ongkirCityPlaceholder: "输入区 / 城市 (例如: Priok)...",
       allTypes: "所有类型 / 品种",
       sortDefault: "排序：最新 / 默认",
       sortAsc: "价格：从低到高",
       sortDesc: "价格：从高到低",
-      cartTitle: "🛒 购物车",
+      cartTitle: "购物车",
       cartTotal: "总价：",
-      cartClear: "🗑️ 清空",
+      cartClear: "清空",
       cartCheckout: "通过 WhatsApp 购买",
       viewsSuffix: " 次浏览"
     }
@@ -4554,7 +5945,7 @@ html.modal-open-lock {
     const sortSelect = document.getElementById("catalogSortSelect");
     if (sortSelect && sortSelect.options.length >= 4) {
       sortSelect.options[0].text = ui.sortDefault;
-      sortSelect.options[1].text = USER_LANG === "en" ? "🔥 Sort: Most Popular" : (USER_LANG === "zh" ? "🔥 排序：最受欢迎" : "🔥 Urutkan: Paling Populer");
+      sortSelect.options[1].text = USER_LANG === "en" ? "Sort: Most Popular" : (USER_LANG === "zh" ? "排序：最受欢迎" : "Urutkan: Paling Populer");
       sortSelect.options[2].text = ui.sortAsc;
       sortSelect.options[3].text = ui.sortDesc;
     }
@@ -4888,7 +6279,7 @@ html.modal-open-lock {
       return `
         <div class="ongkir-glass-badge-item" onclick="pilihKotaOngkirGlass('${safeLabel}', '${safeId}', '${safeProv}')">
           <div class="ongkir-badge-main-text">
-            <span>📍</span>
+            <span style="color:var(--gold-primary);">◈</span>
             <span>${sorotKataKunci(namaUtama, q)}</span>
           </div>
           ${c.province ? `<span class="ongkir-badge-prov-tag">${sorotKataKunci(c.province, q)}</span>` : ''}
@@ -5536,26 +6927,51 @@ html.modal-open-lock {
 
       const tombolAksiKanan = isLelang
         ? `<button type="button" class="btn-card-cart ${sudahSelesaiLelang ? 'restock-mode' : ''}" data-auction-card-btn="${item.kode}" onclick="bukaDetailProduk('${kodeSafe}')">
-             ${sudahSelesaiLelang ? '🏁 Hasil Lelang' : (belumMulaiLelang ? '⏳ Detail Jadwal' : '🔨 Ikut Bid')}
+             ${sudahSelesaiLelang ? 'Hasil Lelang' : (belumMulaiLelang ? 'Detail Jadwal' : 'Ikut Bid')}
            </button>`
         : (isHabis
             ? (isIkan
-                ? `<button type="button" class="btn-card-cart restock-mode" disabled style="cursor: not-allowed; opacity: 0.65;">🚫 Terjual</button>`
-                : `<a href="${waLinkRestock}" target="_blank" rel="noopener noreferrer" class="btn-card-cart restock-mode">💬 Tanya Restock</a>`)
-            : `<button type="button" class="btn-card-cart" onclick="tambahKeKeranjang('${kodeSafe}')">🛒 Beli</button>`);
+                ? `<button type="button" class="btn-card-cart restock-mode" disabled style="cursor: not-allowed; opacity: 0.65;">Terjual</button>`
+                : `<a href="${waLinkRestock}" target="_blank" rel="noopener noreferrer" class="btn-card-cart restock-mode">Tanya Restock</a>`)
+            : `<button type="button" class="btn-card-cart" onclick="tambahKeKeranjang('${kodeSafe}')">Beli</button>`);
+
+      const daftarGambarKartu = daftarMedia.filter(m => m.type === "image");
+      const slidesList = daftarGambarKartu.length > 0 ? daftarGambarKartu : [mediaSampul];
+      const multiSlide = slidesList.length > 1;
+
+      const slidesHtml = slidesList.map((m, sIdx) => `
+        <div class="card-slide-item">
+          <img src="${m.thumbUrl}" alt="${item.nama} ${sIdx + 1}" class="product-thumb" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${CONFIG.PLACEHOLDER_IMAGE}';">
+        </div>
+      `).join("");
+
+      const dotsHtml = multiSlide ? `
+        <div class="card-slider-dots" id="dots_${item.kode}" style="${isLelang ? 'bottom: 34px;' : ''}">
+          ${slidesList.map((_, dIdx) => `<span class="card-dot ${dIdx === 0 ? 'active' : ''}"></span>`).join("")}
+        </div>
+      ` : "";
+
+      const navArrowsHtml = multiSlide ? `
+        <button type="button" class="card-slider-nav prev" onclick="geserSlideKartu(event, '${kodeSafe}', -1)" title="Sebelumnya">‹</button>
+        <button type="button" class="card-slider-nav next" onclick="geserSlideKartu(event, '${kodeSafe}', 1)" title="Berikutnya">›</button>
+      ` : "";
 
       return `
         <div class="product-card ${(isHabis || sudahSelesaiLelang) ? 'out-of-stock' : ''}">
-          <div class="product-thumb-wrapper" onclick="bukaDetailProduk('${kodeSafe}')">
-            <img src="${mediaSampul.thumbUrl}" alt="${item.nama}" class="product-thumb" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${CONFIG.PLACEHOLDER_IMAGE}';">
-            <span class="views-badge-overlay notranslate">👁️ ${jumlahViews}x</span>
-            ${isHot ? '<span class="hot-badge-overlay notranslate">🔥 HOT</span>' : ''}
+          <div class="product-thumb-wrapper" onclick="klikKartuBukaDetail(event, '${kodeSafe}')">
+            <div class="card-slider-track" id="track_${item.kode}" onscroll="updateDotsKartu('${kodeSafe}')" onmousedown="mulaiDragSliderPC(event, this)">
+              ${slidesHtml}
+            </div>
+            ${navArrowsHtml}
+            ${dotsHtml}
+            <span class="views-badge-overlay notranslate">◈ ${jumlahViews}</span>
+            ${isHot ? '<span class="hot-badge-overlay notranslate">✦ POPULAR</span>' : ''}
             ${punyaVideo ? '<span class="video-badge-overlay">▶ VIDEO</span>' : ''}
-            ${isLelang ? `<span class="auction-timer-badge notranslate ${sudahSelesaiLelang ? 'ended' : (belumMulaiLelang ? 'upcoming' : 'active-live')}" data-auction-timer="${item.kode}" data-starttime="${item.startTime}" data-endtime="${item.endTime}" data-force-ended="${sudahSelesaiLelang}" data-phase="${sudahSelesaiLelang ? 'ended' : (belumMulaiLelang ? 'upcoming' : 'active')}">${sudahSelesaiLelang ? '🔴 LELANG SELESAI' : infoTimerAwal.text}</span>` : ''}
+            ${isLelang ? `<span class="auction-timer-badge notranslate ${sudahSelesaiLelang ? 'ended' : (belumMulaiLelang ? 'upcoming' : 'active-live')}" data-auction-timer="${item.kode}" data-starttime="${item.startTime}" data-endtime="${item.endTime}" data-force-ended="${sudahSelesaiLelang}" data-phase="${sudahSelesaiLelang ? 'ended' : (belumMulaiLelang ? 'upcoming' : 'active')}">${sudahSelesaiLelang ? '● LELANG SELESAI' : infoTimerAwal.text}</span>` : ''}
           </div>
           <div class="product-content">
             <div class="card-badges-row">
-              <span class="badge-pill-tag primary">${isLelang ? '🔨 LELANG' : item.kategori}</span>
+              <span class="badge-pill-tag primary">${isLelang ? 'LELANG VIP' : item.kategori}</span>
               <span class="badge-pill-tag outline notranslate">${item.jenis}</span>
             </div>
             <h3 class="product-title notranslate">${item.nama} (${item.kode})</h3>
@@ -5640,24 +7056,156 @@ html.modal-open-lock {
   }
 
   let currentDetailMedia = [];
+  let currentDetailIndex = 0;
+  let isDraggingSliderPC = false;
+
+  // Fungsi Geser & Drag Slider pada Kartu Katalog / Lelang (HP & PC)
+  function geserSlideKartu(e, kode, arah) {
+    e.stopPropagation();
+    playClickSound();
+    const track = document.getElementById("track_" + kode);
+    if (!track) return;
+    const lebar = track.clientWidth;
+    const maxScroll = track.scrollWidth - lebar;
+    let target = track.scrollLeft + (arah * lebar);
+    if (target > maxScroll + 10) target = 0;
+    if (target < -10) target = maxScroll;
+    track.scrollTo({ left: target, behavior: "smooth" });
+  }
+
+  function updateDotsKartu(kode) {
+    const track = document.getElementById("track_" + kode);
+    const dotsBox = document.getElementById("dots_" + kode);
+    if (!track || !dotsBox) return;
+    const idx = Math.round(track.scrollLeft / (track.clientWidth || 1));
+    const dots = dotsBox.querySelectorAll(".card-dot");
+    dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+  }
+
+  function mulaiDragSliderPC(e, trackEl) {
+    if (e.button !== 0) return;
+    isDraggingSliderPC = false;
+    const startX = e.pageX;
+    const scrollStart = trackEl.scrollLeft;
+    trackEl.style.scrollBehavior = "auto";
+    trackEl.style.scrollSnapType = "none";
+
+    const onMove = (ev) => {
+      const walk = ev.pageX - startX;
+      if (Math.abs(walk) > 6) {
+        isDraggingSliderPC = true;
+        trackEl.scrollLeft = scrollStart - walk;
+      }
+    };
+    const onUp = () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      trackEl.style.scrollBehavior = "smooth";
+      trackEl.style.scrollSnapType = "x mandatory";
+      const idx = Math.round(trackEl.scrollLeft / (trackEl.clientWidth || 1));
+      trackEl.scrollTo({ left: idx * trackEl.clientWidth, behavior: "smooth" });
+      setTimeout(() => { isDraggingSliderPC = false; }, 60);
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+  }
+
+  function klikKartuBukaDetail(e, kode) {
+    if (isDraggingSliderPC) {
+      e.stopPropagation();
+      return;
+    }
+    bukaDetailProduk(kode);
+  }
+
+  // Fungsi Geser / Swipe Media di Halaman Detail Produk (HP & PC)
+  function geserMediaDetail(e, arah) {
+    if (e) e.stopPropagation();
+    if (!currentDetailMedia || currentDetailMedia.length <= 1) return;
+    let nextIdx = currentDetailIndex + arah;
+    if (nextIdx >= currentDetailMedia.length) nextIdx = 0;
+    if (nextIdx < 0) nextIdx = currentDetailMedia.length - 1;
+    const thumbs = document.querySelectorAll(".detail-thumb-item");
+    gantiFotoDetail(nextIdx, thumbs[nextIdx] || null);
+  }
+
+  function pasangGestureSwipeDetail(boxEl) {
+    if (!boxEl || boxEl.dataset.swipeBound) return;
+    boxEl.dataset.swipeBound = "1";
+    let startX = 0;
+    let startY = 0;
+
+    // Touch Swipe untuk HP / Tablet
+    boxEl.addEventListener("touchstart", (e) => {
+      if (!e.touches || e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    boxEl.addEventListener("touchend", (e) => {
+      if (!e.changedTouches || e.changedTouches.length !== 1) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy)) {
+        geserMediaDetail(null, dx < 0 ? 1 : -1);
+      }
+    }, { passive: true });
+
+    // Mouse Drag untuk PC
+    let mouseDownX = 0;
+    let isMouseSwiping = false;
+    boxEl.addEventListener("mousedown", (e) => {
+      if (e.button !== 0) return;
+      mouseDownX = e.clientX;
+      isMouseSwiping = true;
+      isDraggingSliderPC = false;
+    });
+    boxEl.addEventListener("mousemove", (e) => {
+      if (!isMouseSwiping) return;
+      if (Math.abs(e.clientX - mouseDownX) > 10) isDraggingSliderPC = true;
+    });
+    boxEl.addEventListener("mouseup", (e) => {
+      if (!isMouseSwiping) return;
+      isMouseSwiping = false;
+      const dx = e.clientX - mouseDownX;
+      if (Math.abs(dx) > 45) {
+        geserMediaDetail(null, dx < 0 ? 1 : -1);
+      }
+      setTimeout(() => { isDraggingSliderPC = false; }, 80);
+    });
+  }
 
   function renderMediaUtamaHtml(mediaObj, index, total, namaProduk) {
+    currentDetailIndex = index;
     const counterHtml = `<span class="detail-img-counter" id="detailImgCounter">${index + 1}/${total}</span>`;
+    const navButtonsHtml = total > 1 ? `
+      <button type="button" class="card-slider-nav prev" onclick="geserMediaDetail(event, -1)" title="Sebelumnya">‹</button>
+      <button type="button" class="card-slider-nav next" onclick="geserMediaDetail(event, 1)" title="Berikutnya">›</button>
+    ` : "";
+
+    setTimeout(() => {
+      const box = document.getElementById("detailMainMediaBox");
+      if (box) pasangGestureSwipeDetail(box);
+    }, 20);
+
     if (mediaObj.type === "gdrive-video") {
       return `
         ${counterHtml}
-        <iframe src="${mediaObj.url}" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        ${navButtonsHtml}
+        <iframe src="${mediaObj.url}" allow="autoplay; fullscreen" allowfullscreen style="animation: fadeIn 0.28s ease;"></iframe>
       `;
     } else if (mediaObj.type === "video") {
       return `
         ${counterHtml}
-        <video src="${mediaObj.url}" controls playsinline webkit-playsinline x5-playsinline preload="metadata" onloadedmetadata=" pasangListenerFullscreenVideo(this)"></video>
+        ${navButtonsHtml}
+        <video src="${mediaObj.url}" controls playsinline webkit-playsinline x5-playsinline preload="metadata" style="animation: fadeIn 0.28s ease;" onloadedmetadata="pasangListenerFullscreenVideo(this)"></video>
       `;
     } else {
       const safeUrl = mediaObj.url.replace(/'/g, "\\'");
       return `
         ${counterHtml}
-        <img id="detailMainImg" src="${mediaObj.url}" alt="${namaProduk || 'Produk'}" referrerpolicy="no-referrer" onclick="bukaZoom('${safeUrl}')" onerror="this.onerror=null;this.src='${CONFIG.PLACEHOLDER_IMAGE}';">
+        ${navButtonsHtml}
+        <img id="detailMainImg" src="${mediaObj.url}" alt="${namaProduk || 'Produk'}" draggable="false" referrerpolicy="no-referrer" style="animation: fadeIn 0.28s ease;" onclick="if(!isDraggingSliderPC) bukaZoom('${safeUrl}')" onerror="this.onerror=null;this.src='${CONFIG.PLACEHOLDER_IMAGE}';">
       `;
     }
   }
@@ -5737,11 +7285,11 @@ html.modal-open-lock {
       ? renderPanelDetailLelangHtml(item)
       : (isHabis
           ? (isIkan
-              ? `<button type="button" class="btn-detail-addcart" disabled style="background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger-red); color: #fca5a5; cursor: not-allowed; opacity: 0.7;">🚫 Terjual (Sold Out)</button>`
-              : `<a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-detail-addcart" style="background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger-red); color: #fca5a5;">💬 Tanya Restock via WA</a>`)
+              ? `<button type="button" class="btn-detail-addcart" disabled style="background: rgba(168, 50, 64, 0.2); border: 1px solid var(--danger-red); color: #f5d0d5; cursor: not-allowed; opacity: 0.7;">Terjual (Sold Out)</button>`
+              : `<a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-detail-addcart" style="background: rgba(168, 50, 64, 0.2); border: 1px solid var(--danger-red); color: #f5d0d5;">Tanya Restock via WA</a>`)
           : `
             <button type="button" class="btn-detail-addcart" style="border:none; cursor:pointer;" onclick="tambahKeKeranjang('${kodeSafe}')">
-              🛒 Beli
+              Masukkan Keranjang
             </button>
             <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-detail-back" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
               Beli Langsung
@@ -5763,7 +7311,7 @@ html.modal-open-lock {
           <div class="card-badges-row">
             <span class="badge-pill-tag primary">${item.kategori}</span>
             <span class="badge-pill-tag outline notranslate">${item.jenis}</span>
-            <span class="badge-pill-tag outline notranslate">👁️ ${jumlahViews}${(EXTRA_UI_TEXT[USER_LANG] || EXTRA_UI_TEXT.id).viewsSuffix}</span>
+            <span class="badge-pill-tag outline notranslate">◈ ${jumlahViews}${(EXTRA_UI_TEXT[USER_LANG] || EXTRA_UI_TEXT.id).viewsSuffix}</span>
             <span class="badge-stock-pill ${isHabis ? 'out-stock' : 'in-stock'}">
               ● ${isHabis ? 'Stok Habis' : 'Tersedia (' + item.stok + ')'}
             </span>
@@ -5820,7 +7368,7 @@ html.modal-open-lock {
           <div class="detail-cta-row" style="flex-wrap: wrap;">
             ${ctaButtonsHtml}
             <button type="button" class="btn-detail-back" onclick="bagikanLinkProduk('${kodeSafe}')" title="Salin Link Produk">
-              🔗 Share
+              Bagikan
             </button>
           </div>
         </div>
@@ -5957,18 +7505,18 @@ html.modal-open-lock {
     "KASEP-HOKI-01"
   ];
 
-  // Label pada roda dipersingkat agar sangat rapi di layar HP, nama lengkap tetap tampil di pop-up & riwayat
+  // Label & Palet Warna Roda Roulette Dark Luxury (Monte Carlo VIP Style)
   const segmenRoulette = [
-    { label: "ZONK", full: "Zonk (Belum Beruntung)", code: "Z0", type: "zonk", weight: 13.333333, color: "#1e293b", text: "#94a3b8" },
-    { label: "Stick Flaring", full: "1x Stick Flaring", code: "PR1", type: "prize", weight: 10.147059, color: "#581c87", text: "#f8fafc" },
-    { label: "Ketapang", full: "1x Ekstrak Ketapang", code: "PR2", type: "prize", weight: 13.529412, color: "#065f46", text: "#f8fafc" },
-    { label: "ZONK", full: "Zonk (Belum Beruntung)", code: "Z0", type: "zonk", weight: 13.333333, color: "#1e293b", text: "#94a3b8" },
-    { label: "Stick Flaring", full: "1x Stick Flaring", code: "PR1", type: "prize", weight: 10.147059, color: "#1e3a8a", text: "#f8fafc" },
-    { label: "Diskon 100K", full: "Voucher Diskon 100K", code: "JP1", type: "jackpot", weight: 1.5, color: "#991b1b", text: "#fde047" },
-    { label: "ZONK", full: "Zonk (Belum Beruntung)", code: "Z0", type: "zonk", weight: 13.333333, color: "#1e293b", text: "#94a3b8" },
-    { label: "Ketapang", full: "1x Ekstrak Ketapang", code: "PR2", type: "prize", weight: 13.529412, color: "#065f46", text: "#f8fafc" },
-    { label: "Stick Flaring", full: "1x Stick Flaring", code: "PR1", type: "prize", weight: 10.147059, color: "#581c87", text: "#f8fafc" },
-    { label: "★ FREE IKAN", full: "GRAND PRIZE: 1 Ikan Bebas Pilih!", code: "JP2", type: "jackpot", weight: 1.0, color: "#b45309", text: "#fffbeb" }
+    { label: "ZONK", full: "Zonk (Belum Beruntung)", code: "Z0", type: "zonk", weight: 13.333333, color: "#0b0d12", text: "#8a8479" },
+    { label: "Stick Flaring", full: "1x Stick Flaring", code: "PR1", type: "prize", weight: 10.147059, color: "#171a22", text: "#e8d5b5" },
+    { label: "Ketapang", full: "1x Ekstrak Ketapang", code: "PR2", type: "prize", weight: 13.529412, color: "#11261f", text: "#e8d5b5" },
+    { label: "ZONK", full: "Zonk (Belum Beruntung)", code: "Z0", type: "zonk", weight: 13.333333, color: "#0b0d12", text: "#8a8479" },
+    { label: "Stick Flaring", full: "1x Stick Flaring", code: "PR1", type: "prize", weight: 10.147059, color: "#1d1814", text: "#e8d5b5" },
+    { label: "Diskon 100K", full: "Voucher Diskon 100K", code: "JP1", type: "jackpot", weight: 1.5, color: "#42121b", text: "#e8d5b5" },
+    { label: "ZONK", full: "Zonk (Belum Beruntung)", code: "Z0", type: "zonk", weight: 13.333333, color: "#0b0d12", text: "#8a8479" },
+    { label: "Ketapang", full: "1x Ekstrak Ketapang", code: "PR2", type: "prize", weight: 13.529412, color: "#11261f", text: "#e8d5b5" },
+    { label: "Stick Flaring", full: "1x Stick Flaring", code: "PR1", type: "prize", weight: 10.147059, color: "#171a22", text: "#e8d5b5" },
+    { label: "★ FREE IKAN", full: "GRAND PRIZE: 1 Ikan Bebas Pilih!", code: "JP2", type: "jackpot", weight: 1.0, color: "#785a2c", text: "#ffffff" }
   ];
 
   const kamusKodeHadiah = {
@@ -6430,8 +7978,8 @@ html.modal-open-lock {
       ctx.fillStyle = segmenRoulette[i].color;
       ctx.fill();
 
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = "#d4af37";
+      ctx.lineWidth = 1.8;
+      ctx.strokeStyle = "#c9a96e";
       ctx.stroke();
 
       ctx.save();
@@ -6792,16 +8340,16 @@ html.modal-open-lock {
     const sub = document.getElementById("modalSub");
 
     if (hasil.type === "zonk") {
-      icon.innerText = "😅";
-      title.innerText = "Belum Beruntung!";
+      icon.innerText = "◇";
+      title.innerText = "Belum Beruntung";
       prize.innerText = hasil.full;
     } else if (hasil.type === "jackpot") {
-      icon.innerText = "🏆";
-      title.innerText = "JACKPOT SPESIAL!";
+      icon.innerText = "✦";
+      title.innerText = "JACKPOT SPESIAL";
       prize.innerText = hasil.full;
     } else {
-      icon.innerText = "🎁";
-      title.innerText = "Selamat! Anda Dapat:";
+      icon.innerText = "◈";
+      title.innerText = "Selamat, Anda Mendapatkan:";
       prize.innerText = hasil.full;
     }
 
@@ -7152,10 +8700,10 @@ html.modal-open-lock {
     const pad = n => String(n).padStart(2, "0");
 
     const u = USER_LANG === "en"
-      ? { d: "d", h: "h", m: "m", s: "s", start: "Starts in", left: "Time Left", active: "🟢 Active", ended: "🔴 AUCTION ENDED" }
+      ? { d: "d", h: "h", m: "m", s: "s", start: "Starts in", left: "Time Left", active: "● Active", ended: "● AUCTION ENDED" }
       : (USER_LANG === "zh"
-      ? { d: "天", h: "时", m: "分", s: "秒", start: "开始倒计时", left: "剩余时间", active: "🟢 进行中", ended: "🔴 拍卖已结束" }
-      : { d: "h", h: "j", m: "m", s: "d", start: "Mulai", left: "Sisa Waktu", active: "🟢 Aktif", ended: "🔴 LELANG SELESAI" });
+      ? { d: "天", h: "时", m: "分", s: "秒", start: "开始倒计时", left: "剩余时间", active: "● 进行中", ended: "● 拍卖已结束" }
+      : { d: "h", h: "j", m: "m", s: "d", start: "Mulai", left: "Sisa Waktu", active: "● Aktif", ended: "● LELANG SELESAI" });
 
     // FASE 1: LELANG BELUM DIMULAI (Menunggu Jam Mulai berdasarkan patokan UTC+7)
     if (startTarget && now < startTarget) {
@@ -7170,7 +8718,7 @@ html.modal-open-lock {
         : `${pad(jam)}${u.h} : ${pad(menit)}${u.m} : ${pad(detik)}${u.s}`;
 
       return {
-        text: `⏳ ${u.start} • ${rincianMulai}`,
+        text: `◈ ${u.start} • ${rincianMulai}`,
         upcoming: true,
         ended: false,
         urgent: false,
@@ -7197,7 +8745,7 @@ html.modal-open-lock {
       : `${pad(jam)}${u.h} : ${pad(menit)}${u.m} : ${pad(detik)}${u.s}`;
 
     return {
-      text: `🟢 ${u.left} • ${rincianWaktu}`,
+      text: `● ${u.left} • ${rincianWaktu}`,
       upcoming: false,
       ended: false,
       urgent: selisih <= 10 * 60 * 1000,
@@ -7228,7 +8776,7 @@ html.modal-open-lock {
       const prevPhase = el.getAttribute("data-phase") || "";
 
       const info = isForceEnded
-        ? { text: "🔴 LELANG SELESAI", upcoming: false, ended: true, urgent: false, phase: "ended" }
+        ? { text: "● LELANG SELESAI", upcoming: false, ended: true, urgent: false, phase: "ended" }
         : formatHitungMundurLelang(endStr, startStr);
 
       el.innerText = info.text;
@@ -7237,14 +8785,13 @@ html.modal-open-lock {
       el.classList.toggle("active-live", !info.ended && !info.upcoming);
       el.classList.toggle("urgent", !info.ended && !info.upcoming && info.urgent);
 
-      // Jika fase baru saja berubah (misal dari 'upcoming' -> 'active' tepat saat jam mulai tiba)
+      // Jika fase baru saja berubah
       if (prevPhase && prevPhase !== info.phase) {
         el.setAttribute("data-phase", info.phase);
 
-        // Update teks tombol pada kartu katalog secara live
         const cardBtn = document.querySelector(`[data-auction-card-btn="${kode}"]`);
         if (cardBtn) {
-          cardBtn.innerText = info.ended ? "🏁 Hasil Lelang" : (info.upcoming ? "⏳ Detail Jadwal" : "🔨 Ikut Bid");
+          cardBtn.innerText = info.ended ? "Hasil Lelang" : (info.upcoming ? "Detail Jadwal" : "Ikut Bid");
           cardBtn.classList.toggle("restock-mode", info.ended);
         }
 
@@ -7310,26 +8857,26 @@ html.modal-open-lock {
     }
 
     const riwayatHtml = riwayatArr.length === 0
-      ? `<div style="font-size:11.5px; color:var(--text-muted); text-align:center; padding:8px;">Belum ada penawaran. Jadilah penawar pertama (OB)!</div>`
+      ? `<div style="font-size:11.5px; color:var(--text-muted); text-align:center; padding:8px;">Belum ada penawaran. Jadilah penawar pertama (OB).</div>`
       : riwayatArr.slice().reverse().map((r, idx) => `
           <div class="bid-history-row notranslate">
-            <span>${idx === 0 ? '👑' : '•'} <b>${r.nama}</b> (${r.waMasked || sensorNomorWA(r.wa)}) <small style="color:var(--text-muted); font-size:10px;">${r.waktu || ''}</small></span>
-            <span style="color:var(--gold-light); font-weight:800;">${formatRupiah(r.nominal)} ${r.tipe === 'BIN' ? '⚡BIN' : ''}</span>
+            <span>${idx === 0 ? '✦' : '•'} <b>${r.nama}</b> (${r.waMasked || sensorNomorWA(r.wa)}) <small style="color:var(--text-muted); font-size:10px;">${r.waktu || ''}</small></span>
+            <span style="color:var(--gold-light); font-weight:800;">${formatRupiah(r.nominal)} ${r.tipe === 'BIN' ? '[BIN]' : ''}</span>
           </div>
         `).join("");
 
-    // Bar Akun dengan tombol Ganti Akun & Sign Out (Poin 5)
+    // Bar Akun Peserta Lelang Tanpa Emoji
     const barAkunHtml = bidderSession
       ? `<div class="auction-user-bar notranslate" style="flex-wrap:wrap; gap:6px;">
-           <span>✔ Login: <b>${bidderSession.nama}</b> (${sensorNomorWA(bidderSession.wa)})</span>
+           <span>✦ Peserta: <b>${bidderSession.nama}</b> (${sensorNomorWA(bidderSession.wa)})</span>
            <div style="display:flex; gap:6px;">
-             <button type="button" class="close-admin-btn" style="border-color:var(--gold-primary); color:var(--gold-light); background:rgba(212,175,55,0.15);" onclick="bukaModalOtpLelang(true, true)">🔄 Ganti Akun</button>
-             <button type="button" class="close-admin-btn" onclick="keluarAkunLelang()">🚪 Sign Out</button>
+             <button type="button" class="close-admin-btn" style="border-color:var(--gold-primary); color:var(--gold-light); background:rgba(201,169,110,0.15);" onclick="bukaModalOtpLelang(true, true)">Ganti Akun</button>
+             <button type="button" class="close-admin-btn" onclick="keluarAkunLelang()">Keluar</button>
            </div>
          </div>`
-      : `<div class="auction-user-bar" style="background:rgba(212,175,55,0.12); border-color:rgba(212,175,55,0.4); color:var(--gold-light);">
-           <span>🔐 Belum login peserta lelang</span>
-           <button type="button" class="search-btn" style="padding:4px 10px; font-size:11px;" onclick="bukaModalOtpLelang(true)">Login Lelang</button>
+      : `<div class="auction-user-bar" style="background:rgba(201,169,110,0.12); border-color:rgba(201,169,110,0.4); color:var(--gold-light);">
+           <span>Belum login peserta lelang</span>
+           <button type="button" class="search-btn" style="padding:5px 12px; font-size:11px;" onclick="bukaModalOtpLelang(true)">Login Lelang</button>
          </div>`;
 
     // Pengecekan Hak Klaim Pemenang Lelang (Poin 2: Hanya pemenang yang bisa klaim, mendukung ID/EN/ZH)
@@ -7363,20 +8910,20 @@ html.modal-open-lock {
     return `
       <div class="auction-panel-box" style="width:100%;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-          <span style="font-size:12px; font-weight:800; color:var(--gold-light);">PANEL LELANG RESMI (REAL-TIME)</span>
+          <span style="font-size:12px; font-weight:800; letter-spacing:1px; color:var(--gold-light);">PANEL LELANG RESMI</span>
           <span class="auction-timer-badge notranslate ${isEnded ? 'ended' : (isUpcoming ? 'upcoming' : 'active-live')} ${(!isEnded && !isUpcoming && infoTimer.urgent) ? 'urgent' : ''}" style="position:static;" data-auction-timer="${item.kode}" data-starttime="${item.startTime}" data-endtime="${item.endTime}" data-force-ended="${isEnded}" data-phase="${isEnded ? 'ended' : (isUpcoming ? 'upcoming' : 'active')}">
-            ${isEnded ? '🔴 LELANG SELESAI' : infoTimer.text}
+            ${isEnded ? '● LELANG SELESAI' : infoTimer.text}
           </span>
         </div>
 
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; background:rgba(255,255,255,0.03); border:1px solid rgba(212,175,55,0.25); border-radius:8px; padding:8px 10px; font-size:11px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; background:rgba(255,255,255,0.04); border:1px solid rgba(201,169,110,0.25); border-radius:10px; padding:9px 12px; font-size:11px;">
           <div>
-            <span style="color:var(--text-muted); display:block;">🕒 Hitung Mundur Mulai:</span>
-            <strong class="notranslate" data-auction-subtimer="start" data-targettime="${item.startTime}" style="color:#fde047;">${item.startTime ? (isUpcoming ? formatJadwalTeksLelang(item.startTime) : 'Sudah Dimulai') : 'Langsung Aktif'}</strong>
+            <span style="color:var(--text-muted); display:block;">Hitung Mundur Mulai:</span>
+            <strong class="notranslate" data-auction-subtimer="start" data-targettime="${item.startTime}" style="color:var(--gold-light);">${item.startTime ? (isUpcoming ? formatJadwalTeksLelang(item.startTime) : 'Sudah Dimulai') : 'Langsung Aktif'}</strong>
           </div>
           <div>
-            <span style="color:var(--text-muted); display:block;">🏁 Sisa Waktu Tutup:</span>
-            <strong class="notranslate" data-auction-subtimer="end" data-targettime="${item.endTime}" style="color:#fca5a5;">${item.endTime ? (isEnded ? '00j : 00m : 00d (Selesai)' : formatJadwalTeksLelang(item.endTime)) : '-'}</strong>
+            <span style="color:var(--text-muted); display:block;">Sisa Waktu Tutup:</span>
+            <strong class="notranslate" data-auction-subtimer="end" data-targettime="${item.endTime}" style="color:#f5d0d5;">${item.endTime ? (isEnded ? '00j : 00m : 00d (Selesai)' : formatJadwalTeksLelang(item.endTime)) : '-'}</strong>
           </div>
         </div>
 
@@ -7416,22 +8963,22 @@ html.modal-open-lock {
           ${currentHighest > 0 ? (
             isCurrentUserWinner ? `
               <a href="${linkKlaimWa}" target="_blank" rel="noopener noreferrer" class="btn-claim-wa" style="display:flex;">
-                🏆 Selamat! Klaim Kemenangan Lelang via WhatsApp
+                ✦ Klaim Kemenangan Lelang via WhatsApp
               </a>
             ` : `
               <div style="text-align:center; padding:10px; background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.15); border-radius:8px; color:var(--text-muted); font-size:11.5px;">
-                🔒 Tombol klaim kemenangan hanya aktif untuk akun pemenang sah (${item.highestBidder}).
+                Tombol klaim kemenangan hanya aktif untuk akun pemenang sah (${item.highestBidder}).
               </div>
             `
           ) : ''}
         ` : isUpcoming ? `
-          <div style="text-align:center; padding:14px 12px; background:rgba(217,119,6,0.15); border:1px dashed rgba(253,224,71,0.5); border-radius:10px; color:#fde047; font-size:12.5px; font-weight:700; line-height:1.5;">
-            ⏳ LELANG BELUM DIMULAI<br>
-            <span style="font-size:11.5px; color:#e2e8f0; font-weight:500;">Lelang akan dibuka pada <b class="notranslate" style="color:#fff;">${formatJadwalTeksLelang(item.startTime)}</b>.<br>Tombol penawaran akan terbuka otomatis saat waktu mulai tiba.</span>
+          <div style="text-align:center; padding:14px 12px; background:rgba(140,109,59,0.18); border:1px dashed rgba(232,213,181,0.45); border-radius:10px; color:var(--gold-light); font-size:12.5px; font-weight:700; line-height:1.5;">
+            LELANG BELUM DIMULAI<br>
+            <span style="font-size:11.5px; color:var(--text-light); font-weight:500;">Lelang akan dibuka dalam <b class="notranslate" style="color:#fff;">${formatJadwalTeksLelang(item.startTime)}</b>.<br>Tombol penawaran akan terbuka otomatis saat waktu mulai tiba.</span>
           </div>
         ` : `
           <div>
-            <label class="search-label" id="labelMinNextBid_${item.kode}" style="font-size:11.5px;">💰 Nominal Tawaran Anda (Min. Next Bid: ${formatRupiah(minNextBid)}):</label>
+            <label class="search-label" id="labelMinNextBid_${item.kode}" style="font-size:11.5px;">Nominal Tawaran Anda (Min. Next Bid: ${formatRupiah(minNextBid)}):</label>
             <div class="search-input-group" style="margin-bottom:8px;">
               <button type="button" class="btn-secondary" style="flex:0.22; font-size:18px; font-weight:800; padding:0;" onclick="ubahNominalInputBid('${kodeSafe}', -${item.kb})" title="Kurangi sesuai kelipatan">−</button>
               <input type="text" id="customBidDisplay_${item.kode}" class="search-input bid-input-locked notranslate" style="text-align:center;" value="${formatRupiah(minNextBid)}" readonly tabindex="-1">
@@ -7453,7 +9000,7 @@ html.modal-open-lock {
 
         <div>
           <div style="display:flex; justify-content:space-between; font-size:11.5px; font-weight:700; color:var(--gold-light); margin-bottom:6px;">
-            <span>💬 Live Riwayat Penawaran Sah:</span>
+            <span>Riwayat Penawaran Sah:</span>
             <span id="liveBidCount_${item.kode}">${riwayatArr.length} Bid Masuk</span>
           </div>
           <div class="bid-history-box" id="liveBidHistoryBox_${item.kode}">
@@ -7585,8 +9132,251 @@ html.modal-open-lock {
     }
   }
 
-  let currentAuthMode = "register"; // 'register' | 'login'
+  /* =========================================================
+     SISTEM DUAL THEME (DARK LUXURY & LIGHT LUXURY)
+     ========================================================= */
+  const STORAGE_KEY_THEME = "ck_luxury_theme_mode";
+
+  function terapkanTemaWebsite(mode) {
+    const isLight = mode === "light";
+    document.body.classList.toggle("light-mode", isLight);
+    try { localStorage.setItem(STORAGE_KEY_THEME, isLight ? "light" : "dark"); } catch (e) {}
+  }
+
+  function toggleThemeMode() {
+    playClickSound();
+    const isCurrentlyLight = document.body.classList.contains("light-mode");
+    const nextMode = isCurrentlyLight ? "dark" : "light";
+    terapkanTemaWebsite(nextMode);
+    tampilkanToast(nextMode === "light" ? "✦ Mode Terang (Light Luxury) Aktif" : "✦ Mode Gelap (Dark Luxury) Aktif");
+  }
+
+  // Inisialisasi tema tersimpan saat halaman dimuat
+  (function initSavedTheme() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_THEME);
+      if (saved === "light") document.body.classList.add("light-mode");
+    } catch (e) {}
+  })();
+
+  /* =========================================================
+     DAFTAR LENGKAP NEGARA PENGGUNA WHATSAPP (URUT A - Z)
+     ========================================================= */
+  const DAFTAR_NEGARA_WHATSAPP_AZ = [
+    { name: "Afghanistan", iso: "AF", code: "93" },
+    { name: "Albania", iso: "AL", code: "355" },
+    { name: "Algeria", iso: "DZ", code: "213" },
+    { name: "Andorra", iso: "AD", code: "376" },
+    { name: "Angola", iso: "AO", code: "244" },
+    { name: "Argentina", iso: "AR", code: "54" },
+    { name: "Armenia", iso: "AM", code: "374" },
+    { name: "Australia", iso: "AU", code: "61" },
+    { name: "Austria", iso: "AT", code: "43" },
+    { name: "Azerbaijan", iso: "AZ", code: "994" },
+    { name: "Bahrain", iso: "BH", code: "973" },
+    { name: "Bangladesh", iso: "BD", code: "880" },
+    { name: "Belarus", iso: "BY", code: "375" },
+    { name: "Belgium", iso: "BE", code: "32" },
+    { name: "Bolivia", iso: "BO", code: "591" },
+    { name: "Bosnia & Herzegovina", iso: "BA", code: "387" },
+    { name: "Brazil", iso: "BR", code: "55" },
+    { name: "Brunei Darussalam", iso: "BN", code: "673" },
+    { name: "Bulgaria", iso: "BG", code: "359" },
+    { name: "Cambodia", iso: "KH", code: "855" },
+    { name: "Cameroon", iso: "CM", code: "237" },
+    { name: "Canada", iso: "CA", code: "1" },
+    { name: "Chile", iso: "CL", code: "56" },
+    { name: "China", iso: "CN", code: "86" },
+    { name: "Colombia", iso: "CO", code: "57" },
+    { name: "Costa Rica", iso: "CR", code: "506" },
+    { name: "Croatia", iso: "HR", code: "385" },
+    { name: "Cyprus", iso: "CY", code: "357" },
+    { name: "Czech Republic", iso: "CZ", code: "420" },
+    { name: "Denmark", iso: "DK", code: "45" },
+    { name: "Dominican Republic", iso: "DO", code: "1" },
+    { name: "Ecuador", iso: "EC", code: "593" },
+    { name: "Egypt", iso: "EG", code: "20" },
+    { name: "El Salvador", iso: "SV", code: "503" },
+    { name: "Estonia", iso: "EE", code: "372" },
+    { name: "Ethiopia", iso: "ET", code: "251" },
+    { name: "Fiji", iso: "FJ", code: "679" },
+    { name: "Finland", iso: "FI", code: "358" },
+    { name: "France", iso: "FR", code: "33" },
+    { name: "Georgia", iso: "GE", code: "995" },
+    { name: "Germany", iso: "DE", code: "49" },
+    { name: "Ghana", iso: "GH", code: "233" },
+    { name: "Greece", iso: "GR", code: "30" },
+    { name: "Guatemala", iso: "GT", code: "502" },
+    { name: "Honduras", iso: "HN", code: "504" },
+    { name: "Hong Kong", iso: "HK", code: "852" },
+    { name: "Hungary", iso: "HU", code: "36" },
+    { name: "Iceland", iso: "IS", code: "354" },
+    { name: "India", iso: "IN", code: "91" },
+    { name: "Indonesia", iso: "ID", code: "62" },
+    { name: "Iran", iso: "IR", code: "98" },
+    { name: "Iraq", iso: "IQ", code: "964" },
+    { name: "Ireland", iso: "IE", code: "353" },
+    { name: "Israel", iso: "IL", code: "972" },
+    { name: "Italy", iso: "IT", code: "39" },
+    { name: "Jamaica", iso: "JM", code: "1" },
+    { name: "Japan", iso: "JP", code: "81" },
+    { name: "Jordan", iso: "JO", code: "962" },
+    { name: "Kazakhstan", iso: "KZ", code: "7" },
+    { name: "Kenya", iso: "KE", code: "254" },
+    { name: "Kuwait", iso: "KW", code: "965" },
+    { name: "Kyrgyzstan", iso: "KG", code: "996" },
+    { name: "Laos", iso: "LA", code: "856" },
+    { name: "Latvia", iso: "LV", code: "371" },
+    { name: "Lebanon", iso: "LB", code: "961" },
+    { name: "Libya", iso: "LY", code: "218" },
+    { name: "Lithuania", iso: "LT", code: "370" },
+    { name: "Luxembourg", iso: "LU", code: "352" },
+    { name: "Macau", iso: "MO", code: "853" },
+    { name: "Madagascar", iso: "MG", code: "261" },
+    { name: "Malaysia", iso: "MY", code: "60" },
+    { name: "Maldives", iso: "MV", code: "960" },
+    { name: "Malta", iso: "MT", code: "356" },
+    { name: "Mauritius", iso: "MU", code: "230" },
+    { name: "Mexico", iso: "MX", code: "52" },
+    { name: "Moldova", iso: "MD", code: "373" },
+    { name: "Monaco", iso: "MC", code: "377" },
+    { name: "Mongolia", iso: "MN", code: "976" },
+    { name: "Montenegro", iso: "ME", code: "382" },
+    { name: "Morocco", iso: "MA", code: "212" },
+    { name: "Mozambique", iso: "MZ", code: "258" },
+    { name: "Myanmar", iso: "MM", code: "95" },
+    { name: "Namibia", iso: "NA", code: "264" },
+    { name: "Nepal", iso: "NP", code: "977" },
+    { name: "Netherlands", iso: "NL", code: "31" },
+    { name: "New Zealand", iso: "NZ", code: "64" },
+    { name: "Nicaragua", iso: "NI", code: "505" },
+    { name: "Nigeria", iso: "NG", code: "234" },
+    { name: "North Macedonia", iso: "MK", code: "389" },
+    { name: "Norway", iso: "NO", code: "47" },
+    { name: "Oman", iso: "OM", code: "968" },
+    { name: "Pakistan", iso: "PK", code: "92" },
+    { name: "Palestine", iso: "PS", code: "970" },
+    { name: "Panama", iso: "PA", code: "507" },
+    { name: "Papua New Guinea", iso: "PG", code: "675" },
+    { name: "Paraguay", iso: "PY", code: "595" },
+    { name: "Peru", iso: "PE", code: "51" },
+    { name: "Philippines", iso: "PH", code: "63" },
+    { name: "Poland", iso: "PL", code: "48" },
+    { name: "Portugal", iso: "PT", code: "351" },
+    { name: "Qatar", iso: "QA", code: "974" },
+    { name: "Romania", iso: "RO", code: "40" },
+    { name: "Russia", iso: "RU", code: "7" },
+    { name: "Rwanda", iso: "RW", code: "250" },
+    { name: "Saudi Arabia", iso: "SA", code: "966" },
+    { name: "Senegal", iso: "SN", code: "221" },
+    { name: "Serbia", iso: "RS", code: "381" },
+    { name: "Singapore", iso: "SG", code: "65" },
+    { name: "Slovakia", iso: "SK", code: "421" },
+    { name: "Slovenia", iso: "SI", code: "386" },
+    { name: "South Africa", iso: "ZA", code: "27" },
+    { name: "South Korea", iso: "KR", code: "82" },
+    { name: "Spain", iso: "ES", code: "34" },
+    { name: "Sri Lanka", iso: "LK", code: "94" },
+    { name: "Sudan", iso: "SD", code: "249" },
+    { name: "Sweden", iso: "SE", code: "46" },
+    { name: "Switzerland", iso: "CH", code: "41" },
+    { name: "Syria", iso: "SY", code: "963" },
+    { name: "Taiwan", iso: "TW", code: "886" },
+    { name: "Tajikistan", iso: "TJ", code: "992" },
+    { name: "Tanzania", iso: "TZ", code: "255" },
+    { name: "Thailand", iso: "TH", code: "66" },
+    { name: "Timor-Leste", iso: "TL", code: "670" },
+    { name: "Tunisia", iso: "TN", code: "216" },
+    { name: "Turkey", iso: "TR", code: "90" },
+    { name: "Turkmenistan", iso: "TM", code: "993" },
+    { name: "Uganda", iso: "UG", code: "256" },
+    { name: "Ukraine", iso: "UA", code: "380" },
+    { name: "United Arab Emirates", iso: "AE", code: "971" },
+    { name: "United Kingdom", iso: "UK", code: "44" },
+    { name: "United States", iso: "US", code: "1" },
+    { name: "Uruguay", iso: "UY", code: "598" },
+    { name: "Uzbekistan", iso: "UZ", code: "998" },
+    { name: "Venezuela", iso: "VE", code: "58" },
+    { name: "Vietnam", iso: "VN", code: "84" },
+    { name: "Yemen", iso: "YE", code: "967" },
+    { name: "Zambia", iso: "ZM", code: "260" },
+    { name: "Zimbabwe", iso: "ZW", code: "263" }
+  ];
+
+  function renderListKodeNegaraGlass() {
+    const listEl = document.getElementById("ccGlassDropdownList");
+    const hiddenInput = document.getElementById("bidderCountryCode");
+    if (!listEl) return;
+    const currentVal = hiddenInput ? hiddenInput.value : "62";
+
+    listEl.innerHTML = DAFTAR_NEGARA_WHATSAPP_AZ.map(c => {
+      const isSelected = c.code === currentVal && (currentVal !== "1" || c.iso === "US");
+      return `
+        <div class="cc-glass-option-item ${isSelected ? 'selected' : ''}" data-code="${c.code}" data-iso="${c.iso}" onclick="pilihKodeNegaraGlass('${c.code}', '${c.iso}', event)">
+          <span class="cc-opt-country">${c.name} (${c.iso})</span>
+          <span class="cc-opt-dial">+${c.code}</span>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function pilihKodeNegaraGlass(kode, iso, ev) {
+    if (ev) ev.stopPropagation();
+    playClickSound();
+    const hiddenInput = document.getElementById("bidderCountryCode");
+    const labelEl = document.getElementById("ccGlassSelectedText");
+    const wrapEl = document.getElementById("ccGlassSelectWrap");
+
+    if (hiddenInput) hiddenInput.value = kode;
+    if (labelEl) {
+      const found = DAFTAR_NEGARA_WHATSAPP_AZ.find(c => c.code === String(kode) && (!iso || c.iso === iso)) ||
+                    DAFTAR_NEGARA_WHATSAPP_AZ.find(c => c.code === String(kode));
+      const isoTag = iso || (found ? found.iso : "ID");
+      labelEl.innerText = `${isoTag} +${kode}`;
+    }
+    if (wrapEl) wrapEl.classList.remove("open");
+
+    const allItems = document.querySelectorAll(".cc-glass-option-item");
+    allItems.forEach(el => {
+      const match = el.getAttribute("data-code") === String(kode) && (!iso || el.getAttribute("data-iso") === iso);
+      el.classList.toggle("selected", match);
+    });
+  }
+
+  function toggleDropdownKodeNegara(ev) {
+    if (ev) ev.stopPropagation();
+    playClickSound();
+    const wrapEl = document.getElementById("ccGlassSelectWrap");
+    const listEl = document.getElementById("ccGlassDropdownList");
+    if (!wrapEl || !listEl) return;
+
+    if (!listEl.children.length) {
+      renderListKodeNegaraGlass();
+    }
+
+    const willOpen = !wrapEl.classList.contains("open");
+    wrapEl.classList.toggle("open", willOpen);
+
+    if (willOpen) {
+      setTimeout(() => {
+        const activeItem = listEl.querySelector(".cc-glass-option-item.selected");
+        if (activeItem) {
+          activeItem.scrollIntoView({ block: "nearest" });
+        }
+      }, 20);
+    }
+  }
+
+  document.addEventListener("click", function(e) {
+    const wrapEl = document.getElementById("ccGlassSelectWrap");
+    if (wrapEl && !wrapEl.contains(e.target)) {
+      wrapEl.classList.remove("open");
+    }
+  });
+
+  let currentAuthMode = "register";
   let waVerifyPollInterval = null;
+  let authSlideTimer = null;
 
   function hentikanPollingVerifikasiWa() {
     if (waVerifyPollInterval) {
@@ -7595,65 +9385,102 @@ html.modal-open-lock {
     }
   }
 
-  function gantiModeAuthLelang(mode) {
-    playClickSound();
+  function gantiModeAuthLelang(mode, tanpaAnimasi = false) {
+    if (!tanpaAnimasi) playClickSound();
     currentAuthMode = mode === "login" ? "login" : "register";
 
-    const tabReg = document.getElementById("tabBtnRegister");
-    const tabLog = document.getElementById("tabBtnLogin");
-    const nameGroup = document.getElementById("authNameFieldGroup");
+    const stage = document.getElementById("auctionAuthFormContainer");
+    const formHeading = document.getElementById("authFormHeading");
     const submitBtn = document.getElementById("btnSubmitAuthLelang");
-    const infoText = document.getElementById("authModeInfoText");
+    const bottomSwitch = document.getElementById("authBottomSwitch");
+    const overlayContent = document.getElementById("authOverlayContent");
+    const overlayTitle = document.getElementById("authOverlayTitle");
+    const overlayDesc = document.getElementById("authOverlayDesc");
+    const overlayBtn = document.getElementById("authOverlayBtn");
 
-    if (currentAuthMode === "login") {
-      if (tabReg) tabReg.classList.remove("active");
-      if (tabLog) tabLog.classList.add("active");
-      if (nameGroup) nameGroup.style.display = "none";
-      if (submitBtn) submitBtn.innerText = "Login";
-      if (infoText) {
-        infoText.innerText = "Masukkan Alamat Email dan Nomor WhatsApp Anda yang terdaftar untuk langsung masuk ke akun lelang.";
-      }
-    } else {
-      if (tabLog) tabLog.classList.remove("active");
-      if (tabReg) tabReg.classList.add("active");
-      if (nameGroup) nameGroup.style.display = "block";
-      if (submitBtn) submitBtn.innerText = "Daftar & Verifikasi";
-      if (infoText) {
-        infoText.innerText = "Lengkapi data di bawah ini, lalu kirim pesan verifikasi ke WhatsApp resmi kami untuk mengaktifkan akun lelang Anda.";
-      }
+    if (stage) {
+      stage.classList.toggle("mode-login", currentAuthMode === "login");
+      stage.classList.toggle("mode-register", currentAuthMode !== "login");
     }
+
+    const terapkanTeksMode = () => {
+      if (currentAuthMode === "login") {
+        if (formHeading) formHeading.innerText = "Login";
+        if (submitBtn) submitBtn.innerText = "Login";
+        if (bottomSwitch) {
+          bottomSwitch.innerHTML = `Don't have an account? <a onclick="gantiModeAuthLelang('register')">Sign Up</a>`;
+        }
+        if (overlayTitle) overlayTitle.innerHTML = "HELLO,<br>ABANGDA!";
+        if (overlayDesc) {
+          overlayDesc.innerText = "Masukkan data diri Anda dan mulai ikuti penawaran lelang VIP bersama kami.";
+        }
+        if (overlayBtn) {
+          overlayBtn.innerText = "Create Account →";
+          overlayBtn.setAttribute("onclick", "gantiModeAuthLelang('register')");
+        }
+      } else {
+        if (formHeading) formHeading.innerText = "Create Account";
+        if (submitBtn) submitBtn.innerText = "Sign Up";
+        if (bottomSwitch) {
+          bottomSwitch.innerHTML = `Already a Member? <a onclick="gantiModeAuthLelang('login')">Login</a>`;
+        }
+        if (overlayTitle) overlayTitle.innerHTML = "WELCOME<br>BACK!";
+        if (overlayDesc) {
+          overlayDesc.innerText = "Sudah terdaftar sebagai peserta lelang? Silakan login menggunakan akun Anda.";
+        }
+        if (overlayBtn) {
+          overlayBtn.innerText = "Sign In →";
+          overlayBtn.setAttribute("onclick", "gantiModeAuthLelang('login')");
+        }
+      }
+    };
+
+    if (tanpaAnimasi) {
+      terapkanTeksMode();
+      return;
+    }
+
+    // Crossfade teks tepat di tengah pergeseran kaca agar 100% mulus tanpa patah
+    if (overlayContent) overlayContent.classList.add("auth-content-fading");
+    if (formHeading) formHeading.classList.add("auth-content-fading");
+
+    clearTimeout(authSlideTimer);
+    authSlideTimer = setTimeout(() => {
+      terapkanTeksMode();
+      if (overlayContent) overlayContent.classList.remove("auth-content-fading");
+      if (formHeading) formHeading.classList.remove("auth-content-fading");
+    }, 220);
   }
 
   function bukaModalOtpLelang(resetKeForm = false, paksaGantiAkun = false) {
     playClickSound();
     hentikanPollingVerifikasiWa();
+    renderListKodeNegaraGlass();
 
-    document.getElementById("auctionAuthFormContainer").style.display = "block";
+    document.getElementById("auctionAuthFormContainer").style.display = "flex";
     document.getElementById("auctionWaitingWaBox").style.display = "none";
     document.getElementById("auctionVerifiedSuccessBox").style.display = "none";
 
     const existing = getVerifiedBidder();
-    const ccSelect = document.getElementById("bidderCountryCode");
 
     if (existing && !paksaGantiAkun) {
-      if (ccSelect && existing.cc) ccSelect.value = existing.cc;
+      const ccVal = existing.cc || "62";
+      pilihKodeNegaraGlass(ccVal, null, null);
       const savedWa = String(existing.wa || "");
-      const ccVal = ccSelect ? ccSelect.value : "62";
       document.getElementById("bidderWaInput").value = savedWa.startsWith(ccVal) ? savedWa.slice(ccVal.length) : savedWa;
       document.getElementById("bidderNameInput").value = existing.nama || "";
       document.getElementById("bidderEmailInput").value = existing.email || "";
-      gantiModeAuthLelang("login");
+      gantiModeAuthLelang("login", true);
     } else {
       if (paksaGantiAkun) {
-        if (ccSelect) ccSelect.value = "62";
+        pilihKodeNegaraGlass("62", "ID", null);
         document.getElementById("bidderWaInput").value = "";
         document.getElementById("bidderNameInput").value = "";
         document.getElementById("bidderEmailInput").value = "";
       }
-      gantiModeAuthLelang("register");
+      gantiModeAuthLelang("register", true);
     }
 
-    // Kunci scroll layar belakang saat modal login dibuka
     document.body.classList.add("modal-open-lock");
     document.documentElement.classList.add("modal-open-lock");
     document.getElementById("auctionOtpModal").classList.add("open");
@@ -7672,7 +9499,7 @@ html.modal-open-lock {
     hentikanPollingVerifikasiWa();
     document.getElementById("auctionWaitingWaBox").style.display = "none";
     document.getElementById("auctionVerifiedSuccessBox").style.display = "none";
-    document.getElementById("auctionAuthFormContainer").style.display = "block";
+    document.getElementById("auctionAuthFormContainer").style.display = "flex";
   }
 
   function tampilkanModalBlokirBNR(noWa) {

@@ -8254,7 +8254,8 @@ html.modal-open-lock {
     const targetHashKembali = currentCategoryFilter === "Lelang" ? "#lelang" : "#katalog";
     simpanRuteTerakhir(targetHashKembali);
     if (simpanHistory && window.location.hash.startsWith("#produk-")) {
-      history.pushState({ page: "catalogPage" }, "", targetHashKembali);
+      // Ganti ke replaceState untuk mencegah penumpukan riwayat yang menyebabkan user "terpental"
+      history.replaceState({ page: "catalogPage" }, "", targetHashKembali);
     }
 
     setTimeout(() => {
@@ -8695,6 +8696,12 @@ html.modal-open-lock {
   });
 
   function tampilkanIsiKatalog(modeLelang = false, kategoriPilihan = null) {
+    // RESET TAMPILAN: Pastikan selalu membuka Grid Katalog, mencegah user terjebak di halaman detail
+    document.getElementById("catalogDetailView").style.display = "none";
+    document.querySelector(".catalog-controls").style.display = "flex";
+    document.getElementById("catalogGridWrapper").style.display = "block";
+    currentOpenDetailCode = null;
+
     const titleEl = document.getElementById("catalogHeaderTitle");
     const subEl = document.getElementById("catalogHeaderSubtitle");
     const tagEl = document.getElementById("catalogHeaderTagline");
@@ -8757,7 +8764,12 @@ html.modal-open-lock {
 
   function kembaliKeLanding() {
     if (isWheelSpinning) return;
-    navigasiMenuAtas("gallery");
+    const hash = window.location.hash;
+    // Bersihkan jejak URL jika user menekan tombol 'Kembali' agar tombol Back HP tetap sinkron
+    if (hash === "#verifikasi" || hash === "#undian" || hash === "#katalog" || hash === "#lelang") {
+       history.replaceState({ tab: "gallery" }, "", "#gallery");
+    }
+    navigasiMenuAtas("gallery", false);
   }
 
   // Mendukung tombol Back/Forward bawaan HP & Browser termasuk kembali dari Detail Produk ke Katalog

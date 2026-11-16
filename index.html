@@ -8066,11 +8066,7 @@ html.modal-open-lock {
     // Catat +1 View (Anti-Spam) & kirim ke Google Sheets
     catatViewProduk(item);
 
-    const detailViewEl = document.getElementById("catalogDetailView");
-    // Cegah reset scroll posisi saat mendapat update data live (agar tidak melompat ke atas)
-    if (detailViewEl && detailViewEl.style.display !== "block") {
-      lastCatalogScrollPos = window.scrollY || 0;
-    }
+    lastCatalogScrollPos = window.scrollY || 0;
 
     const isHabis = item.stok <= 0 || item.status.toLowerCase() === "habis";
     currentDetailMedia = dapatkanArrayMedia(item.foto);
@@ -8196,13 +8192,8 @@ html.modal-open-lock {
       topBackBtn.setAttribute("onclick", "tutupDetailProduk()");
     }
 
-    // Hanya lompat ke atas jika user baru saja masuk dari halaman katalog
-    if (detailViewEl && detailViewEl.style.display !== "block") {
-      detailViewEl.style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      detailViewEl.style.display = "block";
-    }
+    detailViewEl.style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     perbaruiJudulHalamanSEO(
       `${item.nama} (${item.kode}) — ${item.jenis} | Cupang Kasep Official`,
@@ -10500,15 +10491,345 @@ html.modal-open-lock {
 
       setTimeout(() => {
         tutupModalOtpLelang();
-        // Buka kembali detail produk agar user bisa langsung lanjut ngebid
-        if (currentOpenDetailCode) {
-          bukaDetailProduk(currentOpenDetailCode, false);
+        if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
+        if (pendingBidAction) {
+          const act = pendingBidAction;
+          pendingBidAction = null;
+          prosesPasangBid(act.kode, act.tipe);
         }
-      }, 1500);
-      
+      }, 900);
       return;
     }
+
+    // 3. Siapkan Format Pesan Inbound WA ke Nomor Bot Fonnte (6285111761840) & Tampilkan Layar Penantian
+    const namaBersih = (isRegister ? namaInput : (res.nama || "Peserta"))
+      .replace(/[\r\n\-]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    const kodeUnikPesan = Math.floor(1000 + Math.random() * 9000);
+    const formatPesanWa = isRegister
+      ? `VERIFY-REGISTER-${namaBersih}-${emailInput}-${waClean}-${kodeUnikPesan}`
+      : `VERIFY-LOGIN-${emailInput}-${waClean}-${kodeUnikPesan}`;
+
+    const nomorBotFonnte = String(CONFIG.FONNTE_WA_NUMBER || "6285111761840").replace(/[^0-9]/g, "");
+    const linkWa = `https://api.whatsapp.com/send?phone=${nomorBotFonnte}&text=${encodeURIComponent(formatPesanWa)}`;
+    const btnWaEl = document.getElementById("btnOpenWaInbound");
+    const previewEl = document.getElementById("waVerifyMessagePreview");
+
+    if (btnWaEl) btnWaEl.href = linkWa;
+    if (previewEl) previewEl.innerText = formatPesanWa;
+
+    document.getElementById("auctionAuthFormContainer").style.display = "none";
+    document.getElementById("auctionVerifiedSuccessBox").style.display = "none";
+    document.getElementById("auctionWaitingWaBox").style.display = "block";
+
+    // 4. Mulai Polling setiap 3 detik untuk mengecek apakah pesan WA sudah diterima server
+    mulaiPollingStatusVerifikasi(waClean, emailInput, namaBersih, kodeNegara);
   }
+
+  let sedangCekStatusWa = false;
+  let listenerVisibilityWa = null;
+
+  function mulaiPollingStatusVerifikasi(waClean, emailInput, fallbackNama, kodeNegara) {
+    hentikanPollingVerifikasiWa();
+    sedangCekStatusWa = false;
+
+    const cekStatusKeServer = async () => {
+      if (sedangCekStatusWa) return;
+      const waitingBox = document.getElementById("auctionWaitingWaBox");
+      if (!waitingBox || waitingBox.style.display === "none") {
+        hentikanPollingVerifikasiWa();
+        return;
+      }
+
+      sedangCekStatusWa = true;
+      try {
+        const resPoll = await kirimKeGoogleSheets({
+          action: "auction_check_status",
+          wa: waClean,
+          email: emailInput,
+          mode: currentAuthMode
+        });
+
+        if (!resPoll) return;
+
+        if (resPoll.status === "blocked") {
+          hentikanPollingVerifikasiWa();
+          tutupModalOtpLelang();
+          tampilkanModalBlokirBNR(waClean);
+          return;
+        }
+
+        if (resPoll.status === "verified") {
+          hentikanPollingVerifikasiWa();
+          if (listenerVisibilityWa) {
+            document.removeEventListener("visibilitychange", listenerVisibilityWa);
+            window.removeEventListener("focus", listenerVisibilityWa);
+            listenerVisibilityWa = null;
+          }
+
+          const namaFinal = (resPoll.nama && resPoll.nama !== "-") ? resPoll.nama : (fallbackNama || "Peserta");
+          const waFinal = resPoll.wa || waClean;
+          const emailFinal = (resPoll.email && resPoll.email !== "-") ? resPoll.email : emailInput;
+          const tokenFinal = resPoll.token || "VERIFIED";
+
+          saveVerifiedBidder({
+            nama: namaFinal,
+            wa: waFinal,
+            email: emailFinal,
+            cc: kodeNegara,
+            token: tokenFinal
+          });
+
+          // Tampilkan layar sukses centang hijau
+          document.getElementById("auctionWaitingWaBox").style.display = "none";
+          const welcomeEl = document.getElementById("waVerifiedWelcomeText");
+          if (welcomeEl) {
+            welcomeEl.innerText = `Selamat datang, ${namaFinal}! Akun Anda telah terverifikasi.`;
+          }
+          document.getElementById("auctionVerifiedSuccessBox").style.display = "block";
+          tampilkanToast(`✅ Verifikasi WA berhasil! Halo, ${namaFinal}`);
+
+          setTimeout(() => {
+            tutupModalOtpLelang();
+            if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
+            if (pendingBidAction) {
+              const act = pendingBidAction;
+              pendingBidAction = null;
+              prosesPasangBid(act.kode, act.tipe);
+            }
+          }, 1100);
+        }
+      } finally {
+        sedangCekStatusWa = false;
+      }
+    };
+
+    // Otomatis cek seketika saat user kembali dari aplikasi WhatsApp ke browser
+    if (listenerVisibilityWa) {
+      document.removeEventListener("visibilitychange", listenerVisibilityWa);
+      window.removeEventListener("focus", listenerVisibilityWa);
+    }
+    listenerVisibilityWa = () => {
+      if (!document.hidden) cekStatusKeServer();
+    };
+    document.addEventListener("visibilitychange", listenerVisibilityWa);
+    window.addEventListener("focus", listenerVisibilityWa);
+
+    cekStatusKeServer();
+    waVerifyPollInterval = setInterval(cekStatusKeServer, 3000);
+  }
+
+  // Eksekusi Pasang Penawaran / Buy It Now
+  async function prosesPasangBid(kodeProduk, tipeBid = "BID") {
+    playClickSound();
+    const item = masterCatalogItems.find(i => i.kode.toUpperCase() === String(kodeProduk).toUpperCase());
+    if (!item) return;
+
+    if (apakahLelangBelumMulai(item.startTime)) {
+      alert("⏳ Lelang belum dimulai! Silakan tunggu hingga jadwal mulai tiba.");
+      return;
+    }
+
+    const bidder = getVerifiedBidder();
+    if (!bidder || !bidder.wa) {
+      pendingBidAction = { kode: item.kode, tipe: tipeBid };
+      bukaModalOtpLelang(true);
+      return;
+    }
+
+    const currentHighest = item.currentBid > 0 ? item.currentBid : 0;
+    const minNextBid = currentHighest > 0 ? (currentHighest + item.kb) : item.ob;
+    let nominalTawaran = minNextBid;
+
+    if (tipeBid === "BIN") {
+      nominalTawaran = item.bin;
+      if (!confirm(`⚡ KONFIRMASI BUY IT NOW (BIN)\n\nAnda yakin ingin menebus langsung [${item.kode}] ${item.nama} seharga ${formatRupiah(nominalTawaran)}? Lelang akan langsung ditutup untuk Anda.`)) {
+        return;
+      }
+    } else {
+      const inputEl = document.getElementById("customBidInput_" + item.kode);
+      nominalTawaran = inputEl ? Number(inputEl.value) : minNextBid;
+
+      if (isNaN(nominalTawaran) || nominalTawaran < minNextBid) {
+        alert(`⚠️ Minimal penawaran berikutnya adalah ${formatRupiah(minNextBid)}!`);
+        return;
+      }
+      if (item.bin > 0 && nominalTawaran >= item.bin) {
+        tipeBid = "BIN";
+        nominalTawaran = item.bin;
+      }
+    }
+
+    const btnBid = document.getElementById("btnSubmitBid_" + item.kode);
+    if (btnBid) {
+      btnBid.disabled = true;
+      btnBid.innerText = "⏳ Memproses Bid...";
+    }
+
+    const res = await kirimKeGoogleSheets({
+      action: "auction_place_bid",
+      sheet: CONFIG.AUCTION_SHEET_NAME,
+      kode: item.kode,
+      nama: bidder.nama,
+      wa: bidder.wa,
+      email: bidder.email || "",
+      token: bidder.token,
+      nominal: nominalTawaran,
+      tipe: tipeBid,
+      antiSnipeMinutes: CONFIG.ANTI_SNIPE_MINUTES
+    });
+
+    if (btnBid) {
+      btnBid.disabled = false;
+      btnBid.innerText = "Pasang Penawaran";
+    }
+
+    if (!res) {
+      alert("⚠️ Gagal mengirim penawaran. Periksa koneksi internet Anda.");
+      return;
+    }
+
+    if (res.status === "blocked") {
+      tampilkanModalBlokirBNR(bidder.wa);
+      return;
+    }
+
+    if (res.status === "unverified") {
+      localStorage.removeItem(STORAGE_KEY_BIDDER);
+      pendingBidAction = { kode: item.kode, tipe: tipeBid };
+      bukaModalOtpLelang(true);
+      return;
+    }
+
+    if (res.status === "outbid" || res.status === "ended") {
+      await segarkanDataKatalogSenyap();
+      bukaDetailProduk(item.kode, false);
+      alert("⚠️ " + (res.message || "Harga lelang telah berubah, silakan periksa nominal terbaru."));
+      return;
+    }
+
+    if (res.status === "ok") {
+      await segarkanDataKatalogSenyap();
+      bukaDetailProduk(item.kode, false);
+      tampilkanToast(tipeBid === "BIN" ? "🏆 Selamat! Anda memenangkan BIN lelang ini!" : "✅ Tawaran Anda berhasil masuk memimpin lelang!");
+    }
+  }
+
+  /* =========================================================
+     6. SISTEM AUTO-FORCE REFRESH SAAT ADA UPDATE WEB BARU
+     ========================================================= */
+  let initialPageSignature = null;
+  let isCheckingWebUpdate = false;
+
+  async function cekUpdateWebOtomatis() {
+    // Lewati jika dibuka dari file lokal komputer (file://) atau sedang memutar roda roulette
+    if (window.location.protocol === "file:" || isCheckingWebUpdate || isWheelSpinning) return;
+    isCheckingWebUpdate = true;
+
+    try {
+      const urlCek = window.location.pathname + "?_ver_check=" + Date.now();
+      const res = await fetch(urlCek, {
+        method: "GET",
+        cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache"
+        }
+      });
+
+      if (!res.ok) return;
+      const htmlTerbaru = await res.text();
+
+      // Buat hash tanda tangan dari isi kode sumber HTML terbaru
+      const sigTerbaru = hitungHashRahasia(htmlTerbaru.trim()) + "_" + htmlTerbaru.length;
+
+      if (!initialPageSignature) {
+        initialPageSignature = sigTerbaru;
+      } else if (sigTerbaru !== initialPageSignature) {
+        // Terdeteksi ada update baru di web -> Paksa semua user yang sedang membuka web untuk refresh!
+        tampilkanToast("🔄 Update web terbaru terdeteksi, memuat ulang halaman...");
+        setTimeout(() => {
+          const baseUrl = window.location.pathname + window.location.hash;
+          window.location.replace(baseUrl);
+          window.location.reload();
+        }, 600);
+      }
+    } catch (e) {
+      // Abaikan jika koneksi user sedang terputus sementara
+    } finally {
+      isCheckingWebUpdate = false;
+    }
+  }
+
+  function mulaiPemantauUpdateWeb() {
+    cekUpdateWebOtomatis();
+    // Cek otomatis setiap 20 detik bagi seluruh user yang sedang membuka web
+    setInterval(cekUpdateWebOtomatis, 20000);
+    // Cek seketika saat user kembali membuka tab browser / membuka layar HP
+    document.addEventListener("visibilitychange", function() {
+      if (!document.hidden) cekUpdateWebOtomatis();
+    });
+  }
+
+  // Sensor Scroll HP: Mengecilkan navbar bawah & membuat keranjang bulat mengikuti gerakan turun-naik navbar
+  function inisialisasiScrollNavbarHP() {
+    let lastScrollY = window.scrollY || 0;
+    const navLinks = document.querySelector(".nav-links");
+    const topNavbar = document.querySelector(".ck-navbar");
+    const floatCartBtn = document.getElementById("floatingCartBtn");
+    if (!navLinks) return;
+
+    window.addEventListener("scroll", function() {
+      const currentScrollY = window.scrollY || 0;
+      const selisihScroll = currentScrollY - lastScrollY;
+
+      // Ubah keranjang menjadi bulat melayang (hanya logo 🛒) setiap kali user scroll di Koleksi CK
+      if (floatCartBtn && floatCartBtn.style.display === "flex" && Math.abs(selisihScroll) > 6) {
+        floatCartBtn.classList.add("cart-docked");
+      }
+
+      // Jika masih di bagian paling atas halaman, kembalikan posisi ke atas normal
+      if (currentScrollY <= 40) {
+        navLinks.classList.remove("nav-minimized");
+        if (floatCartBtn) floatCartBtn.classList.remove("cart-follow-nav");
+        if (topNavbar) topNavbar.classList.remove("nav-top-compact");
+        lastScrollY = currentScrollY;
+        return;
+      }
+
+      // Scroll ke bawah (> 8px) -> Navbar mengecil & keranjang ikut bergerak turun seirama (tanpa mengecil)
+      if (selisihScroll > 8) {
+        navLinks.classList.add("nav-minimized");
+        if (floatCartBtn) floatCartBtn.classList.add("cart-follow-nav");
+      }
+      // Scroll ke atas (< -8px) -> Navbar membesar kembali & keranjang ikut bergerak naik seirama
+      else if (selisihScroll < -8) {
+        navLinks.classList.remove("nav-minimized");
+        if (floatCartBtn) floatCartBtn.classList.remove("cart-follow-nav");
+      }
+
+      lastScrollY = currentScrollY;
+    }, { passive: true });
+
+    // Jika user menyentuh kapsul navbar saat sedang mengecil, langsung perbesar & naikkan keranjang seirama
+    navLinks.addEventListener("touchstart", function() {
+      navLinks.classList.remove("nav-minimized");
+      if (floatCartBtn) floatCartBtn.classList.remove("cart-follow-nav");
+    }, { passive: true });
+  }
+
+  window.addEventListener("DOMContentLoaded", function() {
+    document.cookie = "googtrans=/id/id; path=/";
+    document.cookie = "googtrans=/id/id; path=/; domain=" + location.hostname;
+    muatKursRealTime();
+    pilihBahasa("id", false);
+    cekDirectLinkUrl();
+    mulaiPemantauUpdateWeb();
+    inisialisasiScrollNavbarHP();
+  });
 </script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>

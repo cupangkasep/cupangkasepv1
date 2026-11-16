@@ -10500,131 +10500,13 @@ html.modal-open-lock {
 
       setTimeout(() => {
         tutupModalOtpLelang();
-        if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
-        if (pendingBidAction) {
-          const act = pendingBidAction;
-          pendingBidAction = null;
-          prosesPasangBid(act.kode, act.tipe);
+        // Buka kembali detail produk agar user bisa langsung lanjut ngebid
+        if (currentOpenDetailCode) {
+          bukaDetailProduk(currentOpenDetailCode, false);
         }
-      }, 900);
+      }, 1500);
+      
       return;
-    }
-
-    // 3. Siapkan Format Pesan Inbound WA ke Nomor Bot Fonnte (6285111761840) & Tampilkan Layar Penantian
-    const namaBersih = (isRegister ? namaInput : (res.nama || "Peserta"))
-      .replace(/[\r\n\-]+/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-    const kodeUnikPesan = Math.floor(1000 + Math.random() * 9000);
-    const formatPesanWa = isRegister
-      ? `VERIFY-REGISTER-${namaBersih}-${emailInput}-${waClean}-${kodeUnikPesan}`
-      : `VERIFY-LOGIN-${emailInput}-${waClean}-${kodeUnikPesan}`;
-
-    const nomorBotFonnte = String(CONFIG.FONNTE_WA_NUMBER || "6285111761840").replace(/[^0-9]/g, "");
-    const linkWa = `https://api.whatsapp.com/send?phone=${nomorBotFonnte}&text=${encodeURIComponent(formatPesanWa)}`;
-    const btnWaEl = document.getElementById("btnOpenWaInbound");
-    const previewEl = document.getElementById("waVerifyMessagePreview");
-
-    if (btnWaEl) btnWaEl.href = linkWa;
-    if (previewEl) previewEl.innerText = formatPesanWa;
-
-    document.getElementById("auctionAuthFormContainer").style.display = "none";
-    document.getElementById("auctionVerifiedSuccessBox").style.display = "none";
-    document.getElementById("auctionWaitingWaBox").style.display = "block";
-
-    // 4. Mulai Polling setiap 3 detik untuk mengecek apakah pesan WA sudah diterima server
-    mulaiPollingStatusVerifikasi(waClean, emailInput, namaBersih, kodeNegara);
-  }
-
-  function mulaiPollingStatusVerifikasi(wa, email, nama, cc) {
-    hentikanPollingVerifikasiWa();
-    waVerifyPollInterval = setInterval(async () => {
-      const res = await kirimKeGoogleSheets({
-        action: "auction_poll_verify",
-        wa: wa,
-        email: email
-      });
-      if (res && res.status === "verified") {
-        hentikanPollingVerifikasiWa();
-        const namaFinal = res.nama || nama || "Peserta";
-        saveVerifiedBidder({
-          nama: namaFinal,
-          wa: wa,
-          email: email,
-          cc: cc,
-          token: res.token || "VERIFIED"
-        });
-        document.getElementById("auctionWaitingWaBox").style.display = "none";
-        document.getElementById("auctionVerifiedSuccessBox").style.display = "block";
-        const welcomeEl = document.getElementById("waVerifiedWelcomeText");
-        if (welcomeEl) welcomeEl.innerText = `Verifikasi Berhasil! Selamat datang, ${namaFinal}. Mengalihkan...`;
-        tampilkanToast(`🎉 Akun lelang aktif: ${namaFinal}`);
-        setTimeout(() => {
-          tutupModalOtpLelang();
-          if (currentOpenDetailCode) bukaDetailProduk(currentOpenDetailCode, false);
-          if (pendingBidAction) {
-            const act = pendingBidAction;
-            pendingBidAction = null;
-            prosesPasangBid(act.kode, act.tipe);
-          }
-        }, 1200);
-      }
-    }, 3000);
-  }
-
-  async function prosesPasangBid(kodeProduk, tipeBid) {
-    playClickSound();
-    const item = masterCatalogItems.find(i => i.kode.toUpperCase() === String(kodeProduk).toUpperCase());
-    if (!item) return;
-
-    const bidder = getVerifiedBidder();
-    if (!bidder || !bidder.wa) {
-      pendingBidAction = { kode: kodeProduk, tipe: tipeBid };
-      bukaModalOtpLelang(true);
-      tampilkanToast("⚠️ Silakan verifikasi WhatsApp Anda terlebih dahulu untuk ikut lelang");
-      return;
-    }
-
-    const inputInp = document.getElementById("customBidInput_" + item.kode);
-    const nominalUser = inputInp ? Number(inputInp.value) : 0;
-    const currentHighest = item.currentBid > 0 ? item.currentBid : item.ob;
-    const minNext = currentHighest > 0 ? (currentHighest + item.kb) : item.ob;
-
-    if (tipeBid === "BID" && nominalUser < minNext) {
-      alert(`⚠️ Nominal penawaran minimal adalah ${formatRupiah(minNext)}`);
-      return;
-    }
-
-    const finalNominal = tipeBid === "BIN" ? item.bin : nominalUser;
-    if (tipeBid === "BIN" && (!item.bin || item.bin <= 0)) {
-      alert("⚠️ Buy It Now (BIN) tidak tersedia untuk spesimen ini.");
-      return;
-    }
-
-    const konfirmasi = confirm(`Konfirmasi penawaran ${tipeBid} untuk [${item.kode}] ${item.nama} sebesar ${formatRupiah(finalNominal)}?`);
-    if (!konfirmasi) return;
-
-    tampilkanToast("⏳ Mengirim penawaran ke server lelang...");
-
-    const res = await kirimKeGoogleSheets({
-      action: "bid",
-      kode: item.kode,
-      tipe: tipeBid,
-      nominal: finalNominal,
-      nama: bidder.nama,
-      wa: bidder.wa,
-      email: bidder.email || ""
-    });
-
-    if (res && res.status === "ok") {
-      tampilkanToast(`✅ Penawaran ${formatRupiah(finalNominal)} berhasil dicatat!`);
-      await segarkanDataKatalogSenyap();
-      const itemUpdate = masterCatalogItems.find(i => i.kode.toUpperCase() === String(kodeProduk).toUpperCase());
-      if (itemUpdate) {
-        perbaruiDomPanelLelangLive(itemUpdate);
-      }
-    } else {
-      alert("❌ Gagal memasang bid: " + (res ? res.message : "Koneksi bermasalah"));
     }
   }
 </script>

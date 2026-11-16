@@ -10533,7 +10533,10 @@ html.modal-open-lock {
     document.getElementById("auctionWaitingWaBox").style.display = "block";
 
     // 4. Mulai Polling setiap 3 detik untuk mengecek apakah pesan WA sudah diterima server
-    mulaiPollingStatusVerifikasi(waClean, emailInput, namaBersih, kodeNegara) {
+    mulaiPollingStatusVerifikasi(waClean, emailInput, namaBersih, kodeNegara);
+  }
+
+  function mulaiPollingStatusVerifikasi(wa, email, nama, cc) {
     hentikanPollingVerifikasiWa();
     waVerifyPollInterval = setInterval(async () => {
       const res = await kirimKeGoogleSheets({

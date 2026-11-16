@@ -8066,7 +8066,11 @@ html.modal-open-lock {
     // Catat +1 View (Anti-Spam) & kirim ke Google Sheets
     catatViewProduk(item);
 
-    lastCatalogScrollPos = window.scrollY || 0;
+    const detailViewEl = document.getElementById("catalogDetailView");
+    // Cegah reset scroll posisi saat mendapat update data live (agar tidak melompat ke atas)
+    if (detailViewEl && detailViewEl.style.display !== "block") {
+      lastCatalogScrollPos = window.scrollY || 0;
+    }
 
     const isHabis = item.stok <= 0 || item.status.toLowerCase() === "habis";
     currentDetailMedia = dapatkanArrayMedia(item.foto);
@@ -8192,8 +8196,13 @@ html.modal-open-lock {
       topBackBtn.setAttribute("onclick", "tutupDetailProduk()");
     }
 
-    detailViewEl.style.display = "block";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Hanya lompat ke atas jika user baru saja masuk dari halaman katalog
+    if (detailViewEl && detailViewEl.style.display !== "block") {
+      detailViewEl.style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      detailViewEl.style.display = "block";
+    }
 
     perbaruiJudulHalamanSEO(
       `${item.nama} (${item.kode}) — ${item.jenis} | Cupang Kasep Official`,
@@ -9930,19 +9939,25 @@ html.modal-open-lock {
       if (lelangRows && Array.isArray(lelangRows)) {
         lelangRows.forEach(fresh => {
           const idx = masterCatalogItems.findIndex(i => i.kode.toUpperCase() === String(fresh.kode).toUpperCase());
-          if (idx !== -1) {
-            const oldItem = masterCatalogItems[idx];
-            const bidBerubah = Number(oldItem.currentBid) !== Number(fresh.currentBid) ||
-                               String(oldItem.bidHistoryRaw) !== String(fresh.bidHistoryRaw) ||
-                               String(oldItem.status) !== String(fresh.status) ||
-                               String(oldItem.endTime) !== String(fresh.endTime);
+            if (idx !== -1) {
+              const oldItem = masterCatalogItems[idx];
+              
+              // Normalisasi string dari Sheet agar tidak memicu perulangan pembaruan palsu (False Positive)
+              const freshHistoryStr = String(fresh.bidHistoryRaw || "[]").trim();
+              const freshStatusStr = String(fresh.status || oldItem.status).trim();
+              const freshEndTimeStr = String(fresh.endTime || oldItem.endTime).trim();
 
-            oldItem.currentBid = Number(fresh.currentBid) || 0;
-            oldItem.highestBidder = String(fresh.highestBidder || "-").trim();
-            oldItem.bidHistoryRaw = String(fresh.bidHistoryRaw || "[]").trim();
-            oldItem.endTime = String(fresh.endTime || oldItem.endTime).trim();
-            oldItem.stok = isNaN(Number(fresh.stok)) ? oldItem.stok : Number(fresh.stok);
-            oldItem.status = String(fresh.status || oldItem.status).trim();
+              const bidBerubah = Number(oldItem.currentBid) !== (Number(fresh.currentBid) || 0) ||
+                                 oldItem.bidHistoryRaw !== freshHistoryStr ||
+                                 oldItem.status !== freshStatusStr ||
+                                 oldItem.endTime !== freshEndTimeStr;
+
+              oldItem.currentBid = Number(fresh.currentBid) || 0;
+              oldItem.highestBidder = String(fresh.highestBidder || "-").trim();
+              oldItem.bidHistoryRaw = freshHistoryStr;
+              oldItem.endTime = freshEndTimeStr;
+              oldItem.stok = isNaN(Number(fresh.stok)) ? oldItem.stok : Number(fresh.stok);
+              oldItem.status = freshStatusStr;
 
             if (bidBerubah) {
               if (isDetailOpen && currentOpenDetailCode && currentOpenDetailCode.toUpperCase() === oldItem.kode.toUpperCase()) {

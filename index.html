@@ -1943,6 +1943,102 @@
     }
   }
 
+  /* --- GARIS PEMISAH BATCH TANGGAL LELANG CK --- */
+  .auction-batch-divider {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 22px 0 8px;
+    width: 100%;
+    user-select: none;
+  }
+
+  .auction-batch-divider:first-child {
+    margin-top: 2px;
+  }
+
+  .auction-batch-divider::before,
+  .auction-batch-divider::after {
+    content: "";
+    flex: 1;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.55), transparent);
+  }
+
+  .auction-batch-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 18px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, rgba(25, 32, 48, 0.78) 0%, rgba(201, 169, 110, 0.2) 100%);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(232, 213, 181, 0.48);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.32);
+    color: var(--gold-light);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .auction-batch-pill.today-batch {
+    background: linear-gradient(135deg, rgba(20, 56, 44, 0.78) 0%, rgba(201, 169, 110, 0.28) 100%);
+    border-color: rgba(110, 231, 183, 0.6);
+    color: #e6f4ee;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  }
+
+  .auction-batch-count {
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+  }
+
+  body.light-mode .auction-batch-divider::before,
+  body.light-mode .auction-batch-divider::after {
+    background: linear-gradient(90deg, transparent, rgba(140, 98, 41, 0.45), transparent);
+  }
+
+  body.light-mode .auction-batch-pill {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(232, 213, 181, 0.65));
+    border-color: rgba(140, 98, 41, 0.45);
+    color: #3d280a;
+    box-shadow: 0 6px 18px rgba(30, 27, 24, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  }
+
+  body.light-mode .auction-batch-pill.today-batch {
+    background: linear-gradient(135deg, rgba(22, 101, 78, 0.16), rgba(232, 213, 181, 0.72));
+    border-color: rgba(22, 101, 78, 0.5);
+    color: #0f5132;
+  }
+
+  body.light-mode .auction-batch-count {
+    background: rgba(140, 98, 41, 0.15);
+    border-color: rgba(140, 98, 41, 0.3);
+    color: #2b1d07;
+  }
+
+  @media (max-width: 640px) {
+    .auction-batch-divider {
+      gap: 8px;
+      margin: 16px 0 6px;
+    }
+    .auction-batch-pill {
+      font-size: 10px;
+      padding: 6px 12px;
+      letter-spacing: 0.5px;
+    }
+  }
+
   /* --- KARTU PRODUK GLASSMORPHIC --- */
   .product-card {
     background: linear-gradient(160deg, rgba(255, 255, 255, 0.08) 0%, rgba(15, 20, 32, 0.42) 100%);
@@ -7189,7 +7285,8 @@ html.modal-open-lock {
           const idxShipping = cols.indexOf("shipping") !== -1 ? cols.indexOf("shipping") : 14;
           const idxViews = cols.indexOf("views") !== -1 ? cols.indexOf("views") : (cols.indexOf("dilihat") !== -1 ? cols.indexOf("dilihat") : 15);
 
-          // Kolom Opsional Khusus Lelang (OB, KB, BIN, Waktu Mulai, Waktu Tutup, Bid Tertinggi, Penawar, Riwayat)
+          // Kolom Opsional Khusus Lelang (Tanggal Post/Batch, OB, KB, BIN, Waktu Mulai, Waktu Tutup, Bid Tertinggi, Penawar, Riwayat)
+          const idxPostDate = cols.indexOf("tanggal") !== -1 ? cols.indexOf("tanggal") : (cols.indexOf("tanggal post") !== -1 ? cols.indexOf("tanggal post") : cols.indexOf("batch"));
           const idxOB = cols.indexOf("ob");
           const idxKB = cols.indexOf("kb");
           const idxBIN = cols.indexOf("bin");
@@ -7227,6 +7324,7 @@ html.modal-open-lock {
             ob: idxOB !== -1 ? (Number(String(getVal(idxOB)).replace(/[^0-9]/g, "")) || hargaBersih) : hargaBersih,
             kb: idxKB !== -1 ? (Number(String(getVal(idxKB)).replace(/[^0-9]/g, "")) || 20000) : 20000,
             bin: idxBIN !== -1 ? (Number(String(getVal(idxBIN)).replace(/[^0-9]/g, "")) || 0) : 0,
+            postDate: idxPostDate !== -1 ? getVal(idxPostDate) : "",
             startTime: idxStartTime !== -1 ? getVal(idxStartTime) : "",
             endTime: idxEndTime !== -1 ? getVal(idxEndTime) : "",
             currentBid: idxHighBid !== -1 ? (Number(String(getVal(idxHighBid)).replace(/[^0-9]/g, "")) || 0) : 0,
@@ -7280,6 +7378,7 @@ html.modal-open-lock {
         ob: Number(raw.ob) || Number(raw.harga) || 0,
         kb: Number(raw.kb) || 20000,
         bin: Number(raw.bin) || 0,
+        postDate: String(raw.postDate || "").trim(),
         startTime: String(raw.startTime || "").trim(),
         endTime: String(raw.endTime || "").trim(),
         currentBid: Number(raw.currentBid) || 0,
@@ -7399,6 +7498,95 @@ html.modal-open-lock {
     }
   }
 
+  // Mengecek apakah item katalog/lelang sudah habis atau terjual
+  function apakahItemKatalogHabis(item) {
+    if (!item) return true;
+    const statusNorm = String(item.status || "").trim().toLowerCase();
+    return item.stok <= 0 || statusNorm === "habis" || statusNorm === "terjual" || statusNorm === "sold";
+  }
+
+  // Mendapatkan informasi Batch Tanggal Lelang (WIB / UTC+7) dari Tanggal Post, Waktu Mulai, atau Waktu Tutup
+  function dapatkanInfoBatchLelang(item) {
+    const rawStr = (item && (item.postDate || item.startTime || item.endTime || "")).trim();
+    if (!rawStr) {
+      const fallbackTxt = USER_LANG === "en" ? "GENERAL AUCTION BATCH" : (USER_LANG === "zh" ? "常规拍卖批次" : "BATCH LELANG UMUM");
+      return { key: "BATCH-UMUM", label: fallbackTxt, isToday: false, daySortValue: 0 };
+    }
+
+    let ts = parseWaktuLelang(rawStr);
+
+    // Dukungan tambahan jika tanggal ditulis dengan nama bulan (contoh: 16 November 2026 / 15 Nov 2026)
+    if (!ts) {
+      const petaBulan = {
+        jan: 0, januari: 0, january: 0,
+        feb: 1, februari: 1, february: 1,
+        mar: 2, maret: 2, march: 2,
+        apr: 3, april: 3,
+        mei: 4, may: 4,
+        jun: 5, juni: 5, june: 5,
+        jul: 6, juli: 6, july: 6,
+        agu: 7, agustus: 7, aug: 7, august: 7,
+        sep: 8, september: 8,
+        okt: 9, oktober: 9, oct: 9, october: 9,
+        nov: 10, november: 10,
+        des: 11, desember: 11, dec: 11, december: 11
+      };
+      const mTeks = rawStr.match(/(\d{1,2})[\s\/\-]+([a-zA-Z]+)[\s\/\-]+(\d{4})/);
+      if (mTeks) {
+        const d = Number(mTeks[1]);
+        const namaBln = mTeks[2].toLowerCase();
+        const y = Number(mTeks[3]);
+        if (petaBulan[namaBln] !== undefined) {
+          ts = Date.UTC(y, petaBulan[namaBln], d, 0, 0, 0) - (7 * 60 * 60 * 1000);
+        }
+      }
+    }
+
+    if (!ts) {
+      return { key: rawStr.toUpperCase(), label: `BATCH • ${rawStr.toUpperCase()}`, isToday: false, daySortValue: 1 };
+    }
+
+    // Konversi ke kalender WIB (UTC+7)
+    const offsetWIB = 7 * 60 * 60 * 1000;
+    const itemWIB = new Date(ts + offsetWIB);
+    const nowWIB = new Date(Date.now() + offsetWIB);
+    const yesterdayWIB = new Date(Date.now() + offsetWIB - (24 * 60 * 60 * 1000));
+
+    const formatKey = (dObj) => {
+      const y = dObj.getUTCFullYear();
+      const m = String(dObj.getUTCMonth() + 1).padStart(2, "0");
+      const d = String(dObj.getUTCDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    };
+
+    const itemKey = formatKey(itemWIB);
+    const todayKey = formatKey(nowWIB);
+    const yesterdayKey = formatKey(yesterdayWIB);
+
+    const namaBulanID = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+    const namaBulanEN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const tgl = itemWIB.getUTCDate();
+    const blnIdx = itemWIB.getUTCMonth();
+    const thn = itemWIB.getUTCFullYear();
+
+    let tanggalCantik = `${tgl} ${namaBulanID[blnIdx]} ${thn}`;
+    if (USER_LANG === "en") tanggalCantik = `${namaBulanEN[blnIdx]} ${tgl}, ${thn}`;
+    else if (USER_LANG === "zh") tanggalCantik = `${thn}年${blnIdx + 1}月${tgl}日`;
+
+    const daySortValue = Date.UTC(thn, blnIdx, tgl);
+
+    if (itemKey === todayKey) {
+      const prefix = USER_LANG === "en" ? "TODAY'S BATCH" : (USER_LANG === "zh" ? "今日拍卖批次" : "BATCH HARI INI");
+      return { key: itemKey, label: `${prefix} — ${tanggalCantik}`, isToday: true, daySortValue: daySortValue };
+    } else if (itemKey === yesterdayKey) {
+      const prefix = USER_LANG === "en" ? "YESTERDAY'S BATCH" : (USER_LANG === "zh" ? "昨日拍卖批次" : "BATCH KEMARIN");
+      return { key: itemKey, label: `${prefix} — ${tanggalCantik}`, isToday: false, daySortValue: daySortValue };
+    } else {
+      const prefix = USER_LANG === "en" ? "AUCTION BATCH" : (USER_LANG === "zh" ? "拍卖批次" : "BATCH LELANG");
+      return { key: itemKey, label: `${prefix} — ${tanggalCantik}`, isToday: false, daySortValue: daySortValue };
+    }
+  }
+
   function terapkanFilterKatalog() {
     const keyword = document.getElementById("catalogSearchInput").value.trim().toLowerCase();
     const selectedJenis = document.getElementById("catalogTypeSelect").value;
@@ -7421,13 +7609,39 @@ html.modal-open-lock {
       return cocokKategori && cocokJenis && cocokKeyword;
     });
 
-    if (sortBy === "popular") {
-      hasil.sort((a, b) => (Number(b.views) || 0) - (Number(a.views) || 0));
-    } else if (sortBy === "price-asc") {
-      hasil.sort((a, b) => a.harga - b.harga);
-    } else if (sortBy === "price-desc") {
-      hasil.sort((a, b) => b.harga - a.harga);
-    }
+    hasil.sort((a, b) => {
+      if (currentCategoryFilter === "Lelang") {
+        // 1. Kelompokkan berdasarkan Batch Tanggal (Hari Ini di atas Kemarin & tanggal sebelumnya)
+        const batchA = dapatkanInfoBatchLelang(a);
+        const batchB = dapatkanInfoBatchLelang(b);
+        if (batchB.daySortValue !== batchA.daySortValue) {
+          return batchB.daySortValue - batchA.daySortValue;
+        }
+        // 2. Di dalam batch tanggal yang sama, utamakan lelang yang masih aktif/upcoming di atas yang sudah selesai
+        const aSelesai = (apakahItemKatalogHabis(a) || apakahWaktuLelangHabis(a.endTime)) ? 1 : 0;
+        const bSelesai = (apakahItemKatalogHabis(b) || apakahWaktuLelangHabis(b.endTime)) ? 1 : 0;
+        if (aSelesai !== bSelesai) return aSelesai - bSelesai;
+      } else {
+        // Untuk Koleksi CK: item Tersedia otomatis selalu berada di paling atas, yang Habis/Terjual di bawah
+        const aHabis = apakahItemKatalogHabis(a) ? 1 : 0;
+        const bHabis = apakahItemKatalogHabis(b) ? 1 : 0;
+        if (aHabis !== bHabis) return aHabis - bHabis;
+      }
+
+      // 3. Terapkan urutan pilihan user (Populer / Harga) di dalam kelompoknya
+      if (sortBy === "popular") {
+        return (Number(b.views) || 0) - (Number(a.views) || 0);
+      } else if (sortBy === "price-asc") {
+        const hargaA = currentCategoryFilter === "Lelang" ? (a.currentBid > 0 ? a.currentBid : a.ob) : a.harga;
+        const hargaB = currentCategoryFilter === "Lelang" ? (b.currentBid > 0 ? b.currentBid : b.ob) : b.harga;
+        return hargaA - hargaB;
+      } else if (sortBy === "price-desc") {
+        const hargaA = currentCategoryFilter === "Lelang" ? (a.currentBid > 0 ? a.currentBid : a.ob) : a.harga;
+        const hargaB = currentCategoryFilter === "Lelang" ? (b.currentBid > 0 ? b.currentBid : b.ob) : b.harga;
+        return hargaB - hargaA;
+      }
+      return 0;
+    });
 
     renderKartuKatalog(hasil);
   }
@@ -7456,8 +7670,39 @@ html.modal-open-lock {
     emptyEl.style.display = "none";
     gridWrapperEl.style.display = "block";
 
+    // Hitung jumlah ikan per Batch Tanggal untuk ditampilkan pada badge pemisah Lelang CK
+    const sedangModeLelang = currentCategoryFilter === "Lelang";
+    const hitungPerBatch = {};
+    if (sedangModeLelang) {
+      items.forEach(it => {
+        const bInfo = dapatkanInfoBatchLelang(it);
+        hitungPerBatch[bInfo.key] = (hitungPerBatch[bInfo.key] || 0) + 1;
+      });
+    }
+
+    let lastBatchKey = null;
+
     gridEl.innerHTML = items.map(item => {
-      const isHabis = item.stok <= 0 || item.status.toLowerCase() === "habis";
+      let dividerBatchHtml = "";
+      if (sedangModeLelang) {
+        const batchInfo = dapatkanInfoBatchLelang(item);
+        if (batchInfo.key !== lastBatchKey) {
+          lastBatchKey = batchInfo.key;
+          const totalDiBatchIni = hitungPerBatch[batchInfo.key] || 1;
+          const satuanIkan = USER_LANG === "en" ? "Fish" : (USER_LANG === "zh" ? "条" : "Ikan");
+          dividerBatchHtml = `
+            <div class="auction-batch-divider notranslate">
+              <div class="auction-batch-pill ${batchInfo.isToday ? 'today-batch' : ''}">
+                <span>${batchInfo.isToday ? '✦' : '◈'}</span>
+                <span>${batchInfo.label}</span>
+                <span class="auction-batch-count">${totalDiBatchIni} ${satuanIkan}</span>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      const isHabis = apakahItemKatalogHabis(item);
       const daftarMedia = dapatkanArrayMedia(item.foto);
       const mediaSampul = daftarMedia.find(m => m.type === "image") || daftarMedia[0];
       const punyaVideo = daftarMedia.some(m => m.type !== "image");
@@ -7506,6 +7751,7 @@ html.modal-open-lock {
       ` : "";
 
       return `
+        ${dividerBatchHtml}
         <div class="product-card ${(isHabis || sudahSelesaiLelang) ? 'out-of-stock' : ''}">
           <div class="product-thumb-wrapper" onclick="klikKartuBukaDetail(event, '${kodeSafe}')">
             <div class="card-slider-track" id="track_${item.kode}" onscroll="updateDotsKartu('${kodeSafe}')" onmousedown="mulaiDragSliderPC(event, this)">

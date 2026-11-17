@@ -1040,11 +1040,27 @@
 
   .pdf-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* Muat 4 kartu sejajar rapi di PC & responsif di HP */
+    grid-template-columns: repeat(6, 1fr); /* Sistem 6 lajur untuk formasi 3 di atas + 2 di tengah bawah */
     gap: 24px;
     width: 100%;
-    max-width: 1280px;
+    max-width: 1080px;
     margin: 0 auto;
+  }
+
+  /* Baris 1: 3 Kartu (Masing-masing memakan 2 lajur = 6 lajur penuh) */
+  .pdf-cards-grid > .pdf-card:nth-child(1),
+  .pdf-cards-grid > .pdf-card:nth-child(2),
+  .pdf-cards-grid > .pdf-card:nth-child(3) {
+    grid-column: span 2;
+  }
+
+  /* Baris 2: Kartu ke-4 & ke-5 rata tengah simetris */
+  .pdf-cards-grid > .pdf-card:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .pdf-cards-grid > .pdf-card:nth-child(5) {
+    grid-column: 4 / span 2;
   }
 
   .pdf-card {
@@ -1127,6 +1143,9 @@
     .pdf-cards-grid {
       grid-template-columns: 1fr;
       max-width: 350px;
+    }
+    .pdf-cards-grid > .pdf-card:nth-child(n) {
+      grid-column: 1 / -1 !important;
     }
   }
 
@@ -5113,8 +5132,7 @@ html.modal-open-lock {
     </div>
     <div class="nav-links">
       <a class="nav-item active" id="navHome" onclick="navigasiMenuAtas('home')">Beranda</a>
-      <a class="nav-item" id="navGallery" onclick="navigasiMenuAtas('gallery')">Galeri</a>
-      <a class="nav-item" id="navOngkir" onclick="navigasiMenuAtas('ongkir')">Cek Ongkir</a>
+      <a class="nav-item" id="navGallery" onclick="navigasiMenuAtas('gallery')">Layanan</a>
       <a class="nav-item" id="navAbout" onclick="navigasiMenuAtas('about')">Tentang Kami</a>
     </div>
     <div class="nav-right-group">
@@ -5212,7 +5230,23 @@ html.modal-open-lock {
             <img src="https://images.unsplash.com/vector-1794243320138-a5b546c21182?q=80&w=830&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="Prize Draw">
           </div>
           <div class="pdf-card-footer">
-            <div class="pdf-card-title" style="text-transform: none; font-size: 21px;">Undian Hadiah</div>
+            <div class="pdf-card-title">UNDIAN HADIAH</div>
+          </div>
+        </div>
+
+        <!-- 5. Cek Ongkir -->
+        <div class="pdf-card" onclick="navigasiMenuAtas('ongkir')">
+          <div class="pdf-card-art">
+            <svg viewBox="0 0 120 120" style="width: 68%; height: 68%; filter: drop-shadow(0 12px 22px rgba(201, 169, 110, 0.35));" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="12" y="28" width="62" height="48" rx="8" fill="rgba(201,169,110,0.14)" stroke="#c9a96e" stroke-width="3.5"/>
+              <path d="M74 42H94L108 58V76H74V42Z" fill="rgba(232,213,181,0.2)" stroke="#e8d5b5" stroke-width="3.5" stroke-linejoin="round"/>
+              <circle cx="34" cy="80" r="11" fill="#0a0c10" stroke="#e8d5b5" stroke-width="4"/>
+              <circle cx="90" cy="80" r="11" fill="#0a0c10" stroke="#e8d5b5" stroke-width="4"/>
+              <path d="M26 46H58M26 58H46" stroke="#e8d5b5" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="pdf-card-footer">
+            <div class="pdf-card-title">CEK ONGKIR</div>
           </div>
         </div>
 
@@ -5222,6 +5256,12 @@ html.modal-open-lock {
     <!-- SECTION BARU: MENU CEK ONGKIR (RAJAONGKIR) -->
     <section class="ongkir-section" id="sectionOngkir">
       <div class="ongkir-card-wrapper">
+
+        <!-- Header Navigasi Kembali ke Layanan -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid rgba(249, 232, 162, 0.22);">
+          <button type="button" class="back-btn" style="position: static;" onclick="navigasiMenuAtas('gallery')">← Kembali ke Layanan</button>
+          <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(18px, 2.5vw, 24px); font-weight: 700; color: var(--gold-light); letter-spacing: 1.2px; text-transform: uppercase;">Tarif Pengiriman Resmi</span>
+        </div>
 
         <!-- 3 Kolom Atas: Provinsi (Kiri), Alamat Pembeli (Tengah), Total Ikan (Kanan) -->
         <div class="ongkir-top-grid">
@@ -6323,7 +6363,7 @@ html.modal-open-lock {
       badge: "ID",
       toastWelcome: "✦ Bahasa Indonesia dipilih",
       navHome: "Beranda",
-      navGallery: "Galeri",
+      navGallery: "Layanan",
       navOngkir: "Cek Ongkir",
       navAbout: "Tentang Kami",
       heroTitle: "Temukan Koleksi<br>Langka<br>Ikan Cupang",
@@ -6332,7 +6372,8 @@ html.modal-open-lock {
       cardCatalog: "KOLEKSI CK",
       cardAuction: "LELANG CK",
       cardCert: "SERTIFIKAT<br>KEASLIAN",
-      cardPrize: "Undian Hadiah",
+      cardPrize: "UNDIAN HADIAH",
+      cardOngkir: "CEK ONGKIR",
       aboutTitle: "Tentang Kami",
       aboutSub: "Destinasi Utama Koleksi Ikan Cupang Anda. Merayakan kualitas, keindahan, dan dedikasi sejak 2025.",
       storyTitle: "Cerita Kami",
@@ -6344,7 +6385,7 @@ html.modal-open-lock {
       badge: "EN",
       toastWelcome: "✦ English language selected",
       navHome: "Home",
-      navGallery: "Gallery",
+      navGallery: "Services",
       navOngkir: "Shipping Rate",
       navAbout: "About Us",
       heroTitle: "Discover Rare<br>Collections<br>of Betta Fish",
@@ -6353,7 +6394,8 @@ html.modal-open-lock {
       cardCatalog: "PRODUCT CATALOG",
       cardAuction: "VIP AUCTION",
       cardCert: "AUTHENTICITY<br>CERTIFICATE",
-      cardPrize: "Prize Draw",
+      cardPrize: "PRIZE DRAW",
+      cardOngkir: "SHIPPING RATE",
       aboutTitle: "About Us",
       aboutSub: "Your Premier Destination for Collector Betta Fish. Celebrating quality, beauty, and passion since 2025.",
       storyTitle: "Our Story",
@@ -6365,7 +6407,7 @@ html.modal-open-lock {
       badge: "中文",
       toastWelcome: "✦ 已选择中文 (Chinese Selected)",
       navHome: "首页",
-      navGallery: "功能菜单",
+      navGallery: "服务与功能",
       navOngkir: "运费查询",
       navAbout: "关于我们",
       heroTitle: "探索稀有<br>精品斗鱼<br>专属收藏",
@@ -6375,6 +6417,7 @@ html.modal-open-lock {
       cardAuction: "VIP 专属拍卖",
       cardCert: "官方血统<br>防伪证书",
       cardPrize: "VIP 幸运抽奖",
+      cardOngkir: "运费查询",
       aboutTitle: "关于我们",
       aboutSub: "您收藏级斗鱼的首选之地。自 2025 年以来，始终专注于品质、美学与热爱。",
       storyTitle: "品牌故事",
@@ -6482,13 +6525,16 @@ html.modal-open-lock {
     if (heroDesc) heroDesc.innerHTML = t.heroDesc;
     if (heroBtn) heroBtn.innerText = t.heroBtn;
 
-    // 4. Update judul 4 Kartu Fitur sesuai urutan baru (1. Katalog, 2. Lelang, 3. Sertifikat, 4. Undian)
+    // 4. Update judul 5 Kartu Fitur (1. Katalog, 2. Lelang, 3. Sertifikat, 4. Undian, 5. Cek Ongkir)
     const cardTitles = document.querySelectorAll(".pdf-card-title");
     if (cardTitles.length >= 4) {
       cardTitles[0].innerHTML = t.cardCatalog;
       cardTitles[1].innerHTML = t.cardAuction;
       cardTitles[2].innerHTML = t.cardCert;
       cardTitles[3].innerHTML = t.cardPrize;
+      if (cardTitles[4] && t.cardOngkir) {
+        cardTitles[4].innerHTML = t.cardOngkir;
+      }
     }
 
     // 5. Update teks About Us
@@ -6571,11 +6617,8 @@ html.modal-open-lock {
      ========================================================= */
   function aturSorotanNavbar(menuAktif) {
     document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
-    if (menuAktif === "gallery") {
+    if (menuAktif === "gallery" || menuAktif === "ongkir") {
       const el = document.getElementById("navGallery");
-      if (el) el.classList.add("active");
-    } else if (menuAktif === "ongkir") {
-      const el = document.getElementById("navOngkir");
       if (el) el.classList.add("active");
     } else if (menuAktif === "about") {
       const el = document.getElementById("navAbout");

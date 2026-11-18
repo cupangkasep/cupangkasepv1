@@ -7494,9 +7494,22 @@ html.modal-open-lock {
     }
   }
 
+  function apakahHalamanDiRefresh() {
+    try {
+      const navEntries = window.performance && performance.getEntriesByType && performance.getEntriesByType("navigation");
+      if (navEntries && navEntries.length > 0) {
+        return navEntries[0].type === "reload";
+      }
+      if (window.performance && performance.navigation) {
+        return performance.navigation.type === 1; // 1 = TYPE_RELOAD
+      }
+    } catch (e) {}
+    return false;
+  }
+
   function simpanRuteTerakhir(hashUrl) {
     if (!hashUrl) return;
-    try { localStorage.setItem("ck_last_route", hashUrl); } catch (e) {}
+    try { localStorage.removeItem("ck_last_route"); } catch (e) {}
     try { sessionStorage.setItem("ck_last_route", hashUrl); } catch (e) {}
   }
 
@@ -10458,12 +10471,37 @@ html.modal-open-lock {
     setTimeout(() => { copyBtn.innerText = "📋 Salin ID"; }, 2200);
   }
 
-  // Fungsi pembuka otomatis & penjaga halaman terakhir saat di-refresh
-  async function cekDirectLinkUrl() {
+  // Fungsi pembuka otomatis: Beranda untuk Tab Baru/Timpa URL, dan Menu Terakhir khusus saat Refresh
+  async function cekDirectLinkUrl(dariHashChange = false) {
     const params = new URLSearchParams(window.location.search);
     const certParam = params.get("cert");
     const produkParam = params.get("produk");
-    const hash = window.location.hash || localStorage.getItem("ck_last_route") || sessionStorage.getItem("ck_last_route") || "#home";
+    const isReload = apakahHalamanDiRefresh();
+
+    // Jika BUKAN di-refresh (misal: buka tab baru atau menimpa web lain lalu masuk kembali ke cupangkasep.com)
+    if (!isReload && !dariHashChange) {
+      try {
+        localStorage.removeItem("ck_last_route");
+        localStorage.removeItem("ck_last_mode_lelang");
+        localStorage.removeItem("ck_last_cat_pill");
+        sessionStorage.removeItem("ck_last_route");
+        sessionStorage.removeItem("ck_last_mode_lelang");
+        sessionStorage.removeItem("ck_last_cat_pill");
+      } catch (e) {}
+
+      // Jika bukan membuka link bagikan produk/sertifikat (?produk= / ?cert=), wajib mulai dari Beranda
+      if (!certParam && !produkParam) {
+        if (window.location.hash && window.location.hash !== "#home") {
+          history.replaceState({ tab: "home" }, "", "#home");
+        }
+        navigasiMenuAtas("home", false);
+        return;
+      }
+    }
+
+    const hash = dariHashChange
+      ? (window.location.hash || "#home")
+      : (sessionStorage.getItem("ck_last_route") || window.location.hash || "#home");
 
     // 1. Jika Link Share Sertifikat
     if (certParam || hash.startsWith("#cert-")) {
@@ -10474,14 +10512,14 @@ html.modal-open-lock {
       return;
     }
 
-    // 2. Jika sedang di Detail Produk / Lelang saat refresh
+    // 2. Jika sedang di Detail Produk / Lelang saat refresh atau buka link share produk
     if (produkParam || hash.startsWith("#produk-")) {
       const targetKode = (produkParam || decodeURIComponent(hash.replace("#produk-", ""))).trim();
       if (!targetKode) return;
 
       isCatalogUnlocked = true;
       aturSorotanNavbar("gallery");
-      const wasLelang = (localStorage.getItem("ck_last_mode_lelang") || sessionStorage.getItem("ck_last_mode_lelang")) === "1";
+      const wasLelang = sessionStorage.getItem("ck_last_mode_lelang") === "1";
       tampilkanIsiKatalog(wasLelang);
 
       if (!catalogLoadedOnce || masterCatalogItems.length === 0) {
@@ -10499,7 +10537,7 @@ html.modal-open-lock {
       return;
     }
 
-    // 3. Pertahankan posisi menu terakhir saat web di-refresh
+    // 3. Pertahankan posisi menu terakhir khusus saat halaman di-refresh
     if (hash === "#katalog") {
       tampilkanIsiKatalog(false);
     } else if (hash === "#lelang") {
@@ -10524,7 +10562,7 @@ html.modal-open-lock {
   // Deteksi otomatis jika link ditempel/diubah di tab browser yang sama
   window.addEventListener("hashchange", function() {
     if (window.location.hash.startsWith("#produk-") || window.location.hash.startsWith("#cert-")) {
-      cekDirectLinkUrl();
+      cekDirectLinkUrl(true);
     }
   });
 

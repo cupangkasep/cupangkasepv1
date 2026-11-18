@@ -231,17 +231,68 @@
     z-index: 1000;
   }
 
-  .ck-navbar::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(15, 20, 32, 0.58) 0%, rgba(8, 11, 18, 0.42) 100%);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.2);
-    z-index: -1;
+  /* Menghilangkan bar panjang agar hanya badge yang tampil langsung di atas background */
+  .ck-navbar {
     pointer-events: none;
+  }
+
+  .ck-navbar > * {
+    pointer-events: auto;
+  }
+
+  .ck-navbar::before,
+  body.light-mode .ck-navbar::before {
+    display: none !important;
+  }
+
+  /* Instruksi Sub-Judul & Notifikasi Inline di Bawah Kolom Nomor WA */
+  .auth-form-instruction {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-top: -14px;
+    margin-bottom: 18px;
+    transition: opacity 0.25s ease;
+  }
+
+  .auth-wa-inline-notice {
+    display: none;
+    margin-top: -10px;
+    margin-bottom: 14px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.45;
+    animation: fadeIn 0.22s ease;
+  }
+
+  .auth-wa-inline-notice.show {
+    display: block;
+  }
+
+  .auth-wa-inline-notice.error {
+    background: rgba(168, 50, 64, 0.22);
+    border: 1px solid rgba(248, 113, 113, 0.5);
+    color: #fca5a5;
+  }
+
+  .auth-wa-inline-notice.warning {
+    background: rgba(201, 169, 110, 0.18);
+    border: 1px solid rgba(232, 213, 181, 0.5);
+    color: var(--gold-light);
+  }
+
+  body.light-mode .auth-wa-inline-notice.error {
+    background: rgba(158, 42, 56, 0.12);
+    border-color: rgba(158, 42, 56, 0.45);
+    color: #842029;
+  }
+
+  body.light-mode .auth-wa-inline-notice.warning {
+    background: rgba(201, 169, 110, 0.25);
+    border-color: rgba(140, 98, 41, 0.45);
+    color: #5a3c11;
   }
 
   .nav-brand {
@@ -282,17 +333,63 @@
 
   .nav-item {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     color: #cbd5e1;
     text-decoration: none;
+    font-family: inherit;
     font-size: 13.5px;
     font-weight: 500;
     letter-spacing: 0.5px;
+    background: transparent;
     transition: all 0.3s ease;
     cursor: pointer;
-    padding: 7px 16px;
+    padding: 7px 15px;
     border-radius: 20px;
     border: 1px solid transparent;
     z-index: 1;
+  }
+
+  .nav-item-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    color: var(--gold-primary);
+    transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease;
+  }
+
+  .nav-item:hover .nav-item-icon,
+  .nav-item.active .nav-item-icon {
+    color: var(--gold-light);
+    transform: translateY(-1px);
+    filter: drop-shadow(0 0 6px rgba(201, 169, 110, 0.6));
+  }
+
+  .nav-profile-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .nav-item.profile-logged-in {
+    border-color: rgba(110, 231, 183, 0.45);
+    background: linear-gradient(135deg, rgba(46, 139, 110, 0.22), rgba(201, 169, 110, 0.12));
+    color: #e6f4ee;
+  }
+
+  .nav-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 8px #34d399;
+    display: none;
+    flex-shrink: 0;
+  }
+
+  .nav-item.profile-logged-in .nav-status-dot {
+    display: inline-block;
   }
 
   .nav-item:hover {
@@ -361,25 +458,27 @@
       padding: 5px 10px;
       font-size: 11px;
     }
-    /* Memindahkan Beranda, Galeri, Cek Ongkir, Tentang Kami tepat ke bawah layar HP/Tablet */
+    /* Memindahkan Beranda, Layanan, Tentang Kami, dan Profile tepat ke bawah layar HP/Tablet */
     .nav-links {
       position: fixed !important;
       top: auto !important;
-      bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+      bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
       left: 50% !important;
       transform: translateX(-50%) scale(1) !important;
       transform-origin: bottom center !important;
-      width: calc(100vw - 28px) !important;
-      max-width: 420px !important;
-      justify-content: space-around !important;
+      width: calc(100vw - 24px) !important;
+      max-width: 390px !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: stretch !important;
       gap: 4px !important;
-      padding: 10px 12px !important;
+      padding: 6px 8px !important;
       margin: 0 !important;
-      background: linear-gradient(135deg, rgba(20, 26, 40, 0.55), rgba(10, 14, 22, 0.42)) !important;
+      background: linear-gradient(135deg, rgba(20, 26, 40, 0.62), rgba(10, 14, 22, 0.48)) !important;
       backdrop-filter: blur(22px) saturate(190%) !important;
       -webkit-backdrop-filter: blur(22px) saturate(190%) !important;
       border: 1px solid rgba(255, 255, 255, 0.22) !important;
-      border-radius: 30px !important;
+      border-radius: 24px !important;
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
       z-index: 9999 !important;
       flex-wrap: nowrap !important;
@@ -392,27 +491,70 @@
     }
     /* Efek mengecil ala Instagram saat layar di-scroll ke bawah */
     .nav-links.nav-minimized {
-      transform: translateX(-50%) scale(0.82) !important;
+      transform: translateX(-50%) scale(0.86) !important;
       bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
-      padding: 6px 10px !important;
-      background: rgba(15, 20, 32, 0.38) !important;
+      padding: 5px 6px !important;
+      background: rgba(15, 20, 32, 0.42) !important;
       border-color: rgba(255, 255, 255, 0.16) !important;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
-      opacity: 0.88 !important;
+      opacity: 0.9 !important;
+    }
+    .nav-links > .nav-item,
+    .nav-links > .nav-profile-wrap {
+      flex: 1 1 0% !important;
+      min-width: 0 !important;
+    }
+    .nav-profile-wrap > .nav-item {
+      width: 100% !important;
+      height: 100% !important;
     }
     .nav-item {
-      font-size: clamp(11.5px, 3.2vw, 13px);
-      padding: 6px 10px;
-      white-space: nowrap;
-      flex-shrink: 0;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 3.5px !important;
+      padding: 6px 2px !important;
+      border-radius: 16px !important;
+      font-size: clamp(9.5px, 2.5vw, 11px) !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.2px !important;
+      line-height: 1.15 !important;
+      white-space: nowrap !important;
+      text-align: center !important;
       transition: all 0.28s ease;
     }
+    .nav-item span:not(.nav-status-dot) {
+      display: block;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-item-icon {
+      width: 16px !important;
+      height: 16px !important;
+      margin: 0 auto !important;
+    }
+    .nav-status-dot {
+      position: absolute !important;
+      top: 5px !important;
+      right: calc(50% - 14px) !important;
+      width: 6px !important;
+      height: 6px !important;
+    }
+    .nav-links .header-auth-dropdown {
+      top: auto !important;
+      bottom: calc(100% + 14px) !important;
+      right: 0 !important;
+    }
     .nav-links.nav-minimized .nav-item {
-      padding: 4px 8px;
+      padding: 4px 2px !important;
+      gap: 2px !important;
     }
     .nav-item.active::before {
-      inset: -2px -5px;
+      inset: -2px -3px;
       filter: blur(6px);
+      border-radius: 18px;
     }
   }
 
@@ -433,13 +575,13 @@
     width: 100%;
   }
 
-  #sectionHome, #sectionGallery, #sectionOngkir, #sectionAbout {
+  #sectionHome, #sectionGallery, #sectionOngkir, #sectionAbout, #sectionAdmin {
     animation: fadeIn 0.35s ease;
     flex: 1;
     width: 100%;
   }
 
-  #sectionGallery, #sectionOngkir, #sectionAbout {
+  #sectionGallery, #sectionOngkir, #sectionAbout, #sectionAdmin {
     display: none;
   }
 
@@ -1708,20 +1850,25 @@
 
   .header-auth-dropdown {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 10px);
     right: 0;
-    min-width: 195px;
-    background: rgba(12, 15, 22, 0.94);
+    width: min(320px, calc(100vw - 28px));
+    min-width: 275px;
+    max-height: 74vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: rgba(12, 15, 22, 0.96);
     backdrop-filter: blur(22px) saturate(190%);
     -webkit-backdrop-filter: blur(22px) saturate(190%);
     border: 1px solid rgba(232, 213, 181, 0.45);
-    border-radius: 14px;
-    padding: 8px;
-    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    padding: 12px;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.25);
     display: none;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     text-align: left;
+    z-index: 10005;
     animation: fadeIn 0.18s ease;
   }
 
@@ -1729,51 +1876,524 @@
     display: flex;
   }
 
-  .header-auth-info {
-    padding: 6px 8px 8px;
+  .header-auth-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 4px 4px 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .header-auth-info {
     font-size: 11px;
     color: var(--text-muted);
-    line-height: 1.4;
+    line-height: 1.45;
+    overflow: hidden;
   }
 
   .header-auth-info strong {
     display: block;
     color: var(--gold-light);
-    font-size: 12px;
+    font-size: 13px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .header-auth-item {
-    width: 100%;
+  .profile-close-mini {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-light);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    touch-action: manipulation;
+  }
+
+  .profile-close-mini:active {
+    transform: scale(0.92);
+    background: rgba(168, 50, 64, 0.35);
+  }
+
+  .profile-auction-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .profile-auction-sec-title {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2px;
+  }
+
+  .profile-auction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 145px;
+    overflow-y: auto;
+    padding-right: 2px;
+  }
+
+  .profile-auction-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: all 0.18s ease;
+  }
+
+  .profile-auction-card:hover,
+  .profile-auction-card:active {
+    background: rgba(201, 169, 110, 0.18);
+    border-color: rgba(232, 213, 181, 0.5);
+  }
+
+  .profile-auction-card.leading {
+    border-left: 3px solid var(--gold-primary);
+  }
+
+  .profile-auction-card.won {
+    border-left: 3px solid #34d399;
+    background: rgba(16, 185, 129, 0.08);
+  }
+
+  .profile-auction-meta {
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .profile-auction-name {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .profile-auction-price {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--gold-primary);
+  }
+
+  .profile-auction-card.won .profile-auction-price {
+    color: #6ee7b7;
+  }
+
+  .profile-auction-badge {
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 3px 7px;
+    border-radius: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .profile-auction-badge.leading {
+    background: rgba(201, 169, 110, 0.22);
+    border: 1px solid rgba(232, 213, 181, 0.45);
+    color: var(--gold-light);
+  }
+
+  .profile-auction-badge.won {
+    background: rgba(16, 185, 129, 0.22);
+    border: 1px solid rgba(52, 211, 153, 0.5);
+    color: #6ee7b7;
+  }
+
+  .profile-empty-note {
+    font-size: 11px;
+    color: var(--text-muted);
     padding: 8px 10px;
     border-radius: 9px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    text-align: center;
+  }
+
+  .header-auth-item {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 11px;
     border: 1px solid transparent;
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-light);
     font-family: inherit;
-    font-size: 11.5px;
-    font-weight: 600;
-    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
     cursor: pointer;
+    touch-action: manipulation;
     transition: all 0.18s ease;
   }
 
-  .header-auth-item:hover {
-    background: rgba(201, 169, 110, 0.22);
-    border-color: rgba(232, 213, 181, 0.4);
-    color: var(--gold-light);
-  }
-
   .header-auth-item.danger {
+    margin-top: 4px;
+    background: rgba(168, 50, 64, 0.2);
+    border-color: rgba(248, 113, 113, 0.4);
     color: #fca5a5;
   }
 
-  .header-auth-item.danger:hover {
-    background: rgba(168, 50, 64, 0.28);
-    border-color: rgba(248, 113, 113, 0.45);
+  .header-auth-item.danger:hover,
+  .header-auth-item.danger:active {
+    background: rgba(168, 50, 64, 0.38);
+    border-color: rgba(248, 113, 113, 0.65);
     color: #fecaca;
+  }
+
+  body.light-mode .profile-auction-card {
+    background: rgba(255, 255, 255, 0.72);
+    border-color: rgba(140, 98, 41, 0.22);
+  }
+
+  body.light-mode .profile-auction-name {
+    color: var(--text-light);
+  }
+
+  body.light-mode .profile-empty-note {
+    background: rgba(140, 98, 41, 0.05);
+    border-color: rgba(140, 98, 41, 0.22);
+  }
+
+  /* =========================================================
+     GAYA KHUSUS AKUN ADMIN & COMMAND CENTER 5 MODUL
+     ========================================================= */
+  .admin-crown-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.35), rgba(140, 109, 59, 0.2));
+    border: 1px solid rgba(232, 213, 181, 0.65);
+    color: var(--gold-light);
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .btn-open-admin-hub {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(232, 213, 181, 0.7);
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.38), rgba(140, 109, 59, 0.22));
+    box-shadow: 0 6px 18px rgba(201, 169, 110, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    color: #fffbeb;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    touch-action: manipulation;
+    transition: all 0.2s ease;
+  }
+
+  .btn-open-admin-hub:hover,
+  .btn-open-admin-hub:active {
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.52), rgba(140, 109, 59, 0.35));
+    transform: translateY(-1px);
+  }
+
+  .admin-page-section {
+    padding: 32px clamp(14px, 5vw, 90px) 70px;
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    min-height: calc(100vh - 90px);
+  }
+
+  .admin-page-wrapper {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(15, 20, 32, 0.48) 100%);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border: 1px solid rgba(249, 232, 162, 0.38);
+    border-radius: 24px;
+    padding: clamp(16px, 3.5vw, 32px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .admin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .admin-page-user-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .admin-page-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(24px, 3.5vw, 34px);
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+    line-height: 1.15;
+  }
+
+  .admin-page-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .admin-page-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .admin-hub-tabs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .admin-hub-tab-btn {
+    padding: 11px 10px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: all 0.2s ease;
+  }
+
+  .admin-hub-tab-btn.active {
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.35), rgba(255, 255, 255, 0.08));
+    border-color: rgba(232, 213, 181, 0.65);
+    color: var(--gold-light);
+    box-shadow: 0 4px 14px rgba(201, 169, 110, 0.25);
+  }
+
+  .admin-hub-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .admin-page-section {
+      padding: 16px 12px 44px;
+    }
+    .admin-page-wrapper {
+      padding: 16px 14px;
+      border-radius: 18px;
+    }
+    .admin-page-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .admin-page-actions {
+      width: 100%;
+    }
+    .admin-page-actions > button {
+      flex: 1;
+      justify-content: center;
+    }
+    .admin-hub-tabs {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .admin-hub-tabs > .admin-hub-tab-btn:last-child {
+      grid-column: 1 / -1;
+    }
+    .admin-hub-tab-btn {
+      font-size: 11.5px;
+      padding: 10px 8px;
+    }
+    #sectionAdmin .search-input-group {
+      flex-wrap: wrap;
+    }
+    #sectionAdmin .search-input-group > input {
+      min-width: 100%;
+    }
+    #sectionAdmin .search-input-group > button {
+      flex: 1;
+    }
+  }
+
+  body.light-mode .admin-page-wrapper {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(242, 236, 224, 0.65) 100%);
+    border-color: rgba(140, 98, 41, 0.3);
+    box-shadow: 0 16px 38px rgba(30, 27, 24, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  }
+
+  .admin-hub-pane {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .admin-hub-pane.active {
+    display: flex;
+  }
+
+  .admin-card-block {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .admin-card-block-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--gold-light);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .admin-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .admin-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .admin-row-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 11px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 11.5px;
+    flex-wrap: wrap;
+  }
+
+  .admin-mini-btn {
+    padding: 5px 9px;
+    border-radius: 8px;
+    border: 1px solid rgba(232, 213, 181, 0.4);
+    background: rgba(201, 169, 110, 0.18);
+    color: var(--gold-light);
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    touch-action: manipulation;
+  }
+
+  .admin-mini-btn.green {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: rgba(52, 211, 153, 0.5);
+    color: #6ee7b7;
+  }
+
+  .admin-mini-btn.red {
+    background: rgba(168, 50, 64, 0.25);
+    border-color: rgba(248, 113, 113, 0.5);
+    color: #fca5a5;
+  }
+
+  .admin-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  @media (min-width: 560px) {
+    .admin-stat-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .admin-stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(232, 213, 181, 0.28);
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .admin-stat-num {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--gold-light);
+    display: block;
+  }
+
+  .admin-stat-lbl {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  body.light-mode .admin-hub-modal-box {
+    background: linear-gradient(145deg, rgba(250, 247, 242, 0.98), rgba(235, 228, 216, 0.96)) !important;
+    border-color: rgba(140, 98, 41, 0.45) !important;
+  }
+
+  body.light-mode .admin-card-block,
+  body.light-mode .admin-row-item,
+  body.light-mode .admin-stat-card {
+    background: rgba(255, 255, 255, 0.72);
+    border-color: rgba(140, 98, 41, 0.22);
+  }
+
+  body.light-mode .btn-open-admin-hub {
+    color: #2b1d07;
   }
 
   /* Logo CK di Atas Tengah Tulisan Welcome Back / Hello Abangda */
@@ -3889,8 +4509,8 @@
   }
 
   body.light-mode .auth-overlay-sliding-panel {
-    background: linear-gradient(145deg, rgba(201, 169, 110, 0.28) 0%, rgba(140, 98, 41, 0.14) 45%, rgba(226, 217, 200, 0.85) 100%);
-    box-shadow: 0 0 35px rgba(30, 27, 24, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+    background: linear-gradient(145deg, rgba(232, 216, 190, 0.96) 0%, rgba(218, 198, 168, 0.96) 48%, rgba(236, 228, 214, 0.98) 100%);
+    box-shadow: none;
   }
 
   body.light-mode .auth-underline-group {
@@ -4471,28 +5091,52 @@
 
 .auth-close-floating {
     position: absolute;
-    top: 14px;
-    right: 16px;
-    z-index: 35;
-    width: 32px;
-    height: 32px;
+    top: 10px;
+    right: 12px;
+    z-index: 999;
+    transform: translate3d(0, 0, 60px);
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--text-light);
-    font-size: 13px;
+    background: rgba(15, 18, 26, 0.82);
+    border: 1.5px solid rgba(232, 213, 181, 0.45);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+    color: var(--gold-light);
+    font-size: 16px;
+    font-weight: 800;
     cursor: pointer;
+    pointer-events: auto;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, transform 0.15s ease;
 }
 
-.auth-close-floating:hover {
-    background: rgba(168, 50, 64, 0.45);
-    border-color: rgba(245, 208, 213, 0.6);
-    transform: scale(1.08);
+/* Area sentuh ekstra lebar khusus jari di layar HP */
+.auth-close-floating::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+}
+
+.auth-close-floating:hover,
+.auth-close-floating:active {
+    background: rgba(168, 50, 64, 0.75);
+    border-color: rgba(245, 208, 213, 0.8);
+    color: #ffffff;
+    transform: translate3d(0, 0, 60px) scale(0.95);
+}
+
+.close-admin-btn,
+.lightbox-close {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    min-height: 34px;
+    padding: 6px 14px;
 }
 
 .auth-split-stage {
@@ -4507,21 +5151,21 @@
 
 /* Panel Form dengan Hardware Acceleration (Anti-Patah) */
 .auth-form-sliding-panel {
-    width: 52%;
-    padding: 42px 38px;
+    width: 50%;
+    padding: 42px 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     z-index: 5;
     will-change: transform, opacity;
     backface-visibility: hidden;
-    transform: translate3d(92.3%, 0, 0);
+    transform: translate3d(100%, 0, 0);
     transition: transform 0.72s cubic-bezier(0.65, 0, 0.35, 1),
                 opacity 0.28s ease;
 }
 
 .auth-split-stage.mode-register .auth-form-sliding-panel {
-    transform: translate3d(92.3%, 0, 0);
+    transform: translate3d(100%, 0, 0);
 }
 
 .auth-split-stage.mode-login .auth-form-sliding-panel {
@@ -4552,7 +5196,7 @@
     pointer-events: none;
 }
 
-/* Panel Kaca Diagonal dengan Hardware Acceleration Murni */
+/* Panel Diagonal Murni Tanpa Bocoran Kotak Vertikal */
 .auth-overlay-sliding-panel {
     position: absolute;
     top: 0;
@@ -4560,52 +5204,68 @@
     width: 52%;
     height: 100%;
     z-index: 10;
-    background: linear-gradient(145deg, rgba(232, 213, 181, 0.14) 0%, rgba(201, 169, 110, 0.08) 45%, rgba(10, 12, 16, 0.78) 100%);
-    backdrop-filter: blur(22px) saturate(180%);
-    -webkit-backdrop-filter: blur(22px) saturate(180%);
-    box-shadow: 0 0 45px rgba(0, 0, 0, 0.75), inset 0 1px 2px rgba(232, 213, 181, 0.35);
+    background: linear-gradient(145deg, rgba(44, 38, 30, 0.96) 0%, rgba(24, 22, 20, 0.97) 48%, rgba(10, 12, 18, 0.99) 100%);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
     display: flex;
     align-items: center;
     padding: 42px 38px;
     will-change: transform, clip-path;
-    backface-visibility: hidden;
     transform: translate3d(0%, 0, 0);
     transition: transform 0.72s cubic-bezier(0.65, 0, 0.35, 1),
-                clip-path 0.72s cubic-bezier(0.65, 0, 0.35, 1);
+                clip-path 0.72s cubic-bezier(0.65, 0, 0.35, 1),
+                -webkit-clip-path 0.72s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
+/* Garis Miring Emas Mengikuti Koordinat Clip-Path 100% Presisi */
+.auth-overlay-sliding-panel::before,
 .auth-overlay-sliding-panel::after {
     content: "";
     position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, rgba(232, 213, 181, 0.1), rgba(201, 169, 110, 0.75), rgba(232, 213, 181, 0.15));
-    box-shadow: 0 0 14px rgba(201, 169, 110, 0.55);
+    inset: 0;
+    background: linear-gradient(180deg, rgba(232, 213, 181, 0.2) 0%, rgba(201, 169, 110, 0.95) 50%, rgba(232, 213, 181, 0.2) 100%);
     pointer-events: none;
-    transition: left 0.72s cubic-bezier(0.65, 0, 0.35, 1),
-                right 0.72s cubic-bezier(0.65, 0, 0.35, 1),
-                transform 0.72s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: clip-path, opacity;
+    transition: clip-path 0.72s cubic-bezier(0.65, 0, 0.35, 1),
+                -webkit-clip-path 0.72s cubic-bezier(0.65, 0, 0.35, 1),
+                opacity 0.45s ease;
 }
 
 .auth-split-stage.mode-register .auth-overlay-sliding-panel {
     transform: translate3d(0%, 0, 0);
-    clip-path: polygon(0 0, 91% 0, 100% 100%, 0% 100%);
+    -webkit-clip-path: polygon(0% 0%, 88% 0%, 100% 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 88% 0%, 100% 100%, 0% 100%);
 }
 
 .auth-split-stage.mode-register .auth-overlay-sliding-panel::after {
-    right: 4.4%;
-    transform: skewX(4.8deg);
+    -webkit-clip-path: polygon(calc(88% - 2px) 0%, 88% 0%, 100% 100%, calc(100% - 2px) 100%);
+    clip-path: polygon(calc(88% - 2px) 0%, 88% 0%, 100% 100%, calc(100% - 2px) 100%);
+    opacity: 1;
+}
+
+.auth-split-stage.mode-register .auth-overlay-sliding-panel::before {
+    -webkit-clip-path: polygon(0% 0%, 2px 0%, 2px 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 2px 0%, 2px 100%, 0% 100%);
+    opacity: 0;
 }
 
 .auth-split-stage.mode-login .auth-overlay-sliding-panel {
-    transform: translate3d(92.3%, 0, 0);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 9% 100%);
+    transform: translate3d(92.3077%, 0, 0);
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 12% 100%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 12% 100%);
+}
+
+.auth-split-stage.mode-login .auth-overlay-sliding-panel::before {
+    -webkit-clip-path: polygon(0% 0%, 2px 0%, calc(12% + 2px) 100%, 12% 100%);
+    clip-path: polygon(0% 0%, 2px 0%, calc(12% + 2px) 100%, 12% 100%);
+    opacity: 1;
 }
 
 .auth-split-stage.mode-login .auth-overlay-sliding-panel::after {
-    left: 4.4%;
-    transform: skewX(4.8deg);
+    -webkit-clip-path: polygon(calc(100% - 2px) 0%, 100% 0%, 100% 100%, calc(100% - 2px) 100%);
+    clip-path: polygon(calc(100% - 2px) 0%, 100% 0%, 100% 100%, calc(100% - 2px) 100%);
+    opacity: 0;
 }
 
 .auth-overlay-content {
@@ -4909,6 +5569,10 @@ body.light-mode .cc-glass-option-item {
     .auth-split-stage.mode-login .auth-overlay-sliding-panel {
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 88%) !important;
     }
+    .auth-overlay-sliding-panel::before,
+    .auth-overlay-sliding-panel::after {
+        display: none !important;
+    }
     .auth-form-sliding-panel {
         width: 100%;
         padding: 22px 24px 28px;
@@ -5131,9 +5795,61 @@ html.modal-open-lock {
       <span>Cupang kasep Official</span>
     </div>
     <div class="nav-links">
-      <a class="nav-item active" id="navHome" onclick="navigasiMenuAtas('home')">Beranda</a>
-      <a class="nav-item" id="navGallery" onclick="navigasiMenuAtas('gallery')">Layanan</a>
-      <a class="nav-item" id="navAbout" onclick="navigasiMenuAtas('about')">Tentang Kami</a>
+      <a class="nav-item active" id="navHome" onclick="navigasiMenuAtas('home')">
+        <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 10.5L12 3l9 7.5"></path>
+          <path d="M5 9.5V19a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9.5"></path>
+          <path d="M10 15h4"></path>
+        </svg>
+        <span id="navHomeText">Beranda</span>
+      </a>
+
+      <a class="nav-item" id="navGallery" onclick="navigasiMenuAtas('gallery')">
+        <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
+          <line x1="12" y1="22" x2="12" y2="15.5"></line>
+          <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
+        </svg>
+        <span id="navGalleryText">Layanan</span>
+      </a>
+
+      <a class="nav-item" id="navAbout" onclick="navigasiMenuAtas('about')">
+        <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          <path d="M12 8v4"></path>
+          <circle cx="12" cy="15.5" r="0.8" fill="currentColor"></circle>
+        </svg>
+        <span id="navAboutText">Tentang Kami</span>
+      </a>
+
+      <!-- Menu Profil di Sebelah Kanan Tentang Kami -->
+      <div class="nav-profile-wrap notranslate" id="headerAuctionAuthWrap">
+        <button type="button" class="nav-item" id="headerAuctionAuthBtn" onclick="klikTombolAuthHeaderLelang(event)">
+          <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span id="navProfileText">Profil</span>
+          <span class="nav-status-dot" title="Akun Aktif"></span>
+        </button>
+        <div class="header-auth-dropdown" id="headerAuctionAuthMenu" onclick="event.stopPropagation()">
+          <div class="header-auth-top-bar">
+            <div class="header-auth-info">
+              <strong id="headerAuthUserName">-</strong>
+              <span id="headerAuthUserWa">-</span>
+            </div>
+            <button type="button" class="profile-close-mini" onclick="tutupMenuAuthHeader()" title="Tutup">✕</button>
+          </div>
+
+          <!-- Daftar Lelang: Posisi Masih Menang & Sudah Dimenangkan -->
+          <div id="profileAuctionStatusContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
+
+          <!-- Tombol Keluar di Paling Bawah Profil -->
+          <button type="button" class="header-auth-item danger" id="btnProfileSignOut" onclick="keluarAkunLelang(event)">
+            ✕ Keluar Akun
+          </button>
+        </div>
+      </div>
     </div>
     <div class="nav-right-group">
       <!-- Toggle Dark / Light Mode Lensa Kaca Beranimasi -->
@@ -5355,6 +6071,151 @@ html.modal-open-lock {
       </div>
     </section>
 
+    <!-- SECTION 4: HALAMAN KHUSUS ADMIN (SEJAJAR BERANDA, LAYANAN & TENTANG KAMI) -->
+    <section class="admin-page-section notranslate" id="sectionAdmin">
+      <div class="admin-page-wrapper">
+        <div class="admin-page-header">
+          <div class="admin-page-user-meta">
+            <div><span class="admin-crown-pill">👑 ADMIN OFFICIAL</span></div>
+            <h2 class="admin-page-title" id="adminPageUserName">Admin Cupang Kasep</h2>
+            <div class="admin-page-sub" id="adminPageUserInfo">officialcupangkasep@gmail.com</div>
+          </div>
+          <div class="admin-page-actions">
+            <button type="button" class="admin-mini-btn" style="padding: 10px 14px; font-size: 11.5px;" onclick="muatUlangDataAdminHub()">
+              ↻ Segarkan Data
+            </button>
+            <button type="button" class="admin-mini-btn red" style="padding: 10px 14px; font-size: 11.5px;" onclick="keluarAkunLelang(event)">
+              ✕ Keluar Akun
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigasi 5 Modul Admin -->
+        <div class="admin-hub-tabs">
+          <button type="button" class="admin-hub-tab-btn active" onclick="gantiTabAdminHub('lelang', this)">1. Lelang & BNR</button>
+          <button type="button" class="admin-hub-tab-btn" onclick="gantiTabAdminHub('katalog', this)">2. Katalog & Stok</button>
+          <button type="button" class="admin-hub-tab-btn" onclick="gantiTabAdminHub('voucher', this)">3. Voucher & Undian</button>
+          <button type="button" class="admin-hub-tab-btn" onclick="gantiTabAdminHub('sertifikat', this)">4. Sertifikat VIP</button>
+          <button type="button" class="admin-hub-tab-btn" onclick="gantiTabAdminHub('analitik', this)">5. Pantauan Toko</button>
+        </div>
+
+        <div class="admin-hub-body">
+          <!-- TAB 1: KENDALI LELANG VIP & BNR -->
+          <div class="admin-hub-pane active" id="adminPane_lelang">
+            <div class="admin-card-block">
+              <div class="admin-card-block-title">
+                <span>⚡ Kendali Cepat Lelang & Penawar (Unmasked WA)</span>
+              </div>
+              <select id="adminAuctionSelect" class="catalog-select" onchange="renderDetailLelangAdminHub()"></select>
+              <div id="adminAuctionControlBox" style="display:flex; flex-direction:column; gap:10px;"></div>
+            </div>
+
+            <div class="admin-card-block">
+              <div class="admin-card-block-title">🚫 Kelola Daftar Blokir Peserta (Blacklist BNR)</div>
+              <div class="search-input-group">
+                <input type="tel" id="adminBlockWaInput" class="catalog-input" placeholder="Nomor WA pelaku BNR (cth: 628123456789)...">
+                <button type="button" class="admin-mini-btn red" style="padding: 10px 16px;" onclick="adminTambahBlokirBNR()">Blokir WA</button>
+              </div>
+              <div id="adminBlockedListContainer" style="display:flex; flex-direction:column; gap:6px;"></div>
+            </div>
+          </div>
+
+          <!-- TAB 2: MANAJEMEN KATALOG & STOK -->
+          <div class="admin-hub-pane" id="adminPane_katalog">
+            <div class="admin-card-block">
+              <div class="admin-card-block-title">📦 Saklar Instan Status & Stok Koleksi CK</div>
+              <input type="text" id="adminCatalogFilterInput" class="catalog-input" placeholder="Cari kode atau nama koleksi..." oninput="renderDaftarKatalogAdminHub()">
+              <div id="adminCatalogQuickList" style="display:flex; flex-direction:column; gap:8px; max-height:360px; overflow-y:auto;"></div>
+            </div>
+
+            <div class="admin-card-block">
+              <div class="admin-card-block-title">➕ Tambah / Edit Ikan & Produk (Langsung dari HP)</div>
+              <div class="admin-form-grid">
+                <input type="text" id="admItemKode" class="catalog-input" placeholder="Kode (cth: CK-088 / L-01)">
+                <input type="text" id="admItemNama" class="catalog-input" placeholder="Nama Ikan / Produk">
+                <select id="admItemKategori" class="catalog-select">
+                  <option value="Ikan Cupang">Kategori: Ikan Cupang</option>
+                  <option value="Produk">Kategori: Produk Perawatan</option>
+                  <option value="Lelang">Kategori: Lelang VIP</option>
+                </select>
+                <input type="text" id="admItemJenis" class="catalog-input" placeholder="Jenis / Strain (cth: Yellow Koi)">
+                <input type="number" id="admItemHarga" class="catalog-input" placeholder="Harga / Open Bid (Rp)">
+                <input type="number" id="admItemStok" class="catalog-input" placeholder="Stok (cth: 1)" value="1">
+                <input type="text" id="admItemSize" class="catalog-input" placeholder="Size (cth: M / 4.5 cm)">
+                <input type="text" id="admItemSex" class="catalog-input" placeholder="Sex (cth: Male / Female)">
+                <input type="text" id="admItemFoto" class="catalog-input" style="grid-column: 1 / -1;" placeholder="Link Foto / Video Google Drive (pisahkan koma)">
+                <input type="text" id="admItemDesc" class="catalog-input" style="grid-column: 1 / -1;" placeholder="Deskripsi singkat koleksi...">
+              </div>
+              <button type="button" class="search-btn" style="width:100%;" onclick="adminSimpanKoleksiBaru()">💾 Simpan ke Katalog & Server</button>
+            </div>
+          </div>
+
+          <!-- TAB 3: GENERATOR VOUCHER & VERIFIKASI UNDIAN -->
+          <div class="admin-hub-pane" id="adminPane_voucher">
+            <div class="admin-card-block">
+              <div class="admin-card-block-title">🎟️ Generator Voucher Undian (3x Spin)</div>
+              <div class="search-input-group">
+                <input type="text" id="admNewVoucherInput" class="search-input" placeholder="Ketik / Generate Kode (cth: CK-VIP-889)">
+                <button type="button" class="btn-secondary" onclick="adminAcakKodeVoucher()">🎲 Acak</button>
+                <button type="button" class="search-btn" onclick="adminBuatVoucherBaru()">Aktifkan</button>
+              </div>
+              <div id="admVoucherCreatedList" style="display:flex; flex-direction:column; gap:6px;"></div>
+            </div>
+
+            <div class="admin-card-block">
+              <div class="admin-card-block-title">🔍 Verifikasi Token Klaim WA & Cek Riwayat Voucher</div>
+              <div class="search-input-group">
+                <input type="text" id="admHubClaimToken" class="search-input" placeholder="Tempel Kode Klaim WA (CKV-...)">
+                <button type="button" class="search-btn" onclick="adminVerifikasiTokenDariHub()">Cek Klaim</button>
+              </div>
+              <div class="search-input-group">
+                <input type="text" id="admHubVoucherCheck" class="search-input" placeholder="Ketik Kode Voucher untuk cek sisa spin...">
+                <button type="button" class="btn-secondary" onclick="adminCekRiwayatVoucherDariHub()">Cek Voucher</button>
+              </div>
+              <div class="admin-result-box" id="admHubVoucherResult">Silakan tempel kode klaim `CKV-...` atau kode voucher pelanggan.</div>
+              <button type="button" class="admin-mini-btn" style="justify-content:center; padding:11px;" onclick="adminAktifkanSpinUnlimited()">
+                👑 Buka Halaman Undian dengan Mode Testing Admin (Unlimited Spin)
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 4: PENERBITAN SERTIFIKAT KEASLIAN VIP -->
+          <div class="admin-hub-pane" id="adminPane_sertifikat">
+            <div class="admin-card-block">
+              <div class="admin-card-block-title">📜 Terbitkan Sertifikat Keaslian Kolektor Baru</div>
+              <div class="admin-form-grid">
+                <input type="text" id="admCertId" class="catalog-input" placeholder="Nomor Sertifikat (cth: CK-VIP-181126-A1)">
+                <input type="text" id="admCertOwner" class="catalog-input" placeholder="Nama Pemilik Sah">
+                <input type="text" id="admCertStrain" class="catalog-input" placeholder="Judul / Strain Ikan">
+                <input type="text" id="admCertGrade" class="catalog-input" placeholder="Grade (cth: Show Grade / Collector)">
+                <input type="text" id="admCertSize" class="catalog-input" placeholder="Usia & Ukuran (cth: M - 4.5 cm)">
+                <input type="text" id="admCertForm" class="catalog-input" placeholder="Karakteristik / Form (cth: HMPK 180°)">
+                <input type="text" id="admCertDate" class="catalog-input" placeholder="Tanggal Akuisisi (kosongkan = hari ini)">
+                <input type="text" id="admCertImg" class="catalog-input" placeholder="Link Foto HD Spesimen">
+              </div>
+              <button type="button" class="search-btn" style="width:100%;" onclick="adminTerbitkanSertifikatBaru()">✦ Terbitkan Sertifikat & Salin Link</button>
+              <div id="admCertListContainer" style="display:flex; flex-direction:column; gap:6px; max-height:260px; overflow-y:auto;"></div>
+            </div>
+          </div>
+
+          <!-- TAB 5: PANTAUAN TOKO & REKAP PEMENANG -->
+          <div class="admin-hub-pane" id="adminPane_analitik">
+            <div class="admin-stat-grid" id="admAnalyticsSummaryGrid"></div>
+
+            <div class="admin-card-block">
+              <div class="admin-card-block-title">🏆 Rekap Pemenang Lelang & Status Klaim WA</div>
+              <div id="admWinnersRecapList" style="display:flex; flex-direction:column; gap:6px; max-height:280px; overflow-y:auto;"></div>
+            </div>
+
+            <div class="admin-card-block">
+              <div class="admin-card-block-title">🔥 Koleksi Paling Diminati (Top Views)</div>
+              <div id="admTopViewsList" style="display:flex; flex-direction:column; gap:6px; max-height:260px; overflow-y:auto;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- FOOTER PUTIH (SESUAI HALAMAN 3 PDF) -->
     <footer class="white-footer">
       <div class="wf-brand-col">
@@ -5442,25 +6303,6 @@ html.modal-open-lock {
   <div id="catalogPage">
     <div class="vip-header">
       <button type="button" class="back-btn" id="catalogBackBtn" onclick="kembaliKeLanding()">← Kembali</button>
-
-      <!-- Kapsul Akses Peserta Lelang di Pojok Kanan Atas Header (Khusus Mode Lelang) -->
-      <div class="header-auth-wrap notranslate" id="headerAuctionAuthWrap">
-        <button type="button" class="header-auth-pill" id="headerAuctionAuthBtn" onclick="klikTombolAuthHeaderLelang(event)">
-          ✦ Login Lelang
-        </button>
-        <div class="header-auth-dropdown" id="headerAuctionAuthMenu" onclick="event.stopPropagation()">
-          <div class="header-auth-info">
-            <strong id="headerAuthUserName">-</strong>
-            <span id="headerAuthUserWa">-</span>
-          </div>
-          <button type="button" class="header-auth-item" onclick="tutupMenuAuthHeader(); bukaModalOtpLelang(true, true);">
-            ↻ Ganti Akun Peserta
-          </button>
-          <button type="button" class="header-auth-item danger" onclick="tutupMenuAuthHeader(); keluarAkunLelang();">
-            ✕ Keluar (Sign Out)
-          </button>
-        </div>
-      </div>
 
       <div class="brand-subtitle" id="catalogHeaderSubtitle">OFFICIAL STORE CUPANG KASEP</div>
       <h1 class="vip-title" id="catalogHeaderTitle">KOLEKSI CK</h1>
@@ -5803,26 +6645,29 @@ html.modal-open-lock {
       <div class="auth-overlay-sliding-panel">
         <div class="auth-overlay-content" id="authOverlayContent">
           <img src="https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png" alt="Logo CK" class="auth-overlay-logo">
-          <h2 class="auth-overlay-big-title" id="authOverlayTitle">WELCOME<br>BACK!</h2>
+          <h2 class="auth-overlay-big-title" id="authOverlayTitle">SELAMAT<br>DATANG!</h2>
           <p class="auth-overlay-desc" id="authOverlayDesc">
-            Sudah terdaftar sebagai peserta lelang? Silakan login menggunakan akun Anda.
+            Sudah terdaftar sebagai peserta lelang? Silakan masuk menggunakan akun Anda.
           </p>
           <button type="button" class="auth-pill-switch-btn" id="authOverlayBtn" onclick="gantiModeAuthLelang('login')">
-            Sign In →
+            Masuk →
           </button>
         </div>
       </div>
 
       <!-- PANEL FORM INPUT MINIMALIS YANG BERGESER KANAN <-> KIRI -->
       <div class="auth-form-sliding-panel" id="authFormSlidingPanel">
-        <h3 class="auth-form-heading" id="authFormHeading">Create Account</h3>
+        <h3 class="auth-form-heading" id="authFormHeading">Daftar Akun</h3>
+        <p class="auth-form-instruction" id="authFormInstruction">
+          Lengkapi nama, email, dan nomor WhatsApp aktif (contoh: 812345678) untuk mendaftar akun peserta lelang baru.
+        </p>
 
         <!-- Input Nama Lengkap (Ikon Vektor Minimalis) -->
         <div class="auth-underline-group" id="authNameFieldGroup">
           <span class="auth-underline-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           </span>
-          <input type="text" id="bidderNameInput" class="auth-underline-input" placeholder="Nama Lengkap / Panggilan" autocomplete="name" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+          <input type="text" id="bidderNameInput" class="auth-underline-input" placeholder="Nama Lengkap / Panggilan" autocomplete="name" oninput="sembunyikanNotifWaAuth()" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
         </div>
 
         <!-- Input Email (Ikon Vektor Minimalis) -->
@@ -5830,7 +6675,7 @@ html.modal-open-lock {
           <span class="auth-underline-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
           </span>
-          <input type="email" id="bidderEmailInput" class="auth-underline-input notranslate" placeholder="example@cupangkasep.com" autocomplete="email" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+          <input type="email" id="bidderEmailInput" class="auth-underline-input notranslate" placeholder="nama@email.com" autocomplete="email" oninput="sembunyikanNotifWaAuth()" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
         </div>
 
         <!-- Input Kode Negara Custom Glass (Pas 4 Baris + Scroll A-Z) + Nomor WhatsApp -->
@@ -5846,15 +6691,18 @@ html.modal-open-lock {
             </button>
             <div class="cc-glass-dropdown-list" id="ccGlassDropdownList"></div>
           </div>
-          <input type="tel" id="bidderWaInput" class="auth-underline-input notranslate" placeholder="Nomor WhatsApp (8123456...)" autocomplete="tel" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
+          <input type="tel" id="bidderWaInput" class="auth-underline-input notranslate" placeholder="Nomor WhatsApp (8123456...)" autocomplete="tel" oninput="sembunyikanNotifWaAuth()" onkeypress="if(event.key === 'Enter') submitFormVerifikasiLelang()">
         </div>
 
+        <!-- Pemberitahuan Inline di Bawah Kolom Pengisian Nomor WA -->
+        <div class="auth-wa-inline-notice" id="authWaInlineNotice"></div>
+
         <button type="button" class="auth-main-submit-pill" id="btnSubmitAuthLelang" onclick="submitFormVerifikasiLelang()">
-          Sign Up
+          Daftar Sekarang
         </button>
 
         <div class="auth-bottom-switch" id="authBottomSwitch">
-          Already a Member? <a onclick="gantiModeAuthLelang('login')">Login</a>
+          Sudah punya akun? <a onclick="gantiModeAuthLelang('login')">Masuk</a>
         </div>
       </div>
     </div>
@@ -5918,6 +6766,8 @@ html.modal-open-lock {
   </div>
 </div>
 
+<!-- Halaman Admin kini terintegrasi penuh di #sectionAdmin -->
+
 <script>
   /* =========================================================
      1. KONFIGURASI UTAMA (TERMASUK TOKEN FONNTE & LELANG)
@@ -5935,7 +6785,11 @@ html.modal-open-lock {
     PLACEHOLDER_IMAGE: "https://6ae9d45287027fb6113bb9e4.imgix.net/sandbox/logo%20ck%20(putih).png",
     START_ON_CATALOG_PAGE: false,
     CATALOG_PASSWORD: "ckvip",
-    ANTI_SNIPE_MINUTES: 5 // Perpanjangan waktu otomatis +5 menit jika ada bid di menit-menit terakhir
+    ANTI_SNIPE_MINUTES: 5, // Perpanjangan waktu otomatis +5 menit jika ada bid di menit-menit terakhir
+    ADMIN_ACCOUNTS: [
+      { email: "officialcupangkasep@gmail.com", wa: "6285195327282" },
+      { email: "officialcupangkasep@gmail.com", wa: "6282121478149" }
+    ]
   };
 
   const GOOGLE_SCRIPT_URL = CONFIG.APPS_SCRIPT_URL;
@@ -6510,12 +7364,20 @@ html.modal-open-lock {
     const langSelect = document.getElementById("langDropdown");
     if (langSelect) langSelect.value = USER_LANG;
 
-    // 2. Update teks Navbar
-    document.getElementById("navHome").innerText = t.navHome;
-    document.getElementById("navGallery").innerText = t.navGallery;
-    const navOngkirEl = document.getElementById("navOngkir");
-    if (navOngkirEl) navOngkirEl.innerText = t.navOngkir || "Cek Ongkir";
-    document.getElementById("navAbout").innerText = t.navAbout;
+    // 2. Update teks Navbar tanpa menghapus ikon SVG
+    const navHomeTxt = document.getElementById("navHomeText");
+    const navGalleryTxt = document.getElementById("navGalleryText");
+    const navAboutTxt = document.getElementById("navAboutText");
+    const navProfileTxt = document.getElementById("navProfileText");
+    const isAdminNow = typeof apakahUserAdmin === "function" && apakahUserAdmin();
+    if (navHomeTxt) navHomeTxt.innerText = t.navHome;
+    if (navGalleryTxt) navGalleryTxt.innerText = t.navGallery;
+    if (navAboutTxt) navAboutTxt.innerText = t.navAbout;
+    if (navProfileTxt) {
+      navProfileTxt.innerText = isAdminNow
+        ? "Admin"
+        : (USER_LANG === "en" ? "Profile" : (USER_LANG === "zh" ? "个人资料" : "Profil"));
+    }
 
     // 3. Update teks Hero Section
     const heroTitle = document.querySelector(".hero-title");
@@ -6613,7 +7475,7 @@ html.modal-open-lock {
   }
 
   /* =========================================================
-     NAVIGASI SPA MENU NAVBAR ATAS (HOME, GALLERY, ABOUT US)
+     NAVIGASI SPA MENU NAVBAR ATAS (HOME, GALLERY, ABOUT US, ADMIN)
      ========================================================= */
   function aturSorotanNavbar(menuAktif) {
     document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
@@ -6622,6 +7484,9 @@ html.modal-open-lock {
       if (el) el.classList.add("active");
     } else if (menuAktif === "about") {
       const el = document.getElementById("navAbout");
+      if (el) el.classList.add("active");
+    } else if (menuAktif === "admin") {
+      const el = document.getElementById("headerAuctionAuthBtn");
       if (el) el.classList.add("active");
     } else {
       const el = document.getElementById("navHome");
@@ -6638,6 +7503,7 @@ html.modal-open-lock {
   function navigasiMenuAtas(target, simpanHistory = true) {
     if (isWheelSpinning) return;
     playClickSound();
+    tutupMenuAuthHeader();
 
     ["verificationPage", "roulettePage", "catalogPage"].forEach(id => {
       document.getElementById(id).style.display = "none";
@@ -6651,6 +7517,12 @@ html.modal-open-lock {
     const secOngkir = document.getElementById("sectionOngkir");
     if (secOngkir) secOngkir.style.display = "none";
     document.getElementById("sectionAbout").style.display = "none";
+    const secAdmin = document.getElementById("sectionAdmin");
+    if (secAdmin) secAdmin.style.display = "none";
+
+    if (target === "admin" && !apakahUserAdmin()) {
+      target = "home";
+    }
 
     if (target === "gallery") {
       aturSorotanNavbar("gallery");
@@ -6662,6 +7534,19 @@ html.modal-open-lock {
     } else if (target === "about") {
       aturSorotanNavbar("about");
       document.getElementById("sectionAbout").style.display = "flex";
+    } else if (target === "admin") {
+      aturSorotanNavbar("admin");
+      if (secAdmin) secAdmin.style.display = "block";
+      const bidder = getVerifiedBidder();
+      const admNameEl = document.getElementById("adminPageUserName");
+      const admInfoEl = document.getElementById("adminPageUserInfo");
+      if (bidder && admNameEl) admNameEl.innerText = bidder.nama || "Admin Cupang Kasep";
+      if (bidder && admInfoEl) admInfoEl.innerText = `${bidder.wa} • ${bidder.email}`;
+      if (!catalogLoadedOnce || masterCatalogItems.length === 0) {
+        muatDataKatalog(false).then(() => segarkanSemuaTampilanAdminHub());
+      } else {
+        segarkanSemuaTampilanAdminHub();
+      }
     } else {
       aturSorotanNavbar("home");
       document.getElementById("sectionHome").style.display = "grid";
@@ -6672,7 +7557,8 @@ html.modal-open-lock {
       home: "Cupang Kasep Official | Collector & Contest Betta Fish Breeder, Live Auction & Global Store",
       gallery: "Galeri Koleksi, Lelang VIP & Sertifikat Keaslian | Cupang Kasep Official",
       ongkir: "Cek Tarif Ongkos Kirim Ikan Cupang (Seluruh Indonesia) | Cupang Kasep Official",
-      about: "Tentang Kami — Breeder & Kurator Ikan Cupang Kontes | Cupang Kasep Official"
+      about: "Tentang Kami — Breeder & Kurator Ikan Cupang Kontes | Cupang Kasep Official",
+      admin: "Command Center Admin | Cupang Kasep Official"
     };
     perbaruiJudulHalamanSEO(petaJudulMenu[target] || petaJudulMenu.home);
 
@@ -8703,43 +9589,198 @@ html.modal-open-lock {
     }
   }
 
+  function renderDaftarLelangProfile() {
+    const container = document.getElementById("profileAuctionStatusContainer");
+    if (!container) return;
+
+    const bidder = getVerifiedBidder();
+    if (!bidder || !bidder.wa) {
+      container.innerHTML = "";
+      return;
+    }
+
+    const semuaLelang = (masterCatalogItems || []).filter(
+      item => String(item.kategori || "").toLowerCase() === "lelang"
+    );
+
+    if (semuaLelang.length === 0 && !catalogLoadedOnce) {
+      container.innerHTML = `
+        <div class="profile-empty-note" style="color:var(--gold-light);">
+          ⏳ Memuat data lelang Anda...
+        </div>
+      `;
+      return;
+    }
+
+    const masihMenang = [];
+    const sudahMenang = [];
+
+    semuaLelang.forEach(item => {
+      if ((Number(item.currentBid) || 0) <= 0) return;
+      if (!apakahUserPemenangSah(item, bidder)) return;
+
+      const sudahSelesai = apakahItemKatalogHabis(item) || apakahWaktuLelangHabis(item.endTime);
+      if (sudahSelesai) {
+        sudahMenang.push(item);
+      } else {
+        masihMenang.push(item);
+      }
+    });
+
+    const htmlMasihMenang = masihMenang.length === 0
+      ? `<div class="profile-empty-note">Belum ada lelang aktif yang sedang Anda pimpin.</div>`
+      : `<div class="profile-auction-list">
+          ${masihMenang.map(it => {
+            const kodeSafe = it.kode.replace(/'/g, "\\'");
+            return `
+              <div class="profile-auction-card leading" onclick="bukaLelangDariProfile('${kodeSafe}')">
+                <div class="profile-auction-meta">
+                  <div class="profile-auction-name">[${it.kode}] ${it.nama}</div>
+                  <div class="profile-auction-price">${formatRupiah(it.currentBid)}</div>
+                </div>
+                <span class="profile-auction-badge leading">✦ Masih Menang</span>
+              </div>
+            `;
+          }).join("")}
+        </div>`;
+
+    const htmlSudahMenang = sudahMenang.length === 0
+      ? `<div class="profile-empty-note">Belum ada lelang yang selesai Anda menangkan.</div>`
+      : `<div class="profile-auction-list">
+          ${sudahMenang.map(it => {
+            const kodeSafe = it.kode.replace(/'/g, "\\'");
+            return `
+              <div class="profile-auction-card won" onclick="bukaLelangDariProfile('${kodeSafe}')">
+                <div class="profile-auction-meta">
+                  <div class="profile-auction-name">[${it.kode}] ${it.nama}</div>
+                  <div class="profile-auction-price">${formatRupiah(it.currentBid)}</div>
+                </div>
+                <span class="profile-auction-badge won">🏆 Menang</span>
+              </div>
+            `;
+          }).join("")}
+        </div>`;
+
+    container.innerHTML = `
+      <div class="profile-auction-section">
+        <div class="profile-auction-sec-title">
+          <span>Posisi Masih Menang</span>
+          <span>${masihMenang.length} Ikan</span>
+        </div>
+        ${htmlMasihMenang}
+      </div>
+      <div class="profile-auction-section">
+        <div class="profile-auction-sec-title" style="color:#6ee7b7;">
+          <span>Sudah Dimenangkan</span>
+          <span>${sudahMenang.length} Ikan</span>
+        </div>
+        ${htmlSudahMenang}
+      </div>
+    `;
+  }
+
+  function bukaLelangDariProfile(kodeProduk) {
+    tutupMenuAuthHeader();
+    isCatalogUnlocked = true;
+    tampilkanIsiKatalog(true);
+    setTimeout(() => {
+      bukaDetailProduk(kodeProduk);
+    }, 40);
+  }
+
+  function apakahKredensialAdmin(email, wa) {
+    const emailClean = String(email || "").trim().toLowerCase();
+    const waClean = normalisasiNomorWA(wa || "");
+    const listAdmin = CONFIG.ADMIN_ACCOUNTS || [];
+    return listAdmin.some(acc =>
+      acc.email.toLowerCase() === emailClean &&
+      normalisasiNomorWA(acc.wa) === waClean
+    );
+  }
+
+  function apakahUserAdmin(bidder = null) {
+    const b = bidder || getVerifiedBidder();
+    if (!b || !b.wa || !b.email) return false;
+    return Boolean(b.isAdmin) || apakahKredensialAdmin(b.email, b.wa);
+  }
+
   function perbaruiTombolAuthHeaderLelang() {
     const wrapEl = document.getElementById("headerAuctionAuthWrap");
     const btnEl = document.getElementById("headerAuctionAuthBtn");
     const nameEl = document.getElementById("headerAuthUserName");
     const waEl = document.getElementById("headerAuthUserWa");
+    const profileTxtEl = document.getElementById("navProfileText");
     if (!wrapEl || !btnEl) return;
 
-    const isLelangMode = currentCategoryFilter === "Lelang";
-    wrapEl.style.display = isLelangMode ? "block" : "none";
-    if (!isLelangMode) {
-      tutupMenuAuthHeader();
-      return;
-    }
+    wrapEl.style.display = "inline-flex";
 
     const bidder = getVerifiedBidder();
+    const isAdmin = apakahUserAdmin(bidder);
+
+    const labelProfilDefault = USER_LANG === "en" ? "Profile" : (USER_LANG === "zh" ? "个人资料" : "Profil");
     if (bidder && bidder.wa) {
-      btnEl.classList.add("logged-in");
-      btnEl.innerHTML = `✦ ${bidder.nama} <span style="font-size:8.5px; opacity:0.8;">▼</span>`;
-      if (nameEl) nameEl.innerText = bidder.nama;
-      if (waEl) waEl.innerText = sensorNomorWA(bidder.wa);
+      btnEl.classList.add("profile-logged-in");
+      if (profileTxtEl) {
+        profileTxtEl.innerText = isAdmin ? "Admin" : labelProfilDefault;
+      }
+      if (nameEl) {
+        nameEl.innerHTML = isAdmin
+          ? `<span class="admin-crown-pill">👑 Admin Resmi</span><br>${bidder.nama}`
+          : bidder.nama;
+      }
+      if (waEl) {
+        waEl.innerText = isAdmin
+          ? `${bidder.wa} • ${bidder.email}`
+          : `${sensorNomorWA(bidder.wa)}${bidder.email ? ' • ' + bidder.email : ''}`;
+      }
+      renderDaftarLelangProfile();
+
+      // Tambahkan tombol Halaman Admin di atas daftar lelang dalam dropdown Profil jika Admin
+      const container = document.getElementById("profileAuctionStatusContainer");
+      if (container && isAdmin && !document.getElementById("btnOpenAdminHubProfile")) {
+        const adminBtnWrap = document.createElement("div");
+        adminBtnWrap.innerHTML = `
+          <button type="button" class="btn-open-admin-hub" id="btnOpenAdminHubProfile" onclick="bukaModalAdminHub()">
+            👑 Buka Halaman Admin (5 Fitur)
+          </button>
+        `;
+        container.prepend(adminBtnWrap.firstElementChild);
+      }
     } else {
-      btnEl.classList.remove("logged-in");
-      btnEl.innerHTML = `✦ Login Lelang`;
+      btnEl.classList.remove("profile-logged-in");
+      if (profileTxtEl) profileTxtEl.innerText = labelProfilDefault;
       tutupMenuAuthHeader();
     }
   }
+  window.addEventListener("DOMContentLoaded", perbaruiTombolAuthHeaderLelang);
 
-  function klikTombolAuthHeaderLelang(ev) {
+  async function klikTombolAuthHeaderLelang(ev) {
     if (ev) ev.stopPropagation();
-    playClickSound();
     const bidder = getVerifiedBidder();
     if (!bidder || !bidder.wa) {
       bukaModalOtpLelang(true);
       return;
     }
+
+    // Jika akun adalah Admin Resmi -> langsung buka Halaman Admin tersendiri
+    if (apakahUserAdmin(bidder)) {
+      tutupMenuAuthHeader();
+      navigasiMenuAtas("admin");
+      return;
+    }
+
+    // Jika peserta lelang biasa -> buka dropdown Profile (Masih Menang / Sudah Menang)
     const menuEl = document.getElementById("headerAuctionAuthMenu");
-    if (menuEl) menuEl.classList.toggle("open");
+    if (!menuEl) return;
+
+    const akanDibuka = !menuEl.classList.contains("open");
+    menuEl.classList.toggle("open", akanDibuka);
+
+    if (akanDibuka) {
+      renderDaftarLelangProfile();
+      await segarkanDataKatalogSenyap();
+      renderDaftarLelangProfile();
+    }
   }
 
   function tutupMenuAuthHeader() {
@@ -8873,6 +9914,8 @@ html.modal-open-lock {
       navigasiMenuAtas("ongkir", false);
     } else if (hash === "#about") {
       navigasiMenuAtas("about", false);
+    } else if (hash === "#admin" && apakahUserAdmin()) {
+      navigasiMenuAtas("admin", false);
     } else {
       navigasiMenuAtas("home", false);
     }
@@ -9471,6 +10514,8 @@ html.modal-open-lock {
       navigasiMenuAtas("ongkir", false);
     } else if (hash === "#about") {
       navigasiMenuAtas("about", false);
+    } else if (hash === "#admin" && apakahUserAdmin()) {
+      navigasiMenuAtas("admin", false);
     } else {
       navigasiMenuAtas("home", false);
     }
@@ -9482,6 +10527,18 @@ html.modal-open-lock {
       cekDirectLinkUrl();
     }
   });
+
+  // Kunci bahasa awal ke Bahasa Indonesia (hapus cookie auto-translate jika ada)
+  (function kunciBahasaAwalIndonesia() {
+    try {
+      document.cookie = "googtrans=/id/id; path=/";
+      document.cookie = "googtrans=/id/id; domain=" + window.location.hostname + "; path=/";
+    } catch (e) {}
+    USER_LANG = "id";
+    IS_INDONESIA = true;
+    const langSelect = document.getElementById("langDropdown");
+    if (langSelect) langSelect.value = "id";
+  })();
 
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
@@ -9754,16 +10811,736 @@ html.modal-open-lock {
     return false;
   }
 
-  // Fungsi Sign Out / Ganti Akun Peserta Lelang
-  function keluarAkunLelang() {
-    playClickSound();
-    if (!confirm("Keluar (Sign Out) dari nomor WhatsApp saat ini?")) return;
+  // Fungsi Sign Out Instan & Otomatis Kembali ke Beranda jika keluar dari Halaman Admin
+  function keluarAkunLelang(ev) {
+    if (ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+    tutupMenuAuthHeader();
     localStorage.removeItem(STORAGE_KEY_BIDDER);
     perbaruiTombolAuthHeaderLelang();
-    tampilkanToast("✦ Berhasil keluar dari akun lelang");
+    tampilkanToast("✦ Berhasil keluar dari akun (Sign Out)");
+
+    const secAdmin = document.getElementById("sectionAdmin");
+    if (secAdmin && secAdmin.style.display === "block") {
+      navigasiMenuAtas("home");
+      return;
+    }
     if (currentOpenDetailCode) {
       bukaDetailProduk(currentOpenDetailCode, false);
     }
+  }
+
+  // Memastikan tombol X / Tutup merespons instan pada sentuhan pertama di HP tanpa terhalang keyboard
+  window.addEventListener("DOMContentLoaded", function() {
+    const pasangTapInstan = (selector, fn) => {
+      document.querySelectorAll(selector).forEach(btn => {
+        btn.addEventListener("touchend", function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (document.activeElement && typeof document.activeElement.blur === "function") {
+            document.activeElement.blur();
+          }
+          fn(e);
+        }, { passive: false });
+      });
+    };
+
+    pasangTapInstan(".auth-close-floating", () => tutupModalOtpLelang());
+    pasangTapInstan("#cartModal .close-admin-btn", () => tutupModalKeranjang());
+    pasangTapInstan(".profile-close-mini", () => tutupMenuAuthHeader());
+    pasangTapInstan("#btnProfileSignOut", (e) => keluarAkunLelang(e));
+    pasangTapInstan(".lightbox-close", () => tutupZoom());
+  });
+
+  /* =========================================================
+     LOGIKA COMMAND CENTER ADMIN (HALAMAN PENUH 5 MODUL)
+     ========================================================= */
+  const STORAGE_KEY_ADMIN_BNR = "ck_admin_blocked_wa_v1";
+  const STORAGE_KEY_ADMIN_CLAIMS = "ck_admin_winner_claims_v1";
+  const STORAGE_KEY_ADMIN_CERTS = "ck_admin_custom_certs_v1";
+  const STORAGE_KEY_ADMIN_VOUCHERS = "ck_admin_custom_vouchers_v1";
+
+  function muatDataLokalAdminSaatStart() {
+    try {
+      const customCerts = JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_CERTS)) || {};
+      Object.assign(databaseSertifikat, customCerts);
+    } catch (e) {}
+    try {
+      const customVouchers = JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_VOUCHERS)) || [];
+      customVouchers.forEach(v => {
+        if (!daftarVoucherValid.includes(v)) daftarVoucherValid.push(v);
+      });
+    } catch (e) {}
+  }
+  muatDataLokalAdminSaatStart();
+
+  async function bukaModalAdminHub() {
+    if (!apakahUserAdmin()) {
+      tampilkanToast("⚠️ Akses khusus Admin Resmi");
+      return;
+    }
+    navigasiMenuAtas("admin");
+  }
+
+  function tutupModalAdminHub() {
+    document.body.classList.remove("modal-open-lock");
+    document.documentElement.classList.remove("modal-open-lock");
+  }
+
+  function gantiTabAdminHub(namaTab, btnEl) {
+    document.querySelectorAll(".admin-hub-tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".admin-hub-pane").forEach(p => p.classList.remove("active"));
+    if (btnEl) btnEl.classList.add("active");
+    const pane = document.getElementById("adminPane_" + namaTab);
+    if (pane) pane.classList.add("active");
+    segarkanSemuaTampilanAdminHub();
+  }
+
+  async function muatUlangDataAdminHub() {
+    tampilkanToast("⏳ Menyinkronkan data terbaru...");
+    await segarkanDataKatalogSenyap();
+    segarkanSemuaTampilanAdminHub();
+    tampilkanToast("✦ Data Admin diperbarui");
+  }
+
+  function segarkanSemuaTampilanAdminHub() {
+    renderDropdownPilihLelangAdmin();
+    renderDaftarBlokirBNRAdmin();
+    renderDaftarKatalogAdminHub();
+    renderDaftarVoucherAdminHub();
+    renderDaftarSertifikatAdminHub();
+    renderAnalitikDanPemenangAdminHub();
+  }
+
+  // --- MODUL 1: KENDALI LELANG VIP & BNR ---
+  function renderDropdownPilihLelangAdmin() {
+    const sel = document.getElementById("adminAuctionSelect");
+    if (!sel) return;
+    const nilaiLama = sel.value;
+    const listLelang = masterCatalogItems.filter(i => i.kategori.toLowerCase() === "lelang");
+
+    if (listLelang.length === 0) {
+      sel.innerHTML = `<option value="">Belum ada koleksi lelang</option>`;
+      document.getElementById("adminAuctionControlBox").innerHTML = `<div class="profile-empty-note">Tidak ada item lelang aktif.</div>`;
+      return;
+    }
+
+    sel.innerHTML = listLelang.map(it =>
+      `<option value="${it.kode}">[${it.kode}] ${it.nama} — Bid: ${formatRupiah(it.currentBid || it.ob)}</option>`
+    ).join("");
+
+    if (listLelang.some(i => i.kode === nilaiLama)) sel.value = nilaiLama;
+    renderDetailLelangAdminHub();
+  }
+
+  function renderDetailLelangAdminHub() {
+    const sel = document.getElementById("adminAuctionSelect");
+    const box = document.getElementById("adminAuctionControlBox");
+    if (!sel || !box) return;
+
+    const item = masterCatalogItems.find(i => i.kode === sel.value);
+    if (!item) {
+      box.innerHTML = "";
+      return;
+    }
+
+    let riwayat = [];
+    try { riwayat = JSON.parse(item.bidHistoryRaw || "[]"); } catch (e) {}
+
+    const daftarBidHtml = riwayat.length === 0
+      ? `<div class="profile-empty-note">Belum ada penawar pada ikan ini.</div>`
+      : riwayat.slice().reverse().map((r, idx) => {
+          const realIdx = riwayat.length - 1 - idx;
+          const waUtuh = normalisasiNomorWA(r.wa || "");
+          return `
+            <div class="admin-row-item">
+              <div>
+                <strong>${idx === 0 ? '👑 ' : ''}${r.nama}</strong>
+                <span style="color:var(--gold-light); font-weight:800; margin-left:6px;">${formatRupiah(r.nominal)}</span><br>
+                <small style="color:var(--text-muted);">WA: <b style="color:#fff;">${waUtuh || r.waMasked || '-'}</b> • ${r.waktu || ''}</small>
+              </div>
+              <div style="display:flex; gap:5px;">
+                ${waUtuh ? `<a href="https://wa.me/${waUtuh}" target="_blank" rel="noopener noreferrer" class="admin-mini-btn green">💬 Chat WA</a>` : ''}
+                <button type="button" class="admin-mini-btn red" onclick="adminRollbackBidTertentu('${item.kode}', ${realIdx})">🗑️ Batalkan Bid</button>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+    const sudahTutup = apakahItemKatalogHabis(item) || apakahWaktuLelangHabis(item.endTime);
+
+    box.innerHTML = `
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button type="button" class="admin-mini-btn ${sudahTutup ? 'green' : 'red'}" onclick="adminToggleTutupLelang('${item.kode}')">
+          ${sudahTutup ? '🔓 Buka Kembali Lelang' : '🔒 Hentikan / Tutup Lelang Sekarang'}
+        </button>
+        <button type="button" class="admin-mini-btn" onclick="tutupModalAdminHub(); bukaLelangDariProfile('${item.kode}');">
+          👁️ Lihat Halaman Lelang
+        </button>
+      </div>
+      <div class="admin-form-grid" style="margin-top:4px;">
+        <input type="text" id="admEditStart_${item.kode}" class="catalog-input" value="${item.startTime || ''}" placeholder="Waktu Mulai (YYYY-MM-DD HH:mm)">
+        <input type="text" id="admEditEnd_${item.kode}" class="catalog-input" value="${item.endTime || ''}" placeholder="Waktu Tutup (YYYY-MM-DD HH:mm)">
+      </div>
+      <button type="button" class="admin-mini-btn" style="justify-content:center; padding:8px;" onclick="adminSimpanJadwalLelang('${item.kode}')">
+        ⏱️ Perbarui Jadwal Waktu Mulai & Tutup Lelang
+      </button>
+      <div style="font-size:11px; font-weight:700; color:var(--gold-light); margin-top:4px;">Daftar Penawar (Nomor WA Utuh):</div>
+      <div style="display:flex; flex-direction:column; gap:6px; max-height:165px; overflow-y:auto;">
+        ${daftarBidHtml}
+      </div>
+    `;
+  }
+
+  async function adminRollbackBidTertentu(kodeProduk, indexBid) {
+    const item = masterCatalogItems.find(i => i.kode.toUpperCase() === String(kodeProduk).toUpperCase());
+    if (!item) return;
+
+    let riwayat = [];
+    try { riwayat = JSON.parse(item.bidHistoryRaw || "[]"); } catch (e) {}
+    if (indexBid < 0 || indexBid >= riwayat.length) return;
+
+    const targetHapus = riwayat[indexBid];
+    riwayat.splice(indexBid, 1);
+
+    if (riwayat.length > 0) {
+      const topBaru = riwayat[riwayat.length - 1];
+      item.currentBid = Number(topBaru.nominal) || 0;
+      item.highestBidder = `${topBaru.nama} (${topBaru.waMasked || sensorNomorWA(topBaru.wa)})`;
+    } else {
+      item.currentBid = 0;
+      item.highestBidder = "-";
+    }
+    item.bidHistoryRaw = JSON.stringify(riwayat);
+
+    renderDetailLelangAdminHub();
+    if (currentOpenDetailCode && currentOpenDetailCode.toUpperCase() === item.kode.toUpperCase()) {
+      bukaDetailProduk(item.kode, false);
+    }
+
+    tampilkanToast(`🗑️ Bid ${targetHapus.nama} (${formatRupiah(targetHapus.nominal)}) dibatalkan`);
+
+    await kirimKeGoogleSheets({
+      action: "admin_rollback_bid",
+      sheet: CONFIG.AUCTION_SHEET_NAME,
+      kode: item.kode,
+      currentBid: item.currentBid,
+      highestBidder: item.highestBidder,
+      bidHistoryRaw: item.bidHistoryRaw
+    });
+  }
+
+  async function adminToggleTutupLelang(kodeProduk) {
+    const item = masterCatalogItems.find(i => i.kode === kodeProduk);
+    if (!item) return;
+
+    const sedangTutup = apakahItemKatalogHabis(item) || apakahWaktuLelangHabis(item.endTime);
+    if (sedangTutup) {
+      item.stok = 1;
+      item.status = "Tersedia";
+      const besok = new Date(Date.now() + 24 * 60 * 60 * 1000 + 7 * 60 * 60 * 1000);
+      item.endTime = besok.toISOString().slice(0, 16).replace("T", " ");
+      tampilkanToast(`🔓 Lelang [${item.kode}] dibuka kembali`);
+    } else {
+      item.stok = 0;
+      item.status = "Terjual";
+      tampilkanToast(`🔒 Lelang [${item.kode}] resmi ditutup`);
+    }
+
+    renderDetailLelangAdminHub();
+    terapkanFilterKatalog();
+
+    await kirimKeGoogleSheets({
+      action: "admin_update_stock",
+      sheet: CONFIG.AUCTION_SHEET_NAME,
+      kode: item.kode,
+      stok: item.stok,
+      status: item.status,
+      endTime: item.endTime
+    });
+  }
+
+  async function adminSimpanJadwalLelang(kodeProduk) {
+    const item = masterCatalogItems.find(i => i.kode === kodeProduk);
+    if (!item) return;
+
+    const startVal = document.getElementById("admEditStart_" + kodeProduk).value.trim();
+    const endVal = document.getElementById("admEditEnd_" + kodeProduk).value.trim();
+    item.startTime = startVal;
+    item.endTime = endVal;
+
+    renderDetailLelangAdminHub();
+    terapkanFilterKatalog();
+    tampilkanToast(`⏱️ Jadwal lelang [${item.kode}] diperbarui`);
+
+    await kirimKeGoogleSheets({
+      action: "admin_update_schedule",
+      sheet: CONFIG.AUCTION_SHEET_NAME,
+      kode: item.kode,
+      startTime: startVal,
+      endTime: endVal
+    });
+  }
+
+  function getBlockedBNRList() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_BNR)) || []; } catch (e) { return []; }
+  }
+
+  async function adminTambahBlokirBNR() {
+    const inp = document.getElementById("adminBlockWaInput");
+    const waClean = normalisasiNomorWA(inp ? inp.value : "");
+    if (!waClean || waClean.length < 8) {
+      tampilkanToast("⚠️ Masukkan nomor WA yang valid");
+      return;
+    }
+    const list = getBlockedBNRList();
+    if (!list.includes(waClean)) {
+      list.push(waClean);
+      localStorage.setItem(STORAGE_KEY_ADMIN_BNR, JSON.stringify(list));
+    }
+    if (inp) inp.value = "";
+    renderDaftarBlokirBNRAdmin();
+    tampilkanToast(`🚫 Nomor ${waClean} masuk daftar blokir BNR`);
+
+    await kirimKeGoogleSheets({
+      action: "admin_block_wa",
+      wa: waClean
+    });
+  }
+
+  async function adminBukaBlokirBNR(waTarget) {
+    const list = getBlockedBNRList().filter(w => w !== waTarget);
+    localStorage.setItem(STORAGE_KEY_ADMIN_BNR, JSON.stringify(list));
+    renderDaftarBlokirBNRAdmin();
+    tampilkanToast(`🔓 Blokir nomor ${waTarget} dibuka`);
+
+    await kirimKeGoogleSheets({
+      action: "admin_unblock_wa",
+      wa: waTarget
+    });
+  }
+
+  function renderDaftarBlokirBNRAdmin() {
+    const box = document.getElementById("adminBlockedListContainer");
+    if (!box) return;
+    const list = getBlockedBNRList();
+    if (list.length === 0) {
+      box.innerHTML = `<div class="profile-empty-note">Belum ada nomor WhatsApp dalam daftar blokir BNR.</div>`;
+      return;
+    }
+    box.innerHTML = list.map(wa => `
+      <div class="admin-row-item">
+        <span>🚫 <strong>${wa}</strong> (Diblokir BNR)</span>
+        <button type="button" class="admin-mini-btn green" onclick="adminBukaBlokirBNR('${wa}')">Buka Blokir</button>
+      </div>
+    `).join("");
+  }
+
+  // --- MODUL 2: MANAJEMEN KOLEKSI CK (KATALOG & STOK) ---
+  function renderDaftarKatalogAdminHub() {
+    const box = document.getElementById("adminCatalogQuickList");
+    const qInput = document.getElementById("adminCatalogFilterInput");
+    if (!box) return;
+    const q = (qInput ? qInput.value : "").trim().toLowerCase();
+
+    const hasil = masterCatalogItems.filter(it =>
+      !q || it.kode.toLowerCase().includes(q) || it.nama.toLowerCase().includes(q) || it.kategori.toLowerCase().includes(q)
+    );
+
+    if (hasil.length === 0) {
+      box.innerHTML = `<div class="profile-empty-note">Koleksi tidak ditemukan.</div>`;
+      return;
+    }
+
+    box.innerHTML = hasil.map(it => {
+      const isHabis = apakahItemKatalogHabis(it);
+      const kodeSafe = it.kode.replace(/'/g, "\\'");
+      return `
+        <div class="admin-row-item">
+          <div style="flex:1; min-width:150px;">
+            <strong>[${it.kode}] ${it.nama}</strong><br>
+            <small style="color:var(--text-muted);">${it.kategori} • ${formatRupiah(it.harga)} • Stok: <b>${it.stok}</b></small>
+          </div>
+          <div style="display:flex; gap:5px; align-items:center;">
+            <button type="button" class="admin-mini-btn" onclick="adminUbahStokCepat('${kodeSafe}', -1)">−</button>
+            <button type="button" class="admin-mini-btn" onclick="adminUbahStokCepat('${kodeSafe}', 1)">+</button>
+            <button type="button" class="admin-mini-btn ${isHabis ? 'red' : 'green'}" onclick="adminToggleStatusKoleksi('${kodeSafe}')">
+              ${isHabis ? 'Terjual / Habis' : '✔ Tersedia'}
+            </button>
+            <button type="button" class="admin-mini-btn" onclick="adminIsiFormEditKoleksi('${kodeSafe}')" title="Edit">✏️</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  async function adminUbahStokCepat(kodeProduk, delta) {
+    const item = masterCatalogItems.find(i => i.kode === kodeProduk);
+    if (!item) return;
+    item.stok = Math.max(0, (Number(item.stok) || 0) + delta);
+    item.status = item.stok > 0 ? "Tersedia" : "Habis";
+    renderDaftarKatalogAdminHub();
+    terapkanFilterKatalog();
+
+    await kirimKeGoogleSheets({
+      action: "admin_update_stock",
+      sheet: item.kategori.toLowerCase() === "lelang" ? CONFIG.AUCTION_SHEET_NAME : CONFIG.CATALOG_SHEET_NAME,
+      kode: item.kode,
+      stok: item.stok,
+      status: item.status
+    });
+  }
+
+  async function adminToggleStatusKoleksi(kodeProduk) {
+    const item = masterCatalogItems.find(i => i.kode === kodeProduk);
+    if (!item) return;
+    const isHabis = apakahItemKatalogHabis(item);
+    if (isHabis) {
+      item.stok = Math.max(1, Number(item.stok) || 1);
+      item.status = "Tersedia";
+    } else {
+      item.stok = 0;
+      item.status = "Terjual";
+    }
+    renderDaftarKatalogAdminHub();
+    terapkanFilterKatalog();
+    tampilkanToast(`✦ Status [${item.kode}] diubah ke ${item.status}`);
+
+    await kirimKeGoogleSheets({
+      action: "admin_update_stock",
+      sheet: item.kategori.toLowerCase() === "lelang" ? CONFIG.AUCTION_SHEET_NAME : CONFIG.CATALOG_SHEET_NAME,
+      kode: item.kode,
+      stok: item.stok,
+      status: item.status
+    });
+  }
+
+  function adminIsiFormEditKoleksi(kodeProduk) {
+    const item = masterCatalogItems.find(i => i.kode === kodeProduk);
+    if (!item) return;
+    document.getElementById("admItemKode").value = item.kode;
+    document.getElementById("admItemNama").value = item.nama;
+    document.getElementById("admItemKategori").value = item.kategori;
+    document.getElementById("admItemJenis").value = item.jenis;
+    document.getElementById("admItemHarga").value = item.harga || item.ob;
+    document.getElementById("admItemStok").value = item.stok;
+    document.getElementById("admItemSize").value = item.size || "";
+    document.getElementById("admItemSex").value = item.sex || "";
+    document.getElementById("admItemFoto").value = item.foto || "";
+    document.getElementById("admItemDesc").value = item.deskripsi || "";
+    tampilkanToast(`✏️ Data [${item.kode}] dimuat ke form bawah`);
+  }
+
+  async function adminSimpanKoleksiBaru() {
+    const kode = document.getElementById("admItemKode").value.trim().toUpperCase();
+    const nama = document.getElementById("admItemNama").value.trim();
+    const kategori = document.getElementById("admItemKategori").value;
+    const jenis = document.getElementById("admItemJenis").value.trim() || "Koleksi VIP";
+    const harga = Number(document.getElementById("admItemHarga").value) || 0;
+    const stok = Number(document.getElementById("admItemStok").value);
+    const size = document.getElementById("admItemSize").value.trim();
+    const sex = document.getElementById("admItemSex").value.trim();
+    const foto = document.getElementById("admItemFoto").value.trim() || CONFIG.PLACEHOLDER_IMAGE;
+    const deskripsi = document.getElementById("admItemDesc").value.trim() || "Koleksi resmi berkualitas dari Cupang Kasep.";
+
+    if (!kode || !nama) {
+      tampilkanToast("⚠️ Kode dan Nama wajib diisi");
+      return;
+    }
+
+    const objBaru = {
+      kode,
+      nama,
+      kategori,
+      jenis,
+      harga,
+      foto,
+      deskripsi,
+      stok: isNaN(stok) ? 1 : stok,
+      status: (isNaN(stok) ? 1 : stok) > 0 ? "Tersedia" : "Habis",
+      spesies: "Betta Splendens",
+      tailType: "HMPK",
+      sex,
+      size,
+      origin: "Indonesia",
+      shipping: "Garansi Hidup Sampai Tujuan (DOA)",
+      views: 1,
+      ob: harga,
+      kb: 20000,
+      bin: 0,
+      postDate: dapatkanTanggalSekarang(),
+      startTime: "",
+      endTime: "",
+      currentBid: 0,
+      highestBidder: "-",
+      bidHistoryRaw: "[]"
+    };
+
+    const idx = masterCatalogItems.findIndex(i => i.kode === kode);
+    if (idx !== -1) {
+      masterCatalogItems[idx] = { ...masterCatalogItems[idx], ...objBaru };
+    } else {
+      masterCatalogItems.unshift(objBaru);
+    }
+
+    perbaruiDropdownJenis();
+    terapkanFilterKatalog();
+    segarkanSemuaTampilanAdminHub();
+    tampilkanToast(`💾 Koleksi [${kode}] berhasil disimpan!`);
+
+    await kirimKeGoogleSheets({
+      action: "admin_save_item",
+      sheet: kategori.toLowerCase() === "lelang" ? CONFIG.AUCTION_SHEET_NAME : CONFIG.CATALOG_SHEET_NAME,
+      item: objBaru
+    });
+  }
+
+  // --- MODUL 3: GENERATOR VOUCHER & VERIFIKASI UNDIAN ---
+  function adminAcakKodeVoucher() {
+    const karakter = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let buntut = "";
+    for (let i = 0; i < 4; i++) {
+      buntut += karakter.charAt(Math.floor(Math.random() * karakter.length));
+    }
+    const inp = document.getElementById("admNewVoucherInput");
+    if (inp) inp.value = `CK-VIP-${buntut}`;
+  }
+
+  async function adminBuatVoucherBaru() {
+    const inp = document.getElementById("admNewVoucherInput");
+    const kode = (inp ? inp.value : "").trim().toUpperCase();
+    if (!kode) {
+      adminAcakKodeVoucher();
+      return;
+    }
+
+    if (!daftarVoucherValid.includes(kode)) {
+      daftarVoucherValid.push(kode);
+    }
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_VOUCHERS)) || [];
+      if (!saved.includes(kode)) {
+        saved.unshift(kode);
+        localStorage.setItem(STORAGE_KEY_ADMIN_VOUCHERS, JSON.stringify(saved));
+      }
+    } catch (e) {}
+
+    const store = getVoucherStore();
+    store[kode] = {
+      remaining: 3,
+      used: false,
+      usedDate: dapatkanTanggalSekarang(),
+      history: []
+    };
+    saveVoucherStore(store);
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(kode).catch(() => {});
+    }
+    if (inp) inp.value = "";
+    renderDaftarVoucherAdminHub();
+    tampilkanToast(`🎟️ Voucher ${kode} aktif & disalin!`);
+
+    await kirimKeGoogleSheets({
+      action: "admin_create_voucher",
+      kode: kode,
+      remaining: 3,
+      tanggal: dapatkanTanggalSekarang()
+    });
+  }
+
+  function renderDaftarVoucherAdminHub() {
+    const box = document.getElementById("admVoucherCreatedList");
+    if (!box) return;
+    const store = getVoucherStore();
+    let customList = [];
+    try { customList = JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_VOUCHERS)) || []; } catch (e) {}
+    const gabungan = Array.from(new Set([...customList, ...daftarVoucherValid])).slice(0, 8);
+
+    box.innerHTML = gabungan.map(kode => {
+      const info = store[kode];
+      const sisa = info ? info.remaining : 3;
+      return `
+        <div class="admin-row-item">
+          <span>🎟️ <strong>${kode}</strong> — Sisa: <b>${sisa}/3 Spin</b></span>
+          <button type="button" class="admin-mini-btn" onclick="navigator.clipboard.writeText('${kode}'); tampilkanToast('📋 Kode ${kode} disalin!');">Salin Kode</button>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function adminVerifikasiTokenDariHub() {
+    const val = document.getElementById("admHubClaimToken").value.trim();
+    document.getElementById("adminClaimTokenInput").value = val;
+    verifikasiTokenKlaim();
+    document.getElementById("admHubVoucherResult").innerHTML = document.getElementById("adminSecretResultBox").innerHTML;
+  }
+
+  async function adminCekRiwayatVoucherDariHub() {
+    const val = document.getElementById("admHubVoucherCheck").value.trim();
+    document.getElementById("adminVoucherCheckInput").value = val;
+    await cekRiwayatVoucherLokal();
+    document.getElementById("admHubVoucherResult").innerHTML = document.getElementById("adminSecretResultBox").innerHTML;
+  }
+
+  function adminAktifkanSpinUnlimited() {
+    tutupModalAdminHub();
+    bukaHalamanUndian();
+    activeVoucherCode = "CK-ADMIN-VIP";
+    perbaruiTampilanVoucher();
+    tampilkanToast("👑 Mode Testing Unlimited Spin Aktif!");
+  }
+
+  // --- MODUL 4: PENERBITAN SERTIFIKAT KEASLIAN VIP ---
+  async function adminTerbitkanSertifikatBaru() {
+    const id = document.getElementById("admCertId").value.trim().toUpperCase();
+    const owner = document.getElementById("admCertOwner").value.trim();
+    const strain = document.getElementById("admCertStrain").value.trim();
+    const grade = document.getElementById("admCertGrade").value.trim() || "Premium Collector";
+    const size = document.getElementById("admCertSize").value.trim() || "Medium (M)";
+    const form = document.getElementById("admCertForm").value.trim() || "HMPK - 180° Symmetrical";
+    const date = document.getElementById("admCertDate").value.trim() || dapatkanTanggalSekarang();
+    const img = document.getElementById("admCertImg").value.trim() || CONFIG.PLACEHOLDER_IMAGE;
+
+    if (!id || !owner || !strain) {
+      tampilkanToast("⚠️ Nomor Sertifikat, Pemilik, dan Strain wajib diisi");
+      return;
+    }
+
+    const hash = `${id}-AUTHENTIC-VIP-${hitungHashRahasia(id + "|" + owner)}`;
+    const certData = {
+      owner,
+      strain,
+      grade,
+      size,
+      form,
+      date,
+      breeder: "CUPANG KASEP",
+      hash,
+      img
+    };
+
+    databaseSertifikat[id] = certData;
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_CERTS)) || {};
+      saved[id] = certData;
+      localStorage.setItem(STORAGE_KEY_ADMIN_CERTS, JSON.stringify(saved));
+    } catch (e) {}
+
+    const baseUrl = window.location.href.split("#")[0].split("?")[0];
+    const shareUrl = `${baseUrl}?cert=${encodeURIComponent(id)}#verifikasi`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareUrl).catch(() => {});
+    }
+
+    renderDaftarSertifikatAdminHub();
+    tampilkanToast(`📜 Sertifikat [${id}] aktif & link disalin!`);
+
+    await kirimKeGoogleSheets({
+      action: "admin_create_cert",
+      id: id,
+      cert: certData
+    });
+  }
+
+  function renderDaftarSertifikatAdminHub() {
+    const box = document.getElementById("admCertListContainer");
+    if (!box) return;
+    const entries = Object.entries(databaseSertifikat);
+    box.innerHTML = entries.map(([id, data]) => `
+      <div class="admin-row-item">
+        <div>
+          <strong>${id}</strong> — ${data.owner}<br>
+          <small style="color:var(--text-muted);">${data.strain} (${data.date})</small>
+        </div>
+        <button type="button" class="admin-mini-btn" onclick="tutupModalAdminHub(); bukaHalamanVerifikasi(); document.getElementById('certInput').value='${id}'; cariSertifikat();">
+          Lihat Sertifikat
+        </button>
+      </div>
+    `).join("");
+  }
+
+  // --- MODUL 5: PANTAUAN TOKO (MINI ANALYTICS) & REKAP PEMENANG ---
+  function getWinnerClaimsStatus() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_CLAIMS)) || {}; } catch (e) { return {}; }
+  }
+
+  function toggleStatusKlaimPemenang(kodeLelang) {
+    const map = getWinnerClaimsStatus();
+    map[kodeLelang] = !map[kodeLelang];
+    localStorage.setItem(STORAGE_KEY_ADMIN_CLAIMS, JSON.stringify(map));
+    renderAnalitikDanPemenangAdminHub();
+  }
+
+  function renderAnalitikDanPemenangAdminHub() {
+    const statGrid = document.getElementById("admAnalyticsSummaryGrid");
+    const winnersBox = document.getElementById("admWinnersRecapList");
+    const topViewsBox = document.getElementById("admTopViewsList");
+    if (!statGrid || !winnersBox || !topViewsBox) return;
+
+    const totalKoleksi = masterCatalogItems.filter(i => i.kategori.toLowerCase() !== "lelang" && !apakahItemKatalogHabis(i)).length;
+    const semuaLelang = masterCatalogItems.filter(i => i.kategori.toLowerCase() === "lelang");
+    const lelangAktif = semuaLelang.filter(i => !apakahItemKatalogHabis(i) && !apakahWaktuLelangHabis(i.endTime)).length;
+    const totalViews = masterCatalogItems.reduce((acc, i) => acc + (Number(i.views) || 0), 0);
+    const lelangBerpemenang = semuaLelang.filter(i => (Number(i.currentBid) || 0) > 0);
+
+    statGrid.innerHTML = `
+      <div class="admin-stat-card">
+        <span class="admin-stat-num">${totalKoleksi}</span>
+        <span class="admin-stat-lbl">Koleksi Tersedia</span>
+      </div>
+      <div class="admin-stat-card">
+        <span class="admin-stat-num">${lelangAktif}</span>
+        <span class="admin-stat-lbl">Lelang Berjalan</span>
+      </div>
+      <div class="admin-stat-card">
+        <span class="admin-stat-num">${lelangBerpemenang.length}</span>
+        <span class="admin-stat-lbl">Lelang Terisi Bid</span>
+      </div>
+      <div class="admin-stat-card">
+        <span class="admin-stat-num">${totalViews}</span>
+        <span class="admin-stat-lbl">Total Tayangan</span>
+      </div>
+    `;
+
+    const claimsMap = getWinnerClaimsStatus();
+    if (lelangBerpemenang.length === 0) {
+      winnersBox.innerHTML = `<div class="profile-empty-note">Belum ada lelang yang memiliki penawar/pemenang.</div>`;
+    } else {
+      winnersBox.innerHTML = lelangBerpemenang.map(it => {
+        let riwayat = [];
+        try { riwayat = JSON.parse(it.bidHistoryRaw || "[]"); } catch (e) {}
+        const topBid = riwayat.length > 0 ? riwayat[riwayat.length - 1] : null;
+        const waPemenang = topBid ? normalisasiNomorWA(topBid.wa || "") : "";
+        const sudahKlaim = Boolean(claimsMap[it.kode]);
+        const pesanTagih = `Halo Kak ${topBid ? topBid.nama : ''}, selamat Anda adalah penawar tertinggi / pemenang lelang resmi Cupang Kasep untuk koleksi [${it.kode}] ${it.nama} dengan nominal ${formatRupiah(it.currentBid)}. Silakan konfirmasi pengiriman ya. Terima kasih!`;
+
+        return `
+          <div class="admin-row-item">
+            <div>
+              <strong>[${it.kode}] ${it.nama}</strong> — <span style="color:var(--gold-light); font-weight:800;">${formatRupiah(it.currentBid)}</span><br>
+              <small style="color:var(--text-muted);">Pemenang: <b>${it.highestBidder}</b> ${waPemenang ? `(${waPemenang})` : ''}</small>
+            </div>
+            <div style="display:flex; gap:5px;">
+              <button type="button" class="admin-mini-btn ${sudahKlaim ? 'green' : ''}" onclick="toggleStatusKlaimPemenang('${it.kode}')">
+                ${sudahKlaim ? '✔ Sudah Klaim' : '⏳ Belum Klaim'}
+              </button>
+              ${waPemenang ? `<a href="https://wa.me/${waPemenang}?text=${encodeURIComponent(pesanTagih)}" target="_blank" rel="noopener noreferrer" class="admin-mini-btn green">📲 Hubungi Pemenang</a>` : ''}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    const urutPopuler = [...masterCatalogItems].sort((a, b) => (Number(b.views) || 0) - (Number(a.views) || 0)).slice(0, 8);
+    topViewsBox.innerHTML = urutPopuler.map((it, idx) => `
+      <div class="admin-row-item">
+        <span>#${idx + 1} <strong>[${it.kode}] ${it.nama}</strong> <small style="color:var(--text-muted);">(${it.kategori})</small></span>
+        <span style="color:var(--gold-light); font-weight:800;">◈ ${Number(it.views) || 0}x dilihat</span>
+      </div>
+    `).join("");
   }
 
   function renderPanelDetailLelangHtml(item) {
@@ -9784,14 +11561,26 @@ html.modal-open-lock {
       riwayatArr = [];
     }
 
+    const isAdminViewer = apakahUserAdmin(bidderSession);
     const riwayatHtml = riwayatArr.length === 0
       ? `<div style="font-size:11.5px; color:var(--text-muted); text-align:center; padding:8px;">Belum ada penawaran. Jadilah penawar pertama (OB).</div>`
-      : riwayatArr.slice().reverse().map((r, idx) => `
-          <div class="bid-history-row notranslate">
-            <span>${idx === 0 ? '✦' : '•'} <b>${r.nama}</b> (${r.waMasked || sensorNomorWA(r.wa)}) <small style="color:var(--text-muted); font-size:10px;">${r.waktu || ''}</small></span>
-            <span style="color:var(--gold-light); font-weight:800;">${formatRupiah(r.nominal)} ${r.tipe === 'BIN' ? '[BIN]' : ''}</span>
-          </div>
-        `).join("");
+      : riwayatArr.slice().reverse().map((r, idx) => {
+          const realIndex = riwayatArr.length - 1 - idx;
+          const waFull = normalisasiNomorWA(r.wa || "");
+          const tampilanWa = isAdminViewer && waFull ? waFull : (r.waMasked || sensorNomorWA(r.wa));
+          const tombolAdminBaris = isAdminViewer ? `
+            <span style="display:inline-flex; gap:4px; margin-left:6px;">
+              ${waFull ? `<a href="https://wa.me/${waFull}" target="_blank" rel="noopener noreferrer" class="admin-mini-btn green" style="padding:2px 6px; font-size:9.5px;">WA</a>` : ''}
+              <button type="button" class="admin-mini-btn red" style="padding:2px 6px; font-size:9.5px;" onclick="adminRollbackBidTertentu('${kodeSafe}', ${realIndex})" title="Batalkan Bid Ini">✕</button>
+            </span>
+          ` : "";
+          return `
+            <div class="bid-history-row notranslate" style="align-items:center;">
+              <span>${idx === 0 ? '✦' : '•'} <b>${r.nama}</b> (${tampilanWa}) <small style="color:var(--text-muted); font-size:10px;">${r.waktu || ''}</small>${tombolAdminBaris}</span>
+              <span style="color:var(--gold-light); font-weight:800;">${formatRupiah(r.nominal)} ${r.tipe === 'BIN' ? '[BIN]' : ''}</span>
+            </div>
+          `;
+        }).join("");
 
     // Akses login lelang kini sudah berada di pojok kanan atas .vip-header
     const barAkunHtml = "";
@@ -10302,12 +12091,28 @@ html.modal-open-lock {
     }
   }
 
+  function tampilkanNotifWaAuth(pesan, tipe = "error") {
+    const box = document.getElementById("authWaInlineNotice");
+    if (!box) return;
+    box.className = `auth-wa-inline-notice show ${tipe}`;
+    box.innerHTML = pesan;
+  }
+
+  function sembunyikanNotifWaAuth() {
+    const box = document.getElementById("authWaInlineNotice");
+    if (!box) return;
+    box.className = "auth-wa-inline-notice";
+    box.innerHTML = "";
+  }
+
   function gantiModeAuthLelang(mode, tanpaAnimasi = false) {
     if (!tanpaAnimasi) playClickSound();
     currentAuthMode = mode === "login" ? "login" : "register";
+    sembunyikanNotifWaAuth();
 
     const stage = document.getElementById("auctionAuthFormContainer");
     const formHeading = document.getElementById("authFormHeading");
+    const formInstruction = document.getElementById("authFormInstruction");
     const submitBtn = document.getElementById("btnSubmitAuthLelang");
     const bottomSwitch = document.getElementById("authBottomSwitch");
     const overlayContent = document.getElementById("authOverlayContent");
@@ -10322,31 +12127,37 @@ html.modal-open-lock {
 
     const terapkanTeksMode = () => {
       if (currentAuthMode === "login") {
-        if (formHeading) formHeading.innerText = "Login";
-        if (submitBtn) submitBtn.innerText = "Login";
-        if (bottomSwitch) {
-          bottomSwitch.innerHTML = `Don't have an account? <a onclick="gantiModeAuthLelang('register')">Sign Up</a>`;
+        if (formHeading) formHeading.innerText = "Masuk Akun";
+        if (formInstruction) {
+          formInstruction.innerText = "Masukkan email dan nomor WhatsApp yang sudah Anda daftarkan sebelumnya.";
         }
-        if (overlayTitle) overlayTitle.innerHTML = "HELLO,<br>ABANGDA!";
+        if (submitBtn) submitBtn.innerText = "Masuk";
+        if (bottomSwitch) {
+          bottomSwitch.innerHTML = `Belum punya akun? <a onclick="gantiModeAuthLelang('register')">Daftar</a>`;
+        }
+        if (overlayTitle) overlayTitle.innerHTML = "HALO,<br>ABANGDA!";
         if (overlayDesc) {
-          overlayDesc.innerText = "Masukkan data diri Anda dan mulai ikuti penawaran lelang VIP bersama kami.";
+          overlayDesc.innerText = "Belum memiliki akun peserta lelang? Daftar sekarang untuk mulai mengikuti lelang VIP.";
         }
         if (overlayBtn) {
-          overlayBtn.innerText = "Create Account →";
+          overlayBtn.innerText = "Daftar Akun →";
           overlayBtn.setAttribute("onclick", "gantiModeAuthLelang('register')");
         }
       } else {
-        if (formHeading) formHeading.innerText = "Create Account";
-        if (submitBtn) submitBtn.innerText = "Sign Up";
-        if (bottomSwitch) {
-          bottomSwitch.innerHTML = `Already a Member? <a onclick="gantiModeAuthLelang('login')">Login</a>`;
+        if (formHeading) formHeading.innerText = "Daftar Akun";
+        if (formInstruction) {
+          formInstruction.innerText = "Lengkapi nama, email, dan nomor WhatsApp aktif (contoh: 812345678) untuk mendaftar akun peserta lelang baru.";
         }
-        if (overlayTitle) overlayTitle.innerHTML = "WELCOME<br>BACK!";
+        if (submitBtn) submitBtn.innerText = "Daftar Sekarang";
+        if (bottomSwitch) {
+          bottomSwitch.innerHTML = `Sudah punya akun? <a onclick="gantiModeAuthLelang('login')">Masuk</a>`;
+        }
+        if (overlayTitle) overlayTitle.innerHTML = "SELAMAT<br>DATANG!";
         if (overlayDesc) {
-          overlayDesc.innerText = "Sudah terdaftar sebagai peserta lelang? Silakan login menggunakan akun Anda.";
+          overlayDesc.innerText = "Sudah terdaftar sebagai peserta lelang? Silakan masuk menggunakan akun Anda.";
         }
         if (overlayBtn) {
-          overlayBtn.innerText = "Sign In →";
+          overlayBtn.innerText = "Masuk →";
           overlayBtn.setAttribute("onclick", "gantiModeAuthLelang('login')");
         }
       }
@@ -10357,7 +12168,6 @@ html.modal-open-lock {
       return;
     }
 
-    // Crossfade teks tepat di tengah pergeseran kaca agar 100% mulus tanpa patah
     if (overlayContent) overlayContent.classList.add("auth-content-fading");
     if (formHeading) formHeading.classList.add("auth-content-fading");
 
@@ -10372,6 +12182,7 @@ html.modal-open-lock {
   function bukaModalOtpLelang(resetKeForm = false, paksaGantiAkun = false) {
     playClickSound();
     hentikanPollingVerifikasiWa();
+    sembunyikanNotifWaAuth();
     renderListKodeNegaraGlass();
 
     document.getElementById("auctionAuthFormContainer").style.display = "flex";
@@ -10406,6 +12217,7 @@ html.modal-open-lock {
   function tutupModalOtpLelang() {
     playClickSound();
     hentikanPollingVerifikasiWa();
+    sembunyikanNotifWaAuth();
     document.body.classList.remove("modal-open-lock");
     document.documentElement.classList.remove("modal-open-lock");
     document.getElementById("auctionOtpModal").classList.remove("open");
@@ -10414,6 +12226,7 @@ html.modal-open-lock {
   function kembaliKeFormAuthLelang() {
     playClickSound();
     hentikanPollingVerifikasiWa();
+    sembunyikanNotifWaAuth();
     document.getElementById("auctionWaitingWaBox").style.display = "none";
     document.getElementById("auctionVerifiedSuccessBox").style.display = "none";
     document.getElementById("auctionAuthFormContainer").style.display = "flex";
@@ -10428,6 +12241,8 @@ html.modal-open-lock {
 
   async function submitFormVerifikasiLelang() {
     playClickSound();
+    sembunyikanNotifWaAuth();
+
     const isRegister = currentAuthMode === "register";
     const namaInput = document.getElementById("bidderNameInput").value.trim();
     const emailInput = document.getElementById("bidderEmailInput").value.trim().toLowerCase();
@@ -10436,23 +12251,43 @@ html.modal-open-lock {
     const digitsOnly = waRaw.replace(/[^0-9]/g, "");
     const waClean = normalisasiNomorWA(waRaw, kodeNegara);
 
-    // 1. Validasi Input Form
+    // 1. Validasi Input Form (Ditampilkan langsung di bawah kolom No WA tanpa pop-up alert)
     if (isRegister && (!namaInput || namaInput.length < 2)) {
-      alert("⚠️ Mohon isi Nama Lengkap atau Nama Panggilan Anda (minimal 2 karakter)!");
+      tampilkanNotifWaAuth("⚠️ Mohon isi Nama Lengkap atau Nama Panggilan Anda (minimal 2 karakter).", "warning");
       document.getElementById("bidderNameInput").focus();
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailInput || !emailRegex.test(emailInput)) {
-      alert("⚠️ Mohon masukkan Alamat Email yang valid (contoh: nama@email.com)!");
+      tampilkanNotifWaAuth("⚠️ Mohon masukkan Alamat Email yang valid (contoh: nama@email.com).", "warning");
       document.getElementById("bidderEmailInput").focus();
       return;
     }
 
     if (!digitsOnly || !/^[1-9][0-9]{7,14}$/.test(waClean)) {
-      alert("⚠️ Mohon masukkan Nomor WhatsApp aktif yang valid sesuai kode negara yang dipilih!");
+      tampilkanNotifWaAuth("⚠️ Mohon masukkan Nomor WhatsApp aktif yang valid sesuai kode negara.", "warning");
       document.getElementById("bidderWaInput").focus();
+      return;
+    }
+
+    // KHUSUS OWNER / ADMIN RESMI: Langsung aktifkan sesi Admin tanpa harus menunggu antrean bot WA
+    if (apakahKredensialAdmin(emailInput, waClean)) {
+      const namaAdmin = (isRegister && namaInput) ? namaInput : "Admin Cupang Kasep";
+      saveVerifiedBidder({
+        nama: namaAdmin,
+        email: emailInput,
+        wa: waClean,
+        cc: kodeNegara,
+        isAdmin: true,
+        verifiedAt: dapatkanTanggalSekarang()
+      });
+      tutupModalOtpLelang();
+      tampilkanToast("👑 Selamat Datang, Admin Cupang Kasep!");
+      if (currentOpenDetailCode) {
+        bukaDetailProduk(currentOpenDetailCode, false);
+      }
+      setTimeout(() => bukaModalAdminHub(), 220);
       return;
     }
 
@@ -10475,7 +12310,7 @@ html.modal-open-lock {
     btn.innerText = teksAsliBtn;
 
     if (!res) {
-      alert("⚠️ Gagal terhubung ke server Google Sheets. Periksa koneksi internet Anda.");
+      tampilkanNotifWaAuth("⚠️ Gagal terhubung ke server. Periksa koneksi internet Anda lalu coba lagi.", "error");
       return;
     }
 
@@ -10485,20 +12320,27 @@ html.modal-open-lock {
       return;
     }
 
-    // Jika salah satu (Email atau No WA) salah / tidak serasi -> Tolak & tetap di form Login
-    if (res.status === "mismatch") {
-      alert("❌ " + (res.message || "Email atau Nomor WhatsApp Anda salah / tidak sesuai!"));
+    // 3. Jika berada di menu Daftar Akun tetapi Nomor WA / Email sudah terdaftar
+    if (isRegister && (res.status === "already_verified" || res.status === "already_registered" || res.status === "exists" || res.status === "mismatch")) {
+      tampilkanNotifWaAuth(
+        `⚠️ Nomor WhatsApp atau Email ini sudah terdaftar! Silakan <u style="cursor:pointer; color:#fff;" onclick="gantiModeAuthLelang('login')">klik di sini untuk Masuk</u>.`,
+        "warning"
+      );
       return;
     }
 
-    // Jika keduanya (Email & No WA) belum ada di database -> Arahkan ke Daftar Peserta Baru
+    // 4. Jika di menu Masuk Akun namun Email atau Nomor WA tidak cocok
+    if (res.status === "mismatch") {
+      tampilkanNotifWaAuth("❌ " + (res.message || "Email atau Nomor WhatsApp Anda salah / tidak sesuai!"), "error");
+      return;
+    }
+
+    // 5. Jika di menu Masuk Akun namun Nomor WA & Email belum terdaftar sama sekali
     if (res.status === "not_found") {
-      alert("⚠️ " + (res.message || "Nomor WhatsApp dan Email belum terdaftar. Silakan mendaftar pada tab Daftar Peserta Baru."));
-      gantiModeAuthLelang("register");
-      setTimeout(() => {
-        const nameInp = document.getElementById("bidderNameInput");
-        if (nameInp) nameInp.focus();
-      }, 100);
+      tampilkanNotifWaAuth(
+        `⚠️ Nomor WhatsApp dan Email belum terdaftar. Silakan <u style="cursor:pointer; color:#fff;" onclick="gantiModeAuthLelang('register')">daftar akun baru</u>.`,
+        "warning"
+      );
       return;
     }
 

@@ -108,8 +108,10 @@
 </script>
 <!-- Wadah Schema Produk Dinamis Otomatis dari Google Sheets -->
 <script type="application/ld+json" id="dynamicCatalogSchema"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
   :root {
     --bg-dark: #050608;
@@ -161,7 +163,6 @@
       radial-gradient(circle at 82% 85%, rgba(201, 169, 110, 0.14) 0%, transparent 38%),
       repeating-linear-gradient(45deg, rgba(232, 213, 181, 0.02) 0px, rgba(232, 213, 181, 0.02) 1.5px, transparent 1.5px, transparent 28px),
       repeating-linear-gradient(-45deg, rgba(232, 213, 181, 0.02) 0px, rgba(232, 213, 181, 0.02) 1.5px, transparent 1.5px, transparent 28px);
-    background-attachment: fixed;
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
@@ -169,32 +170,29 @@
     flex-direction: column;
   }
 
-  /* Bola Cahaya Ambient Champagne & Warm Bronze di Balik Kaca */
+  /* Bola Cahaya Ambient Ringan Berbasis Radial Gradient Murni (Tanpa Blur Berat) */
   .container::before,
   .container::after {
     content: "";
     position: fixed;
-    width: 400px;
-    height: 400px;
+    width: 620px;
+    height: 620px;
     border-radius: 50%;
-    filter: blur(105px);
     pointer-events: none;
     z-index: 0;
-    opacity: 0.5;
-    animation: floatSlow 9s ease-in-out infinite alternate;
+    transform: translate3d(0, 0, 0);
   }
 
   .container::before {
-    top: 8%;
-    left: -90px;
-    background: radial-gradient(circle, rgba(201, 169, 110, 0.3), rgba(140, 109, 59, 0.04));
+    top: -6%;
+    left: -180px;
+    background: radial-gradient(circle, rgba(201, 169, 110, 0.16) 0%, rgba(140, 109, 59, 0.05) 40%, transparent 70%);
   }
 
   .container::after {
-    bottom: 10%;
-    right: -90px;
-    background: radial-gradient(circle, rgba(140, 109, 59, 0.26), rgba(92, 26, 36, 0.08));
-    animation-delay: -4.5s;
+    bottom: -6%;
+    right: -180px;
+    background: radial-gradient(circle, rgba(140, 109, 59, 0.15) 0%, rgba(92, 26, 36, 0.06) 42%, transparent 70%);
   }
 
   .landing-page, #catalogPage, #verificationPage, #roulettePage {
@@ -5777,6 +5775,75 @@ html.modal-open-lock {
     margin: 0 auto 12px;
     box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
 }
+
+/* =========================================================
+   OPTIMASI PERFORMA AMAN ESTETIKA (BEBAS TUMPUKAN BLUR)
+   ========================================================= */
+.product-card {
+    contain: layout style;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.badge-pill-tag,
+.btn-card-cart,
+.views-badge-overlay,
+.hot-badge-overlay,
+.video-badge-overlay,
+.auction-timer-badge,
+.card-slider-dots,
+.card-slider-nav {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.views-badge-overlay {
+    background: rgba(12, 16, 26, 0.78);
+}
+
+.video-badge-overlay {
+    background: rgba(12, 16, 26, 0.82);
+}
+
+.hot-badge-overlay {
+    background: linear-gradient(135deg, rgba(136, 19, 55, 0.88), rgba(76, 5, 25, 0.84));
+}
+
+.auction-timer-badge,
+.auction-timer-badge.active-live {
+    background: rgba(18, 52, 40, 0.88);
+}
+
+.auction-timer-badge.upcoming {
+    background: rgba(115, 78, 26, 0.88);
+}
+
+.auction-timer-badge.ended {
+    background: rgba(88, 20, 32, 0.9);
+}
+
+.card-slider-dots {
+    background: rgba(10, 12, 16, 0.72);
+}
+
+@media (max-width: 1024px) {
+    .product-card {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: linear-gradient(160deg, rgba(24, 29, 42, 0.92) 0%, rgba(12, 15, 22, 0.94) 100%);
+    }
+    body.light-mode .product-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(242, 236, 224, 0.9) 100%);
+    }
+    .ongkir-courier-row,
+    .info-row,
+    .history-item,
+    .cart-item-row,
+    .auction-stat-item {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+}
 </style>
 </head>
 <body>
@@ -5902,7 +5969,7 @@ html.modal-open-lock {
       </div>
 
       <div class="hero-img-col">
-        <img src="https://images.unsplash.com/vector-1794240275267-5ed951e7c525?q=80&w=913&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="3D Geometric Betta Fish" class="hero-betta-img">
+        <img src="https://images.unsplash.com/vector-1794240275267-5ed951e7c525?q=80&w=913&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="3D Geometric Betta Fish" class="hero-betta-img" fetchpriority="high" decoding="async">
       </div>
     </section>
 
@@ -8704,7 +8771,7 @@ html.modal-open-lock {
 
       const slidesHtml = slidesList.map((m, sIdx) => `
         <div class="card-slide-item">
-          <img src="${m.thumbUrl}" alt="${item.nama} ${sIdx + 1}" class="product-thumb" loading="lazy" draggable="false" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${CONFIG.PLACEHOLDER_IMAGE}';">
+          <img src="${m.thumbUrl}" alt="${item.nama} ${sIdx + 1}" class="product-thumb" loading="lazy" decoding="async" draggable="false" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${CONFIG.PLACEHOLDER_IMAGE}';">
         </div>
       `).join("");
 
@@ -8775,7 +8842,8 @@ html.modal-open-lock {
     const matchGDrive = cleanUrl.match(/(?:\/d\/|[?&]id=)([a-zA-Z0-9_-]{20,})/);
     if (matchGDrive && matchGDrive[1]) {
       const fileId = matchGDrive[1];
-      const thumbUrl = `https://lh3.googleusercontent.com/d/${fileId}=w1200`;
+      const thumbUrl = `https://lh3.googleusercontent.com/d/${fileId}=w600`;
+      const hdUrl = `https://lh3.googleusercontent.com/d/${fileId}=w1200`;
 
       if (isMarkedVideo) {
         return {
@@ -8786,7 +8854,7 @@ html.modal-open-lock {
       }
       return {
         type: "image",
-        url: thumbUrl,
+        url: hdUrl,
         thumbUrl: thumbUrl
       };
     }
@@ -10806,8 +10874,12 @@ html.modal-open-lock {
     };
   }
 
-  // Loop update timer lelang setiap 1 detik (otomatis buka tombol bid begitu jam mulai tiba!)
+  // Loop update timer lelang pintar: hanya bekerja saat tab aktif & berada di halaman Katalog/Lelang
   setInterval(() => {
+    if (document.hidden) return;
+    const catPageEl = document.getElementById("catalogPage");
+    if (!catPageEl || catPageEl.style.display !== "block") return;
+
     document.querySelectorAll("[data-auction-subtimer]").forEach(subEl => {
       const targetStr = subEl.getAttribute("data-targettime") || "";
       const tipeSub = subEl.getAttribute("data-auction-subtimer");
@@ -11831,14 +11903,21 @@ html.modal-open-lock {
     }
   }
 
-  // Sinkronisasi Real-Time Lelang ala Live Chat setiap 3.5 detik tanpa refresh halaman (Poin 3)
+  // Sinkronisasi Real-Time Lelang ala Live Chat setiap 3.5 detik (berhenti otomatis saat tab tidak aktif / bukan item lelang)
   let isPollingAuctionLive = false;
   setInterval(async () => {
+    if (document.hidden || isPollingAuctionLive) return;
     const isCatalogOpen = document.getElementById("catalogPage").style.display === "block";
     const isDetailOpen = document.getElementById("catalogDetailView").style.display === "block";
-    const sedangDiLelang = isCatalogOpen && (currentCategoryFilter === "Lelang" || (isDetailOpen && currentOpenDetailCode));
+    const openItemObj = (isDetailOpen && currentOpenDetailCode)
+      ? masterCatalogItems.find(i => i.kode.toUpperCase() === String(currentOpenDetailCode).toUpperCase())
+      : null;
+    const sedangDiLelang = isCatalogOpen && (
+      currentCategoryFilter === "Lelang" ||
+      (openItemObj && openItemObj.kategori.toLowerCase() === "lelang")
+    );
 
-    if (!sedangDiLelang || isPollingAuctionLive) return;
+    if (!sedangDiLelang) return;
     isPollingAuctionLive = true;
 
     try {

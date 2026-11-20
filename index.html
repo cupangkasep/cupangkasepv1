@@ -6143,6 +6143,17 @@ html.modal-open-lock {
                 <input type="number" id="admItemStok" class="catalog-input" placeholder="Stok (cth: 1)" value="1">
                 <input type="text" id="admItemSize" class="catalog-input" placeholder="Size (cth: M / 4.5 cm)">
                 <input type="text" id="admItemSex" class="catalog-input" placeholder="Sex (cth: Male / Female)">
+                <input type="text" id="admItemTailType" list="tailTypeSuggestions" class="catalog-input" style="grid-column: 1 / -1;" placeholder="Tail Type (cth: HMPK - Halfmoon Plakat, Halfmoon, Crowntail)">
+                <datalist id="tailTypeSuggestions">
+                  <option value="HMPK - Halfmoon Plakat">
+                  <option value="PK - Plakat"> 
+                  <option value="HM - Halfmoon">
+                  <option value="CT - Crowntail">
+                  <option value="DT - Double Tail">
+                  <option value="Giant HMPK">
+                  <option value="Wild Betta">
+                  <option value="-">
+                </datalist>
                 <input type="text" id="admItemFoto" class="catalog-input" style="grid-column: 1 / -1;" placeholder="Link Foto / Video Google Drive (pisahkan koma)">
                 <input type="text" id="admItemDesc" class="catalog-input" style="grid-column: 1 / -1;" placeholder="Deskripsi singkat koleksi...">
               </div>
@@ -6787,8 +6798,8 @@ html.modal-open-lock {
     CATALOG_PASSWORD: "ckvip",
     ANTI_SNIPE_MINUTES: 5, // Perpanjangan waktu otomatis +5 menit jika ada bid di menit-menit terakhir
     ADMIN_ACCOUNTS: [
-      { email: "officialcupangkasep@gmail.com", wa: "6285195327282" },
-      { email: "officialcupangkasep@gmail.com", wa: "6282121478149" }
+      { email: "officialcupangkasep@gmail.com", wa: "6285195327282", nama: "ADMIN R" },
+      { email: "officialcupangkasep@gmail.com", wa: "6282121478149", nama: "ADMIN N" }
     ]
   };
 
@@ -7553,7 +7564,7 @@ html.modal-open-lock {
       const bidder = getVerifiedBidder();
       const admNameEl = document.getElementById("adminPageUserName");
       const admInfoEl = document.getElementById("adminPageUserInfo");
-      if (bidder && admNameEl) admNameEl.innerText = bidder.nama || "Admin Cupang Kasep";
+      if (bidder && admNameEl) admNameEl.innerText = dapatkanNamaAdmin(bidder);
       if (bidder && admInfoEl) admInfoEl.innerText = `${bidder.wa} • ${bidder.email}`;
       if (!catalogLoadedOnce || masterCatalogItems.length === 0) {
         muatDataKatalog(false).then(() => segarkanSemuaTampilanAdminHub());
@@ -9709,14 +9720,25 @@ html.modal-open-lock {
     }, 40);
   }
 
-  function apakahKredensialAdmin(email, wa) {
+  function dapatkanAkunAdmin(email, wa) {
     const emailClean = String(email || "").trim().toLowerCase();
     const waClean = normalisasiNomorWA(wa || "");
     const listAdmin = CONFIG.ADMIN_ACCOUNTS || [];
-    return listAdmin.some(acc =>
+    return listAdmin.find(acc =>
       acc.email.toLowerCase() === emailClean &&
       normalisasiNomorWA(acc.wa) === waClean
-    );
+    ) || null;
+  }
+
+  function dapatkanNamaAdmin(bidder = null) {
+    const b = bidder || getVerifiedBidder();
+    if (!b) return "Admin";
+    const acc = dapatkanAkunAdmin(b.email, b.wa);
+    return (acc && acc.nama) ? acc.nama : (b.nama || "Admin");
+  }
+
+  function apakahKredensialAdmin(email, wa) {
+    return Boolean(dapatkanAkunAdmin(email, wa));
   }
 
   function apakahUserAdmin(bidder = null) {
@@ -9737,16 +9759,17 @@ html.modal-open-lock {
 
     const bidder = getVerifiedBidder();
     const isAdmin = apakahUserAdmin(bidder);
+    const namaAdminAktif = isAdmin ? dapatkanNamaAdmin(bidder) : "";
 
     const labelProfilDefault = USER_LANG === "en" ? "Profile" : (USER_LANG === "zh" ? "个人资料" : "Profil");
     if (bidder && bidder.wa) {
       btnEl.classList.add("profile-logged-in");
       if (profileTxtEl) {
-        profileTxtEl.innerText = isAdmin ? "Admin" : labelProfilDefault;
+        profileTxtEl.innerText = isAdmin ? namaAdminAktif : labelProfilDefault;
       }
       if (nameEl) {
         nameEl.innerHTML = isAdmin
-          ? `<span class="admin-crown-pill">👑 Admin Resmi</span><br>${bidder.nama}`
+          ? `<span class="admin-crown-pill">👑 Admin Resmi</span><br>${namaAdminAktif}`
           : bidder.nama;
       }
       if (waEl) {
@@ -11274,6 +11297,7 @@ html.modal-open-lock {
     document.getElementById("admItemStok").value = item.stok;
     document.getElementById("admItemSize").value = item.size || "";
     document.getElementById("admItemSex").value = item.sex || "";
+    document.getElementById("admItemTailType").value = item.tailType || "";
     document.getElementById("admItemFoto").value = item.foto || "";
     document.getElementById("admItemDesc").value = item.deskripsi || "";
     tampilkanToast(`✏️ Data [${item.kode}] dimuat ke form bawah`);
@@ -11288,6 +11312,8 @@ html.modal-open-lock {
     const stok = Number(document.getElementById("admItemStok").value);
     const size = document.getElementById("admItemSize").value.trim();
     const sex = document.getElementById("admItemSex").value.trim();
+    const tailTypeInput = document.getElementById("admItemTailType").value.trim();
+    const tailType = tailTypeInput || (kategori === "Produk" ? "-" : "HMPK - Halfmoon Plakat");
     const foto = document.getElementById("admItemFoto").value.trim() || CONFIG.PLACEHOLDER_IMAGE;
     const deskripsi = document.getElementById("admItemDesc").value.trim() || "Koleksi resmi berkualitas dari Cupang Kasep.";
 
@@ -11307,7 +11333,7 @@ html.modal-open-lock {
       stok: isNaN(stok) ? 1 : stok,
       status: (isNaN(stok) ? 1 : stok) > 0 ? "Tersedia" : "Habis",
       spesies: "Betta Splendens",
-      tailType: "HMPK",
+      tailType,
       sex,
       size,
       origin: "Indonesia",
@@ -11343,7 +11369,7 @@ html.modal-open-lock {
       perbaruiDropdownJenis();
       terapkanFilterKatalog();
       segarkanSemuaTampilanAdminHub();
-      ["admItemKode", "admItemNama", "admItemJenis", "admItemHarga", "admItemSize", "admItemSex", "admItemFoto", "admItemDesc"].forEach(idEl => {
+      ["admItemKode", "admItemNama", "admItemJenis", "admItemHarga", "admItemSize", "admItemSex", "admItemTailType", "admItemFoto", "admItemDesc"].forEach(idEl => {
         const el = document.getElementById(idEl);
         if (el) el.value = "";
       });
@@ -12330,8 +12356,9 @@ html.modal-open-lock {
     }
 
     // KHUSUS OWNER / ADMIN RESMI: Langsung aktifkan sesi Admin tanpa harus menunggu antrean bot WA
-    if (apakahKredensialAdmin(emailInput, waClean)) {
-      const namaAdmin = (isRegister && namaInput) ? namaInput : "Admin Cupang Kasep";
+    const akunAdminCocok = dapatkanAkunAdmin(emailInput, waClean);
+    if (akunAdminCocok) {
+      const namaAdmin = akunAdminCocok.nama;
       saveVerifiedBidder({
         nama: namaAdmin,
         email: emailInput,
@@ -12341,7 +12368,7 @@ html.modal-open-lock {
         verifiedAt: dapatkanTanggalSekarang()
       });
       tutupModalOtpLelang();
-      tampilkanToast("👑 Selamat Datang, Admin Cupang Kasep!");
+      tampilkanToast(`👑 Selamat Datang, ${namaAdmin}!`);
       if (currentOpenDetailCode) {
         bukaDetailProduk(currentOpenDetailCode, false);
       }

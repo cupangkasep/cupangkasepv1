@@ -9308,10 +9308,18 @@ html.modal-open-lock {
   async function kirimKeGoogleSheets(payload) {
     if (!apakahUrlSheetAktif()) return null;
     try {
+      const bodyPayload = { ...(payload || {}) };
+      if (bodyPayload.action && String(bodyPayload.action).startsWith("admin_")) {
+        const sesiAdmin = typeof getVerifiedBidder === "function" ? getVerifiedBidder() : null;
+        if (sesiAdmin) {
+          bodyPayload.adminEmail = sesiAdmin.email || "";
+          bodyPayload.adminWa = sesiAdmin.wa || "";
+        }
+      }
       const res = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(bodyPayload)
       });
       return await res.json();
     } catch (err) {
@@ -11323,16 +11331,28 @@ html.modal-open-lock {
       masterCatalogItems.unshift(objBaru);
     }
 
-    perbaruiDropdownJenis();
-    terapkanFilterKatalog();
-    segarkanSemuaTampilanAdminHub();
-    tampilkanToast(`💾 Koleksi [${kode}] berhasil disimpan!`);
+    tampilkanToast(`⏳ Menyimpan [${kode}] ke Google Sheets...`);
 
-    await kirimKeGoogleSheets({
+    const resServer = await kirimKeGoogleSheets({
       action: "admin_save_item",
       sheet: kategori.toLowerCase() === "lelang" ? CONFIG.AUCTION_SHEET_NAME : CONFIG.CATALOG_SHEET_NAME,
       item: objBaru
     });
+
+    if (resServer && resServer.status === "ok") {
+      perbaruiDropdownJenis();
+      terapkanFilterKatalog();
+      segarkanSemuaTampilanAdminHub();
+      ["admItemKode", "admItemNama", "admItemJenis", "admItemHarga", "admItemSize", "admItemSex", "admItemFoto", "admItemDesc"].forEach(idEl => {
+        const el = document.getElementById(idEl);
+        if (el) el.value = "";
+      });
+      const stokEl = document.getElementById("admItemStok");
+      if (stokEl) stokEl.value = "1";
+      tampilkanToast(`✦ [${kode}] berhasil tersimpan di Google Sheets!`);
+    } else {
+      tampilkanToast(`❌ Gagal menyimpan ke Sheet: ${(resServer && resServer.message) ? resServer.message : "Pastikan Apps Script sudah Deploy Versi Baru"}`);
+    }
   }
 
   // --- MODUL 3: GENERATOR VOUCHER & VERIFIKASI UNDIAN ---
